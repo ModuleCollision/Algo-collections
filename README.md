@@ -1,2 +1,2 @@
 # Algo-collections
-The collection of Algorithm competitions.
+算法竞赛题目归类整理.
