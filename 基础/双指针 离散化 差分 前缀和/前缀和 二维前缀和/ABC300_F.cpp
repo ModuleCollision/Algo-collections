@@ -1,36 +1,44 @@
-/*枚举 + 前缀和*/
 #include<bits/stdc++.h>
 using namespace std;
-typedef double db;
 typedef long long ll;
+typedef double db;
 typedef long double lb;
-const ll maxn = 3e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
+const ll maxn = 1e5 + 5;
+const ll inf = 0x3f3f3f3f;
 const ll mod = 998244353;
-ll N, M, K;
-string s;
 void solve() {
-	std::cin >> N >> M >> K >> s;
-	vector<ll>idx;
-	for (ll i = 0; i < N; i++) {
-		if (s[i] == 'x')idx.push_back(i);
+	ll n, m, k; string s; std::cin >> n >> m >> k >> s;
+	ll tot = 0;
+	s = " " + s;
+	vector<ll>idx(n + 5);
+	for (ll i = 1; i <= n; i++) {
+		if (s[i] == 'x')idx[++tot] = i;
 	}
-	ll sz = idx.size();
-	ll res = inf;
+	idx[++tot] = n + 1;
+	ll cnt = tot - 1;
 	auto get = [&](ll i) {
-		ll ans = 0, tmp = K;
-		ans += N - 1 - idx[i] + 1;
-		tmp -= sz - 1 - i + 1;
-		ans += tmp / sz * N;
-		tmp %= sz;
-		tmp--;
-		if (tmp >= 0) ans += idx[tmp] + 1;
-		return min(ans, N * M);
+		if (cnt - i + 1 + (m - 1)*cnt < k)return 0ll;
+		ll tmp = k;
+		ll ret = 0; ll cur = 0;
+		ll s1 = min(tmp, cnt - i + 1);
+		ret += idx[i] - idx[i - 1];
+		ret += idx[i + s1] - idx[i] - 1;
+		cur += 1; tmp -= s1;
+		if (tmp <= 0)return ret;
+		ll mid = max(0ll, tmp / cnt);
+		mid = min(mid, m - 1);
+		cur += mid;
+		ret += mid * n;
+		if (cur == m)return ret;
+		tmp -= mid * cnt;
+		ret += idx[tmp + 1] - 1;
+		return ret;
 	};
-	for (ll i = 0; i < sz; i++) {
-		res = min(res, get(i));
+	ll ans = 0;
+	for (ll i = 1; i <= cnt; i++) {
+		ans = max(ans, get(i));
 	}
-	cout << res << endl;
+	cout << ans << endl;
 }
 signed main() {
 	solve();
