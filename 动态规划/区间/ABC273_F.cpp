@@ -34,6 +34,7 @@ void solve() {
 	}
 	ll ans = inf;
 	dp[key[N + 1]][key[N + 1]][0] = dp[key[N + 1]][key[N + 1]][1] = 0;
+	//区间dp可以只初始化一个点
 	for (ll len = 1; len <= M; len++) {
 		for (ll i = 0; i + len - 1 <= M - 1; i++) {
 			ll j = i + len - 1;
