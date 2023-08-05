@@ -10,7 +10,7 @@ void solve() {
 	ll N, X; cin >> N >> X;
 	vector<pair<ll, ll>>A;
 	A.push_back({0, -(N + 1)});
-	A.push_back({X, N + 1});
+	A.push_back({X, N + 1});//必须是从 0 --> X的, 可以理解成 0 为 X 的钥匙
 	for (ll i = 1; i <= N; i++) {
 		ll X; std::cin >> X;
 		A.push_back({X, i});//记录坐标和编号
@@ -21,7 +21,7 @@ void solve() {
 	}
 	std::sort(A.begin(), A.end());
 	vector<ll>key(N + 2);//记录钥匙在坐标系中的先后次序
-	ll M = A.size();
+	ll M = A.size();//离散化操作
 	vector dp(M + 1, vector (M + 1, std::array<ll, 2> {inf, inf}));
 	ll pos = 0;
 	for (ll i = 0; i < M; i++) {
@@ -46,6 +46,7 @@ void solve() {
 				if (i > 0) {
 					ll pos = A[i - 1].first, idx = A[i - 1].second;
 					if (idx < 0 or (key[idx] >= i and key[idx] <= j)) {
+						//待转移的这一层是钥匙或者是门而且钥匙坐标已经包含于离散化的坐标之中
 						dp[i - 1][j][0] = min(dp[i - 1][j][0], dp[i][j][k] + coor[k] - pos);
 					}
 				}
