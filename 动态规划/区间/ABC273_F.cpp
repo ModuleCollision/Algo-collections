@@ -50,7 +50,7 @@ void solve() {
 					}
 				}
 				if (j + 1 < M) {
-					ll pos = A[i + 1].first, idx = A[i + 1].second;
+					ll pos = A[j + 1].first, idx = A[j + 1].second;
 					if (idx < 0 or (key[idx] >= i and key[idx] <= j)) {
 						dp[i][j + 1][1] = min(dp[i][j + 1][1], dp[i][j][k] + pos - coor[k]);
 					}
