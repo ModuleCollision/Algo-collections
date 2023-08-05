@@ -6,6 +6,7 @@ typedef long double lb;
 const ll maxn = 1e5 + 5;
 const ll inf = 0x3f3f3f3f;
 const ll mod = 998244353;
+__int128 t[30];
 void solve() {
 	auto read = [&]()->__int128{
 		__int128 x = 0, f = 1;
@@ -23,25 +24,21 @@ void solve() {
 		putchar(x % 10 + '0');
 	};
 	__int128 n = read();
+	t[1] = 5;
+	for (int i = 2; i <= 26; i++) {
+		t[i] = t[i - 1] * 5;
+	}
 	__int128 ans = 0;
-	if (n & 1) {
-		__int128 k = 5;
-		while (k <= n) {
-			ans += (n / k + 1) / 2;
-			k *= 5;
-		}
-	} else {
-		__int128 k = 5;
-		while (k <= 5) {
-			ans += (n / k) / 2;
-			k *= 5;
-		}
+	auto ws = [&](__int128 k)->__int128{
+		if (n < k)return 0;
+		return (n - k) / 2 + 1;
+	};
+	for (int i = 1; i <= 26; i++) {
+		__int128 cur = t[i];
+		__int128 s1 = cur, s2 = cur * 2, s3 = cur * 3, s4 = cur * 4;
+		ans += (ws(s1) + ws(s2) + ws(s3) + ws(s4)) * i;
 	}
-	for (__int128 j = 5; j <= n; j *= 5) {
-		ans += j * (n / j) * (n / j - 1) / 2;
-		ans += (n / j) * (n % j + 1);
-	}
-	write(ans / 2);
+	write(ans);
 }
 signed main() {
 	solve();
