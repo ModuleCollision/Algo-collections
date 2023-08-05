@@ -34,9 +34,19 @@ void solve() {
 		return (n - k) / 2 + 1;
 	};
 	for (int i = 1; i <= 26; i++) {
-		__int128 cur = t[i];
-		__int128 s1 = cur, s2 = cur * 2, s3 = cur * 3, s4 = cur * 4;
-		ans += (ws(s1) + ws(s2) + ws(s3) + ws(s4)) * i;
+		__int128 cur = t[i], curr = cur * 2;
+		if (n >= cur) {
+			__int128 r = (n - cur) / 2 + 1;
+			__int128 c = (n - cur) / curr + 1;
+			__int128 l = r - (c - 1) * cur;
+			ans += (l + r) * c / 2;
+		}
+		if (n >= curr) {
+			__int128 r = (n - curr) / 2 + 1;
+			__int128 c = (n - curr) / curr + 1;
+			__int128 l = r - (c - 1) * cur;
+			ans += (l + r) * c / 2;
+		}
 	}
 	write(ans);
 }
