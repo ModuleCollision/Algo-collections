@@ -41,8 +41,12 @@ void solve() {
 		for (ll i = 1; i <= tt; i++) {
 			ll pp = p[i], tmp = mid, tot = 0;
 			ll k = lg(pp, mid);
-			k = (1 + k) * k / 2;
-			if (k < cnt[i]) {
+			ll ans = 0; ll cur = 1;
+			for (ll i = 1; i <= k; i++) {
+				cur *= pp;
+				ans += mid / cur;
+			}
+			if (ans < cnt[i]) {
 				return false;
 			}
 		}//其阶乘最多能为该素数因子提供的幂次
