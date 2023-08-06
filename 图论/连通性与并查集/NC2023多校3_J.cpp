@@ -39,7 +39,7 @@ void solve() {
       //len[x] + len[y] + 1
       //环长
     } else {
-      fa[y] = x; len[v] = len[u] + 1;
+      fa[y] = x; len[v] = len[u] + 1;//维护环长
     }
   }
   vector<ll>d(n + 5, 0);
