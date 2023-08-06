@@ -23,6 +23,7 @@ void solve() {
 		}
 		return ret % mod;
 	};
+	//此为概率顺推
 	for (ll i = 0; i <= K; i++) {//枚举期望步数
 		for (ll j = 0; j < N; j++) {//枚举坐标
 			for (ll k = 1; k <= M; k++) {//枚举前进格子数
