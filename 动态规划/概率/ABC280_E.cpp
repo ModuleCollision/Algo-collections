@@ -7,20 +7,26 @@ typedef long double lb;
 const ll maxn = 3e5 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
-ll inv[maxn], N, P; ll dp[maxn]; //为第i天至第0天的期望次数
-void pre() {
-	inv[1] = 1;
-	for (ll i = 2; i <= 3e5; i++) {
-		inv[i] = (mod - mod / i) * inv[mod % i] % mod;
-	}
-}
 void solve() {
-	pre();
-	std::cin >> N >> P; dp[0] = 0;
-	for (ll i = 1; i <= N; i++) {
-		dp[i] = (dp[i] % mod + (P % mod * inv[100] % mod) * dp[max(i - 2, 0ll)] % mod + dp[i - 1] % mod * (1 - P % mod * inv[100] % mod + mod) % mod + 1) % mod;
+	ll n, p; std::cin >> n >> p;
+	vector dp(n + 5, 0);
+	dp[0] = 0;
+	auto inv = [&](ll x) {
+		ll b = mod - 2; ll ret = 1;
+		while (b) {
+			if (b & 1)ret = ret * x % mod;
+			x = x * x % mod;
+			b >>= 1;
+		}
+		return ret;
+	};
+	ll w = p * inv(100) % mod;
+	ll ws = ((1 - w) % mod + mod) % mod;
+	for (ll i = 1; i <= n; i++) {
+		ll v = (dp[i - 1] * ws % mod + dp[max(0ll, i - 2)] % mod * w % mod) % mod;
+		dp[i] = (dp[i] % mod + v % mod + 1) % mod;
 	}
-	cout << dp[N] << endl;
+	cout << dp[n] % mod << endl;
 }
 signed main() {
 	solve();
