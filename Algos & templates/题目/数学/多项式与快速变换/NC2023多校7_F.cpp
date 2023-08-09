@@ -3,7 +3,7 @@ using namespace std;
 typedef double db;
 typedef long long ll;
 typedef long double lb;
-const ll maxn = 3e5 + 5;
+const ll maxn = 1e6 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
 ll norm(ll x) {
@@ -312,22 +312,26 @@ struct Poly {
 		return ans;
 	}
 };
-
 void solve() {
-	ll n, m, k;
-	cin >> n >> m >> k;
+	ll n, m, k; cin >> n >> m >> k;
 	if (k & 1) {
-		puts("0");
-		return;
+		puts("0"); return;
 	}
 	vector<Z>f(k + 1);
 	f[0] = 1;
-	ll R = min(n, k);
-	for (ll i = 1; i <= R; i++) f[i] = f[i - 1] / i * (n - i + 1);
-	for (ll i = 0; i <= R; i += 2) f[i] *= 2;
-	for (ll i = 1; i <= R; i += 2) f[i] = 0;
-	auto g = Poly(f).pow(m, k + 1);
-	cout << g[k] << endl;
+	for (ll i = 1; i <= min(n, k); i ++)f[i] = f[i - 1] / i * (n - i + 1);
+	for (ll i = 1; i <= min(n, k); i += 2)f[i] = 0;
+	auto ksm = [&](ll a, ll b) {
+		ll ret = 1;
+		while (b) {
+			if (b & 1)ret = ret * a % mod;
+			a = a * a % mod;
+			b >>= 1;
+		}
+		return ret % mod;
+	};
+	auto g = Poly(f).pow(m, k + 1);//这里 m (多项式求幂)可以到1e8, 长度可以到1e5
+	cout << g[k] * ksm(2, m) << endl;
 }
 signed main() {
 	solve();
