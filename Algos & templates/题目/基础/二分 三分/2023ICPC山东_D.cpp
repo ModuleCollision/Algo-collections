@@ -11,49 +11,38 @@ struct sq {
 };
 void solve() {
 	ll n; std::cin >> n;
-	vector<sq>st(n + 5);
+	vector<sq>st(n + 5), st2(n + 5);
 	ll mv = inf;
 	for (ll i = 1; i <= n; i++) {
 		cin >> st[i].u >> st[i].w;
-		mv = min(mv, st[i].u);
-		st[i].idx = i;
+		st2[i] = st[i];
 	}
+	std::sort(st.begin() + 1, st.begin() + 1 + n, [&](sq x, sq y)->bool{
+		return x.u + x.w > y.u + y.w;
+	});
+	std::sort(st2.begin() + 1, st2.begin() + 1 + n, [&](sq x, sq y)->bool{
+		return x.w > y.w;
+	});
 	auto check = [&](ll x) {
-		vector<sq>tmp1, tmp2;
-		for (ll i = 1; i <= n; i++) {
-			if (st[i].u < x)tmp1.push_back(st[i]);
-			else tmp2.push_back(st[i]);
-		}
-		if (tmp2.size() < tmp1.size())return false;
-		if (not tmp2.size())return false;
-		if (not tmp1.size())return true;
-		std::sort(tmp2.begin(), tmp2.end(), [&](sq a, sq b)->bool{
-			if (a.u + a.w != b.u + b.w)return a.u + a.w < b.u + b.w;
-			if (a.w != b.w)return a.w < b.w;
-		});
-		ll sz1 = tmp1.size(), sz2 = tmp2.size();
-		std::sort(tmp1.begin(), tmp1.end(), [&](sq a, sq b)->bool{
-			if (a.w != b.w)return a.w < b.w;
-			if (a.u + a.w != b.u + b.w)return a.u + a.w < b.u + b.w;
-		});
-		for (ll i = sz2 - sz1; i <= sz2 - 1; i++) {
-			ll j = i - sz2 + sz1;
-			ll c = tmp1[j].w > tmp2[i].w ? tmp1[j].w - tmp2[i].w : 0;
-			ll p = tmp2[i].u - c;
-			if (p < x)return false;
+		vector<ll>p, q;
+		for (ll i = 1; i <= n; i++)if (st[i].u >= x)p.push_back(st[i].u + st[i].w);
+		for (ll i = 1; i <= n; i++)if (st2[i].u < x)q.push_back(st2[i].w);
+		if (p.size() < q.size())return false;
+		for (ll i = 0; i < q.size(); i++) {
+			if (p[i] - q[i] < x)return false;
 		}
 		return true;
 	};
-	ll l = mv, r = 1e15, ans = 0;
-	while (l <= r) {
-		ll mid = (l + r) >> 1;
+	ll l = 0, r = 1e15, ans = 0;
+	while (l < r) {
+		ll mid = (l + r + 1) >> 1;
 		if (check(mid)) {
-			l = mid + 1; ans = mid;
+			l = mid;
 		} else {
 			r = mid - 1;
 		}
 	}
-	cout << ans << endl;
+	cout << l << endl;
 }
 signed main() {
 	ll T; std::cin >> T;
