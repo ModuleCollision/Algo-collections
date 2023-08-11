@@ -14,10 +14,12 @@ queue<ll>q; ll n, m, u, v;
 void solve() {
 	std::cin >> n >> m;
 	vector<ll>d(n + 5, 0);
+	std::vector<std::set<ll>>st(n + 5);
+	vector<vector<ll>>tr(n + 5);
 	for (ll i = 1; i <= m; i++) {
 		std::cin >> u >> v;
 		tr[u].push_back(v);
-		d[v]++;
+		st[u].insert(v); d[v]++;
 	}
 	for (ll i = 1; i <= n; i++) {
 		if (not d[i]) {
@@ -26,10 +28,6 @@ void solve() {
 	}
 	vector<ll>ans;
 	while (not q.empty()) {
-		if (q.size() != 1) {
-			puts("No");
-			return;
-		}
 		ll cur = q.front();
 		q.pop();
 		ans.push_back(cur);
@@ -40,10 +38,21 @@ void solve() {
 			}
 		}
 	}
-	puts("Yes");
-	for (auto c : ans) {
-		cout << c << " ";
+	if (ans.size() != n) {
+		puts("No"); return;
 	}
+	for (ll i = 0; i < n - 1; i++) {
+		if (not st[ans[i]].count(ans[i + 1])) {
+			puts("No"); return;
+		}
+	}
+	vector<ll>w(n + 5);
+	for (ll i = 0; i < n; i++) {
+		w[ans[i]] = i + 1;
+	}
+	puts("Yes");
+	for (ll i = 1; i <= n; i++)cout << w[i] << " ";
+	cout << endl;
 }
 signed main() {
 	solve();

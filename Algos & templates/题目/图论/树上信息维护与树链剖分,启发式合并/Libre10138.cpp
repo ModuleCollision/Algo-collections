@@ -143,4 +143,4 @@ void solve() {
 signed main() {
 	solve();
 }
-//树链剖分板子题
+/*树链剖分模板*/

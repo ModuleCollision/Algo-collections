@@ -5,7 +5,7 @@ using namespace std;
 typedef double db;
 typedef long long ll;
 typedef long double lb;
-const ll maxn = 1e6 + 5;
+const ll maxn = 2e6 + 20;
 const ll inf = 0x3f3f3f3f;
 const ll mod = 1e9 + 7;
 /*
@@ -41,30 +41,37 @@ void chart() {
 	cout << cnt << endl;
 }*/
 //暴力打表来确定规律
-ll fac[maxn];
-void solve() {
-	fac[0] = 1;
-	for (ll i = 1; i <= 1e6; i++) {
-		fac[i] = (fac[i - 1] % mod * i) % mod;
-	}
+ll catl[maxn], infac[maxn], fac[maxn];
+void init() {
 	auto inv = [&](ll x) {
-		ll y = mod - 2, ret = 1;
-		while (y) {
-			if (y & 1)ret = ret * x % mod;
+		ll ret = 1; ll b = mod - 2;
+		while (b) {
+			if (b & 1)ret = ret * x % mod;
 			x = x * x % mod;
-			y >>= 1;
+			b >>= 1;
 		}
-		return ret;
+		return ret % mod;
 	};
-	auto C = [&](ll n, ll m) {
-		return fac[n] % mod * inv(fac[n - m] % mod * fac[m] % mod) % mod;
-	};
-	ll T; std::cin >> T;
-	while (T--) {
-		ll n; std::cin >> n;//卡特兰数的通项为C(2 * n , n) * inv(n + 1)
-		cout << C(2 * n, n) % mod * n % mod * inv(n + 1) % mod << " " << C(2 * n, n) % mod * inv(n + 1) % mod << endl;
+	fac[0] = infac[0] = 1; catl[0] = 1;
+	for (ll i = 1; i <= 1e6; i++) {
+		catl[i] = catl[i - 1] % mod * ((4 * i % mod - 2) % mod + mod) % mod * inv(i + 1) % mod;
+		//卡特兰数
+	}
+	for (ll i = 1; i <= 2e6; i++) {
+		fac[i] = fac[i - 1] % mod * i % mod;
+	}
+	for (ll i = 1; i <= 1e6; i++) {
+		infac[i] = (infac[i - 1] % mod * inv(i)) % mod;
 	}
 }
 signed main() {
-	solve();
+	init();
+	ll T; std::cin >> T;
+	while (T--) {
+		ll n; std::cin >> n;
+		ll res = fac[2 * n] % mod * infac[n] % mod * infac[n] % mod;
+		res = ((res - catl[n]) % mod + mod) % mod;
+		cout << res % mod << " " << catl[n] % mod << endl;
+	}
+	return 0;
 }
