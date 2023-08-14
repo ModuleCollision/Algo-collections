@@ -13,7 +13,7 @@ void solve() {
 	for (ll i = 1; i <= n; i++)cin >> k[i].first >> k[i].second;
 	std::sort(k.begin() + 1, k.begin() + 1 + n, [&](pair<ll, ll>x, pair<ll, ll>y)->bool{
 		if (x.first != y.first)return x.first < y.first;
-		if (x.second != y.second)return x.second < y.second;
+		return x.second < y.second;
 	});
 	bool f = 0;
 	ll ans = 0;
@@ -21,7 +21,7 @@ void solve() {
 		ll j = i; ll r = -inf;
 		while (j <= n and k[j].first <= s)r = max(r, k[j].second), j++;
 		j--;
-	if (r < s) {
+		if (r < s) {
 			f = 0; break;
 		}
 		ans++;

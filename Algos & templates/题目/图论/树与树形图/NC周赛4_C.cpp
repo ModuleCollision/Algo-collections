@@ -27,7 +27,7 @@ void solve() {
 		}
 	};
 	for (ll i = 1; i <= n; i++) {
-		dfs(i, 0, 0);
+		dfs(i, 0, w[i] - '0');
 	}
 	cout << ans << endl;
 }

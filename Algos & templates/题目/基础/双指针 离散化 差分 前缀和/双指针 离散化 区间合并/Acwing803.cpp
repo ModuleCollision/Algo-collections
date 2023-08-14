@@ -12,7 +12,7 @@ void solve() {
 	for (ll i = 1; i <= n; i++)cin >> w[i].first >> w[i].second;
 	std::sort(w.begin() + 1, w.begin() + 1 + n, [&](pair<ll, ll> s, pair<ll, ll> t)->bool{
 		if (s.first != t.first)return s.first < t.first;
-		if (s.second != t.second)return s.second < t.second;
+		return s.second < t.second;
 	});
 	ll cnt = 1;
 	ll Maxr = w[1].second;
