@@ -3,36 +3,31 @@ using namespace std;
 typedef double db;
 typedef long long ll;
 typedef long double lb;
-const ll maxn = 2e3 + 5;
+const ll maxn = 1e6 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
-ll dp[maxn][maxn];
-ll N, M, K;
 void solve() {
-	std::cin >> N >> M >> K; vector pre(N + 5, vector<ll>(M + 5, 0));
-	for (ll i = 1; i <= M; i++) {
-		dp[1][i] = 1;
-		pre[1][i] = (pre[1][i - 1] % mod + dp[1][i]) % mod;
-	}
-
-	for (ll i = 2; i <= N; i++) {
-		for (ll j = 1; j <= M; j++) {
-			ll l = j - K, r = j + K;
-			if (l >= 1) {
-				ll v = ((pre[i - 1][l] - pre[i - 1][0]) % mod + mod) % mod;
+	ll n, m, k; std::cin >> n >> m >> k;
+	vector dp(n + 5, vector<ll>(m + 5, 0));
+	for (ll i = 1; i <= m; i++)dp[1][i] = 1;
+	vector pre(n + 5, vector<ll>(m + 5, 0));
+	for (ll i = 1; i <= m; i++)pre[1][i] = (pre[1][i - 1] % mod + dp[1][i]) % mod;
+	for (ll i = 2; i <= n; i++) {
+		for (ll j = 1; j <= m; j++) {
+			if (j + k <= m) {
+				ll v = ((pre[i - 1][m] - pre[i - 1][j + k - 1]) % mod + mod) % mod;
 				dp[i][j] = (dp[i][j] % mod + v) % mod;
 			}
-			if (r <= M) {
-				ll v = ((pre[i - 1][M] - pre[i - 1][r - 1]) % mod + mod) % mod;
+			if (j - k >= 1) {
+				ll v = ((pre[i - 1][j - k] - pre[i - 1][0]) % mod + mod) % mod;
 				dp[i][j] = (dp[i][j] % mod + v) % mod;
 			}
 			pre[i][j] = (pre[i][j - 1] % mod + dp[i][j]) % mod;
 		}
 	}
 	ll ans = 0;
-	//前i个数在1到j的范围内所能生成的序列数
-
-	cout << pre[N][M] % mod << endl;
+	for (ll i = 1; i <= m; i++)ans = (ans % mod + dp[n][i]) % mod;
+	cout << ans % mod << endl;
 }
 signed main() {
 	solve();

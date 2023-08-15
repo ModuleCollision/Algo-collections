@@ -1,50 +1,40 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define fi first
+#define se second
 typedef double db;
 typedef long long ll;
 typedef long double lb;
-const ll maxn = 2e5 + 5;
-const ll inf = 0x3f3f3f3f;
+const ll maxn = 1e6 + 5;
+const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
-//找到一个能提供k次选择的方案,用二分的方式
 void solve() {
-	ll n, k; cin >> n >> k;
-	vector<ll>a(n + 5, 0);
-	ll l = 0, r = 2e9; ll ans = 0;
-	for (ll i = 1; i <= n; i++) {
-		cin >> a[i];
-	}
-	auto check = [&](ll m)->bool{
+	ll n, k; std::cin >> n >> k;
+	vector<ll>A(n + 5, 0);
+	for (ll i = 1; i <= n; i++)cin >> A[i];
+	auto check = [&](ll x) {
 		ll cnt = 0;
 		for (ll i = 1; i <= n; i++) {
-			cnt += max(a[i] - m + 1, 0ll);
+			cnt += max(A[i] - x, 0ll);
 		}
 		return cnt <= k;
 	};
-	ll t = r;
-	while (r - l > 1) {
-		ll mid = (l + r) / 2;
-		if (check(mid)) {
-			t = mid;
-			r = mid ;
-		} else {
-			l = mid;
-		}
-	}//二分的形式要根据具体的目的来判断
-	//找出可以操作k次的最小数,就应当使得
-	//cout << l << " " << r << " " << t << endl;
-	ll sum = 0, cnt = 0;
-	for (ll i = 1; i <= n; i++) {
-		if (a[i] < r) {
-			continue;
-		}
-		sum += max(0ll, a[i] * (a[i] + 1) / 2 - t * (t - 1) / 2);
-		cnt += max(a[i] - t + 1, 0ll);
+	ll l = 0, r = *max_element(A.begin() + 1, A.begin() + 1 + n);
+	while (l < r) {
+		ll mid = (l + r) >> 1;
+		if (check(mid))r = mid;
+		else l = mid + 1;
 	}
-	sum += (t - 1) * (k - cnt);
-	cout << sum << endl;
+	ll ans = 0;
+	ll cnt = 0;
+	for (ll i = 1; i <= n; i++) {
+		if (A[i] < r)continue;
+		ans += ((r + 1 + A[i]) * (A[i] - r)) / 2;
+		cnt += max(0ll, A[i] - r);
+	}
+	ans += (k - cnt) * (r);
+	cout << ans << endl;
 }
 signed main() {
 	solve();
 }
-

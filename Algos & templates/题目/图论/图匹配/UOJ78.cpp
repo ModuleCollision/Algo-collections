@@ -1,3 +1,4 @@
+/*二分图最大匹配问题, 要求输出具体方案*/
 #include<bits/stdc++.h>
 using namespace std;
 typedef double db;
