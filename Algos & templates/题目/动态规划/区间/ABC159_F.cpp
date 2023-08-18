@@ -12,13 +12,15 @@ void solve() {
 	vector<ll>A(n + 5, 0);
 	for (ll i = 1; i <= n; i++)cin >> A[i];
 	for (ll i = 1; i <= n + 1; i++)dp[i][i - 1][0] = 1;
+	//背包类型的计数dp : 初始化第0维
 	ll ans = 0;
 	for (ll len = 1; len <= n; len++) {
-		for (ll l = 1; l <= n; l++) {
+		for (ll l = 1; l + len - 1 <= n; l++) {
 			ll r = l + len - 1;
 			for (ll k = 0; k <= s; k++) {
 				dp[l][r][k] = (dp[l][r][k] % mod + dp[l][r - 1][k]) % mod;
 				if (k >= A[r])dp[l][r][k] = (dp[l][r][k] % mod + dp[l][r - 1][k - A[r]]) % mod;
+				//避免重复计算
 			}
 		}
 	}

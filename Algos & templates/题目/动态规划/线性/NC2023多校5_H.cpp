@@ -20,9 +20,12 @@ void solve() {
 		c[++id] = sz[i];
 	}
 	vector dp(n + 5, vector (n + 5, vector<ll>(200, -inf)));
-	for (ll i = 1; i <= n + 1; i++)for (ll k = 0; k <= 200; k++) {
+	for (ll i = 1; i <= n + 1; i++) {
+		for (ll k = 0; k <= 200; k++) {
 			dp[i][i - 1][k] = 0;
 		}
+	}
+	//背包需要初始化所有的
 	vector ndp(id + 5, vector<ll>(n + 5, 0));
 	for (ll len = 1; len <= n; len++) {
 		for (ll i = 1; i + len - 1 <= n; i++) {
