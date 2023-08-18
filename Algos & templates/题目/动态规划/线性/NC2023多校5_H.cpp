@@ -4,7 +4,7 @@ typedef long long ll;
 typedef double db;
 typedef long double lb;
 const ll maxn = 2e4 + 5;
-const ll inf = 0x3f3f3f3f;
+const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
 void solve() {
 	ll n, m; std::cin >> n >> m;
@@ -19,7 +19,10 @@ void solve() {
 	for (ll i = max(1ll, m - n + 1); i <= m; i++) {
 		c[++id] = sz[i];
 	}
-	vector dp(n + 5, vector (n + 5, vector<ll>(200, 0)));
+	vector dp(n + 5, vector (n + 5, vector<ll>(200, -inf)));
+	for (ll i = 1; i <= n + 1; i++)for (ll k = 0; k <= 200; k++) {
+			dp[i][i - 1][k] = 0;
+		}
 	vector ndp(id + 5, vector<ll>(n + 5, 0));
 	for (ll len = 1; len <= n; len++) {
 		for (ll i = 1; i + len - 1 <= n; i++) {
@@ -29,7 +32,6 @@ void solve() {
 				if (k >= A[j]) {
 					dp[i][j][k] = max(dp[i][j][k], dp[i][j - 1][k - A[j]] + B[j]);
 				}
-				if (k >= A[i])dp[i][j][k] = max(dp[i][j][k], dp[i + 1][j][k - A[i]] + B[i]);
 			}
 		}
 	}
@@ -49,7 +51,6 @@ void solve() {
 signed main() {
 	solve();
 }
-
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
