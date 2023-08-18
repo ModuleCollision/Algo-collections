@@ -49,14 +49,15 @@ void solve() {
 	vector<ll>A(n + 5, 0);
 	for (ll i = 1; i <= n; i++)cin >> A[i];
 	ll ans = 0;
+	for (ll i = 0; i <= n; i++)dp[i][0] = i + 1;
 	for (ll i = 1; i <= n; i++) {
-		for (ll j = 0; j <= s; j++) {
+		for (ll j = 1; j <= s; j++) {
 			dp[i][j] = (dp[i][j] % mod + dp[i - 1][j]) % mod;
 			if (j >= A[i]) {
 				dp[i][j] = (dp[i][j] % mod + dp[i - 1][j - A[i]]) % mod;
 			}
 		}
-		dp[i][A[i]] = (dp[i][A[i]] % mod + i) % mod;
+		//所有以i结尾的区间的方案数
 		ans = (ans % mod + dp[i][s]) % mod;
 	}
 	cout << ans << endl;
@@ -64,8 +65,4 @@ void solve() {
 signed main() {
 	solve();
 }
-
-
-
-
 
