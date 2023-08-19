@@ -14,14 +14,14 @@ void solve() {
 		std::cin >> s[i];
 		t[s[i].size()].push_back(i);
 	}
-	auto getsum = [&](ll idx) {
-		if (not t[idx].size())return 0ll;
-		ll len = s[t[idx][0]].size();
+	auto getsum = [&](vector<ll>w) {
+		if (not w.size())return 0ll;
+		ll len = s[w[0]].size();
 		ll ans = 0;
-		for (ll i = 1; i < (1 << t[idx].size()); i++) {
+		for (ll i = 1; i < (1 << w.size()); i++) {
 			vector<ll>vv;//枚举状态
-			for (ll j = 0; j < t[idx].size(); j++) {
-				if ((i >> j) & 1)vv.push_back(t[idx][j]);
+			for (ll j = 0; j < w.size(); j++) {
+				if ((i >> j) & 1)vv.push_back(w[j]);
 			}
 			bool f = true; string str = s[vv[0]];
 			for (ll j = 1; j < vv.size(); j++) {
@@ -29,16 +29,17 @@ void solve() {
 					if (str[k] == '?')str[k] = s[vv[j]][k];
 					else {
 						if (s[vv[j]][k] == '?')continue;
-						else if (s[vv[j]][k] != str[k]) {
+						if (s[vv[j]][k] != str[k]) {
 							f = false; break;
 						}
 					}
 				}
+				if (not f)break;
 			}
 			/*做容斥*/
 			if (f) {
 				ll res = 1; //求枚举到某一个状态下的交集
-				for (ll j = 0; j < str.size(); j++) {
+				for (ll j = 0; j < len; j++) {
 					if (str[j] == '?')res = res * 2 % mod;
 				}
 				if (vv.size() & 1)ans = (ans + res) % mod;
@@ -93,7 +94,7 @@ void solve() {
 	};
 	ll p = 0;
 	for (ll i = 1; i <= 400; i++) {
-		if (i <= 20)p = (p % mod + getsum(i)) % mod;
+		if (i <= 20)p = (p % mod + getsum(t[i])) % mod;
 		else p = (p % mod + dfs(t[i])) % mod;
 	}
 	cout << p % mod << endl;
