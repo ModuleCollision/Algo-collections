@@ -47,3 +47,41 @@ public:
         return (int)ans;
     }
 };
+
+
+class Solution {
+public:
+    typedef long long ll;
+    const ll mod = 1e9 + 7;
+
+    int countSteppingNumbers(string low, string high) {
+        auto cal = [&] (string & s) {
+            ll n = s.size();
+            ll dp[n + 5][10]; memset(dp, -1, sizeof(dp));
+            function<ll(ll, ll, bool, bool)>dfs = [&](ll idx, ll pre, bool isnum, bool islimit) {
+                if (idx == n) {
+                    return (ll)isnum;
+                }
+                if ((not islimit) and isnum and dp[idx][pre] != -1)return dp[idx][pre];
+                ll res = 0;
+                if (not isnum)res = (res % mod + dfs(idx + 1, pre, false, false)) % mod;
+                ll low = isnum ? 0 : 1; ll up = islimit ? s[idx] - '0' : 9;
+                for (ll d = low; d <= up; d++) {
+                    if ((not isnum) or abs(d - pre) == 1) {
+                        res = (res % mod + dfs(idx + 1, d, true, d == up and islimit)) % mod;
+                    }
+                }
+                if (not islimit and isnum)dp[idx][pre] = res % mod;
+                return res % mod;
+            };
+            return dfs(0, 0, false, true);
+        };
+        auto valid = [&](string s) {
+            for (int i = 1; i < s.size(); i++) {
+                if (abs((int)s[i] - (int)s[i - 1]) != 1)return false;
+            }
+            return true;
+        };
+        return (int)((cal(high) - cal(low)) % mod + mod + valid(low)) % mod;
+    }
+};

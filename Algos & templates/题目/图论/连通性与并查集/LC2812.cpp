@@ -4,7 +4,7 @@ public:
 	int maximumSafenessFactor(vector<vector<int>>& grid) {
 		int n = grid.size();
 		vector<pair<int, int>>dir = {{0, 1}, {0, -1}, {1, 0}, { -1, 0}};
-		vector<int>dis(n * n, inf);
+		vector<int>dis(n * n + 5, inf);
 		queue<int>q;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++)if (grid[i][j])q.push(i * n + j), dis[i * n + j] = 0;
@@ -46,12 +46,12 @@ public:
 				int x = s / n, y = s % n;
 				for (auto [dx, dy] : dir) {
 					int xx = x + dx, yy = y + dy;
-					if (check(xx, yy) and dis[s] >= dis[xx * n + yy]) {
-						fa[find(s)] = find(xx * n + yy);
+					if (check(xx, yy) and dis[xx * n + yy] >= dis[s]) {
+						fa[find(xx * n + yy)] = find(s);
 					}
 				}
 			}
-			if (find(0) == find(n * n - 1))return d - 1;
+			if (find(0) == find(n * n - 1))return d;
 		}
 		return 0;
 	}
