@@ -36,15 +36,23 @@ void solve() {
 			for (ll k = 0; k <= z; k++)dp[i][j][k] = 0;
 		}
 	}
+	if (n != 1) {
+		puts("0"); return;
+	}
 	dp[0][0][0] = 1;
 	for (ll i = 0; i <= x; i++) {
 		for (ll j = 0; j <= y; j++) {
 			for (ll k = 0; k <= z; k++) {
-				dp[i + 1][j][k] = (dp[i + 1][j][k] % mod + dp[i][j][k] % mod * d) % mod;
-				dp[i][j + 1][k] = (dp[i][j + 1][k] % mod + dp[i][j][k] % mod * d) % mod;
-				dp[i][j][k + 1] = (dp[i][j][k + 1] % mod + dp[i][j][k] % mod * d) % mod;
-				dp[i + 2][j][k] = (dp[i + 2][j][k] % mod + dp[i][j][k] % mod * d) % mod;
-				dp[i + 1][j + 1][k] = (dp[i + 1][j + 1][k] % mod + dp[i][j][k] % mod * d) % mod;
+				if (i + 1 <= x)
+					dp[i + 1][j][k] = (dp[i + 1][j][k] % mod + dp[i][j][k] % mod * d) % mod;
+				if (j + 1 <= y)
+					dp[i][j + 1][k] = (dp[i][j + 1][k] % mod + dp[i][j][k] % mod * d) % mod;
+				if (k + 1 <= z)
+					dp[i][j][k + 1] = (dp[i][j][k + 1] % mod + dp[i][j][k] % mod * d) % mod;
+				if (i + 2 <= x)
+					dp[i + 2][j][k] = (dp[i + 2][j][k] % mod + dp[i][j][k] % mod * d) % mod;
+				if (i + 1 <= x and j + 1 <= y)
+					dp[i + 1][j + 1][k] = (dp[i + 1][j + 1][k] % mod + dp[i][j][k] % mod * d) % mod;
 			}
 		}
 	}

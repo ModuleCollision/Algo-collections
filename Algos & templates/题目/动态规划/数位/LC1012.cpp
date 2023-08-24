@@ -8,10 +8,10 @@ public:
         //是否收到 n 的限制, 前一位是否填了数
         function<int(int, int, bool, bool)>dfs = [&](int i, int sta, bool islimit, bool isnum) {
             if (i == m) {
-                return dp[i][sta] = isnum;
+                return (int)isnum;
             }
             if (dp[i][sta] != -1 and not islimit and isnum)return dp[i][sta];
-            int res = 0; dp[i][sta] = 0;
+            int res = 0;
             if (not isnum)res += dfs(i + 1, sta, false, false);
             int low = isnum ? 0 : 1;
             int up = islimit ? s[i] - '0' : 9;
