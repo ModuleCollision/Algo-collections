@@ -34,7 +34,7 @@ void solve() {
 			if ((tmp >> i) & 1) {
 				if (not p[i]) {
 					f = 0; break;
-				}
+				} else tmp ^= p[i];
 			}
 		}
 		if (not f)puts("NO");

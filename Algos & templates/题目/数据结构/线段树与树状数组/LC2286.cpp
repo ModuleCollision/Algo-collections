@@ -1,92 +1,79 @@
-struct sq {
-    int l; int r; int sum; int mn;
-};
 //单点修改 + 二分
 class BookMyShow {
-
-    vector<sq>tr; int n; int m;
+    int n; int m;
+    vector<int>mn;
+    vector<long>sum;
     void pushup(int p) {
-        tr[p].sum = tr[p << 1].sum + tr[p << 1 | 1].sum;
-        tr[p].mn = min(tr[p << 1].mn, tr[p << 1 | 1].mn);
+        sum[p] = sum[p << 1] + sum[p << 1 | 1];
+        mn[p] = min(mn[p << 1], mn[p << 1 | 1]);
     }
-    void build(int p, int l, int r) {
-        tr[p].l = l; tr[p].r = r;
+    void add(int p, int l, int r, int idx, int val) {
         if (l == r) {
-            tr[p].sum = tr[p].mn = 0;
+            sum[p] += val;
+            mn[p] += val;
             return;
         }
-        int mid = (tr[p].l + tr[p].r) >> 1;
-        build(p << 1, l, mid); build(p << 1 | 1, mid + 1, r);
-        pushup(p);
-    }
-    void add(int p, int idx, int val) {
-        if (tr[p].l == tr[p].r) {
-            tr[p].sum += val;
-            tr[p].mn += val;
-            return;
-        }
-        int mid = (tr[p].l + tr[p].r) >> 1;
+        int mid = (l + r) >> 1;
         if (idx <= mid) {
-            add(p << 1, idx, val);
+            add(p << 1, l, mid, idx, val);
         } else if (idx > mid) {
-            add(p << 1 | 1, idx, val);
+            add(p << 1 | 1, mid + 1, r, idx, val);
         }
         pushup(p);
     }
-    int query(int p, int l, int r) {
-        if (tr[p].l >= l and tr[p].r <= r) {
-            return tr[p].sum;
+    long query(int p, int l, int r, int L, int R) {
+        if (l >= L and r <= R)return sum[p];
+        long sum = 0;
+        int mid = (l + r) >> 1;
+        if (L <= mid) {
+            sum += query(p << 1, l, mid, L, R);
         }
-        int ret = 0;
-        int mid = (tr[p].l + tr[p].r) >> 1;
-        if (l <= mid) {
-            ret += query(p << 1, l, r);
-        }
-        if (r > mid)ret += query(p << 1 | 1, l, r);
-        return ret;
+        if (R > mid)sum += query(p << 1 | 1, mid + 1, r, L, R);
+        return sum;
     }
-    int ind(int p, int r, int val) {
-        if (tr[p].mn > val)return 0;
-        if (tr[p].l == tr[p].r) {
-            return tr[p].l;
+    /*返回某范围内 <= val元素的最靠左的位置*/
+    int ind(int p, int l, int r, int L, int R, int val) {
+        if (l == r) {
+            if (mn[p] > val) return 0;
+            return l;
         }
-        int mid = (tr[p].l + tr[p].r) >> 1;
-        if (tr[p << 1].mn <= val) {
-            return ind(p << 1, r, val);
+        int mid = (l + r) >> 1;
+        int k1 = 0, k2 = 0;
+        if (L <= mid and mn[p << 1] <= val) {
+            k1 = ind(p << 1, l, mid, L, R, val);
         }
-        if (mid < r) {
-            return ind(p << 1 | 1, r, val);
+        if (k1)return k1;
+        if (R > mid and mn[p << 1 | 1] <= val) {
+            k2 = ind(p << 1 | 1, mid + 1, r, L, R, val);
         }
+        if (k2)return k2;
         return 0;
     }
 public:
-    BookMyShow(int n, int m) {
-        this->n = n; this->m = m;
-        tr.resize(n * 4 + 5);
-        build(1, 1, n);
-    }
 
+    BookMyShow(int n, int m) : n(n), m(m), mn(n * 4, 0), sum(n * 4, 0) {
+    }
     vector<int> gather(int k, int maxRow) {
-        int i = ind(1, maxRow + 1, m - k);
-        if (not i) {
-            return vector<int>();
+        int i = ind(1, 1, n, 1, maxRow + 1, m - k);
+        if (i == 0) {
+            return {};
         }
-        int seats(query(1, i, i));
-        add(1, i, k);
+        int seats = (query(1, 1, n, i, i));
+        add(1, 1, n, i, k);
         return{i - 1, seats};
     }
     bool scatter(int k, int maxRow) {
-        if ((maxRow + 1)*m - query(1, 1, maxRow + 1) < k) {
+        if ((long)(maxRow + 1) * m - query(1, 1, n, 1, maxRow + 1) < k) {
             return false;
         }
-        for (int i = ind(1, maxRow + 1, m - 1);; i++) {
-            int left_seats = m - query(1, i, i);
+        for (int i = ind(1, 1, n, 1, maxRow + 1, m - 1);; i++) {
+            int left_seats = m - query(1, 1, n, i, i);
             if (k <= left_seats) {
-                add(1, i, k);
+                add(1, 1, n, i, k);
                 return true;
             }
             k -= left_seats;
-            add(1, i, left_seats);
+            add(1, 1, n, i, left_seats);
         }
     }
 };
