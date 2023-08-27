@@ -14,7 +14,7 @@ void solve() {
 	for (ll i = 1; i <= n; i++) {
 		Hash = (Hash * b + s[i] - 'a' + 1) % p;
 	}
-	vector<vector<vector<ll>>> dp(n + 5, vector<vector<ll>>(k + 5, vector<ll>(1005, 0)));
+	vector dp(n + 5, vector (k + 5, vector<ll>(1005, 0)));
 	auto now = dp, pre = dp;
 	dp[0][0][0] = 1;
 	for (ll i = 1; i <= n; i++) {
