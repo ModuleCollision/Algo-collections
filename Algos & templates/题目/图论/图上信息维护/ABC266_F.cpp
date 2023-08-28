@@ -9,6 +9,7 @@ const ll mod = 998244353;
 bool mp[maxn]; ll n; vector<ll>tr[maxn];
 ll fa[maxn], dep[maxn]; bool vis[maxn];
 ll c[maxn];
+/*适用于无向图的DFS生成树 求环*/
 void dfs1(ll u, ll f) {
 	dep[u] = dep[f] + 1;
 	fa[u] = f;
@@ -26,6 +27,7 @@ void dfs1(ll u, ll f) {
 			}
 		}
 	}
+	vis[u] = false;//vis[u] = true 代表向下递归中, vis[u] = false 代表回溯完成
 	return;
 }
 void solve() {

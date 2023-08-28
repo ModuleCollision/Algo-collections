@@ -8,9 +8,9 @@ const ll maxn = 2e4 + 5;
 const ll inf = 0x3f3f3f3f;
 const ll mod = 1e9 + 7;
 ll n, m, x, y, k;
-vector<pair<ll, ll>>tr[maxn];
-vector<ll>dis(maxn, 0), fa(maxn, 0), ans(maxn);
+ll dis[maxn], fa[maxn], ans[maxn];
 vector<pair<ll, ll>>q[maxn];
+vector<pair<ll, ll>>tr[maxn];
 void solve() {
   cin >> n >> m;
   vector<bool>vis(n + 5, false);
@@ -42,7 +42,7 @@ void solve() {
       dfs(v, u, d + s);
     }
   };
-  dfs(1, 1, 0);
+  dfs(1, 0, 0);
   function<void(ll, ll)>tarjan = [&](ll u, ll f) {
     fa[u] = u; vis[u] = true;
     for (auto [v, s] : tr[u]) {
@@ -55,7 +55,7 @@ void solve() {
     for (auto [c, idx] : q[u]) {
       if (vis[c]) {
         ll k = find(c);
-        ans[idx] = k;//统计答案,idx为编号
+        ans[idx] = dis[u] + dis[c] - dis[k] * 2; //统计答案,idx为编号
       }
     }
   };
@@ -82,7 +82,7 @@ void add_edge(ll u, ll v, ll w) {
   tr[u].push_back({v, w});
   tr[v].push_back({u, w});
 }
-ll fa[maxn][10], dis[maxn][10]; ll dep[maxn];
+ll fa[maxn][20], dis[maxn][20]; ll dep[maxn];
 void dfs(ll u, ll f) {
   fa[u][0] = f;
   dep[u] = dep[fa[u][0]] + 1;
@@ -94,7 +94,6 @@ void dfs(ll u, ll f) {
     if (x == f) {
       continue;
     }
-    fa[x][0] = u;
     dis[x][0] = y;
     dfs(x, u);
   }
@@ -132,7 +131,7 @@ signed main() {
     cin >> x >> y >> k;
     add_edge(x, y, k);
   }
-  dfs(1, 1);
+  dfs(1, 0);
   for (ll i = 1; i <= m; i++) {
     cin >> x >> y;
     cout << lca(x, y) << endl;
