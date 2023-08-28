@@ -12,11 +12,9 @@ void solve() {
 	ll n; std::cin >> n;
 	vector dp1(len + 5, vector (n + 5, array<ll, 2> { -inf, -inf})); //在某坐标, 修改了几次, 朝向哪里的最大值
 	vector dp2(len + 5, vector(n + 5, array<ll, 2> { inf, inf}));//在某坐标, 修改了几次, 朝向哪里的最小值
-	for (int i = 0; i <= len; i++) {
-		dp1[i][0][0] = dp1[i][0][1] = dp2[i][0][0] = dp2[i][0][1] = 0;
-	}
+	dp1[0][0][0] = dp2[0][0][0] = 0;
 	for (ll i = 1; i <= len; i++) {
-		for (ll j = 0; j <= min(i, n); j++) {
+		for (ll j = 0; j <= n; j++) {
 			if (s[i] == 'T') {
 				if (dp1[i - 1][j][1] != -inf)
 					dp1[i][j][0] = max(dp1[i][j][0], dp1[i - 1][j][1]);
@@ -69,7 +67,11 @@ void solve() {
 			}
 		}
 	}
-	ll res = max({abs(dp1[len][n][0]), abs(dp1[len][n][1]), abs(dp2[len][n][0]), abs(dp2[len][n][1])});
+	ll res = 0;
+	if (dp1[len][n][0] != -inf)res = max(res, abs(dp1[len][n][0]));
+	if (dp1[len][n][1] != -inf)res = max(res, abs(dp1[len][n][1]));
+	if (dp2[len][n][0] != inf)res = max(res, abs(dp2[len][n][0]));
+	if (dp2[len][n][1] != inf)res = max(res, abs(dp2[len][n][1]));
 	cout << res << endl;
 }
 signed main() {
