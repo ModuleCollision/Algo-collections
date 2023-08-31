@@ -42,6 +42,7 @@ void solve() {
     ans = (ans % mod * ksm(s - w + 1, sz[x] * sz[y] - 1) % mod) % mod;
     merge(u, v);
   }
+  //保证在该树加边的过程中, 所加的边是两个连通块中权值最大的边
   cout << ans % mod << endl;
 }
 signed main() {
