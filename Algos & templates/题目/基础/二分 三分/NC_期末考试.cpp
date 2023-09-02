@@ -1,3 +1,4 @@
+/*三分找最低点, 模板题*/
 #include<bits/stdc++.h>
 using namespace std;
 #define fi fifst
