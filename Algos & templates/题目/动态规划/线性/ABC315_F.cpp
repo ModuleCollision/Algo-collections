@@ -5,29 +5,32 @@ using namespace std;
 typedef double db;
 typedef long long ll;
 typedef long double lb;
-const ll maxn = 1e4 + 5;
+const ll maxn = 1e6 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
 void solve() {
   ll n; std::cin >> n;
-  vector dp(n + 5, vector<db>(35, inf));
-  vector<pair<ll, ll>>w(n + 1);
-  for (ll i = 1; i <= n; i++)cin >> w[i].first >> w[i].second;
-  dp[1][0] = 0;
-  auto dis = [&](ll i, ll j) {
-    return  (db)sqrt((db)(w[i].fi - w[j].fi) * (db)(w[i].fi - w[j].fi) + (db)(w[i].se - w[j].se) * (db)(w[i].se - w[j].se));
+  vector<pair<ll, ll>>w(n + 5);
+  for (ll i = 1; i <= n; i++) {
+    std::cin >> w[i].fi >> w[i].se;
+  }
+  auto dis = [&](ll i, ll j)->db{
+    return (db)sqrt((db)(w[i].fi - w[j].fi) * (w[i].fi - w[j].fi) + (w[i].se - w[j].se) * (w[i].se - w[j].se));
   };
+  vector dp(n + 5, vector<db>(n + 5, (db)(1e10)));
+  dp[1][1] = 0.0;
   for (ll i = 2; i <= n; i++) {
-    for (ll j = 0; j <= 30; j++) {
-      if (i - j - 1 <= 0)break;
-      for (ll k = i - j - 1; k < i; k++) {
-        dp[i][j] = min(dp[i][j], dis(i, k) + dp[k][j - (i - k - 1)]);
+    for (ll j = max(2ll, i - 30); j <= i; j++) {//选择了J个
+      ll sk = i - j;//跳过的
+      for (ll k = max(1ll, i - 1 - sk); k < i; k++) {
+        dp[i][j] = min(dp[i][j], dp[k][j - 1] + (db)dis(i, k));
       }
     }
   }
-  db ans = dp[n][0];
-  for (ll j = 1; j <= 30; j++) {
-    ans = min(ans, dp[n][j] + (1 << (j - 1)));
+  db ans = (db)1e10;
+  for (ll i = 2; i <= n; i++) {
+    ll sk = n - i;//跳过的
+    ans = min(ans, dp[n][i] + ((sk >= 1) ? (1 << (sk - 1)) : 0.0));
   }
   printf("%.12lf", ans);
 }
