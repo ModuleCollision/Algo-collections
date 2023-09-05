@@ -1,3 +1,4 @@
+/*线段树优化dp*/
 const int maxn = 1e6 + 5;
 class Solution {
 public:
