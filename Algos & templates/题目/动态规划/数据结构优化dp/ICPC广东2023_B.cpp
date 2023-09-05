@@ -11,6 +11,7 @@ void solve() {//优化方式, 单调队列优化dp
 	ll n, m; std::cin >> n;
 	vector<ll>A(n + 5, 0);
 	for (ll i = 1; i <= n; i++)cin >> A[i];
+	n++;
 	ll l, r;
 	std::cin >> m;
 	vector<vector<ll>>p(n + 5), f(n + 5);

@@ -1,11 +1,31 @@
 class Solution {
 public:
-	typedef double db;
 	typedef long long ll;
-	typedef long double lb;
-	const ll maxn = 1e6 + 5;
-	const ll inf = 2147483648;
-	const ll mod = 1e9 + 7;
+	int countDigitOne(int n) {
+		string s = to_string(n);
+		ll m = s.size();
+		ll dp[m + 5][10]; memset(dp, -1, sizeof(dp));
+		function<ll(int, int, bool, bool)>dfs = [&](int idx, int cnt, bool islimit, bool isnum) {
+			if (idx == m)return isnum ? (ll)cnt : 0;
+			if (not islimit and (int)dp[idx][cnt] != -1 and isnum)return dp[idx][cnt];
+			ll res = 0;
+			if (not isnum)res += dfs(idx + 1, cnt, false, false);
+			ll low = isnum ? 0 : 1;
+			ll up = islimit ? s[idx] - '0' : 9;
+			for (ll d = low; d <= up; d++) {
+				res += dfs(idx + 1, cnt + (d == 1), islimit and d == up, true);
+			}
+			if (not islimit and isnum)dp[idx][cnt] = res;
+			return res;
+		};
+		return (int)dfs(0, 0, true, false);
+	}
+};
+
+
+class Solution {
+public:
+	typedef long long ll;
 	int countDigitOne(int n) {
 		vector<ll>dp(10 + 5, 0), p(15, 0);
 		p[0] = 1;

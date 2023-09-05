@@ -1,5 +1,34 @@
 class Solution {
 public:
+  int numberOfBeautifulIntegers(int low, int high, int k) {
+    auto cal = [&](int x) {
+      std::map<array<int, 3>, int>dp;
+      string s = to_string(x); int m = s.size();
+      function<int(int, int, int, bool, bool)>dfs = [&](int idx, int val, int diff, bool isnum, bool islimit) {
+        if (idx == m) {
+          return (int)(isnum and val == 0 and diff == 0);
+        }
+        if (not islimit and isnum and dp.count({idx, val, diff}))return dp[ {idx, val, diff}];
+        int res = 0;
+        if (not isnum)res += dfs(idx + 1, val, diff, false, false);
+        int low = isnum ? 0 : 1;
+        int up = islimit ? s[idx] - '0' : 9;
+        for (int d = low; d <= up; d++) {
+          int diff2 = diff;
+          if (d & 1)diff2 += 1; else diff2 -= 1;
+          res += dfs(idx + 1, (val * 10 + d) % k, diff2, true, islimit and d == up);
+        }
+        if (not islimit and isnum)dp[ {idx, val, diff}] = res;
+        return res;
+      };
+      return dfs(0, 0, 0, false, true);
+    };
+    return cal(high) - cal(low - 1);
+  }
+};
+
+class Solution {
+public:
 
   int numberOfBeautifulIntegers(int low, int high, int k) {
     int dp[11][11][11][k];
@@ -59,31 +88,3 @@ public:
 };
 
 
-class Solution {
-public:
-  int numberOfBeautifulIntegers(int low, int high, int k) {
-    auto cal = [&](int x) {
-      std::map<array<int, 3>, int>dp;
-      string s = to_string(x); int m = s.size();
-      function<int(int, int, int, bool, bool)>dfs = [&](int idx, int val, int diff, bool isnum, bool islimit) {
-        if (idx == m) {
-          return (int)(isnum and val == 0 and diff == 0);
-        }
-        if (not islimit and isnum and dp.count({idx, val, diff}))return dp[ {idx, val, diff}];
-        int res = 0;
-        if (not isnum)res += dfs(idx + 1, val, diff, false, false);
-        int low = isnum ? 0 : 1;
-        int up = islimit ? s[idx] - '0' : 9;
-        for (int d = low; d <= up; d++) {
-          int diff2 = diff;
-          if (d & 1)diff2 += 1; else diff2 -= 1;
-          res += dfs(idx + 1, (val * 10 + d) % k, diff2, true, islimit and d == up);
-        }
-        if (not islimit and isnum)dp[ {idx, val, diff}] = res;
-        return res;
-      };
-      return dfs(0, 0, 0, false, true);
-    };
-    return cal(high) - cal(low - 1);
-  }
-};

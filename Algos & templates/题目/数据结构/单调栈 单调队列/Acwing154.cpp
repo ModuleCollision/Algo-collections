@@ -20,7 +20,7 @@ void solve() {
 	}
 	for (ll i = k; i <= n; i++) {
 		while (h <= t and A[q[t]] >= A[i])t--;
-		q[++t] = i;//动态维护 i - k + 1 到 k的最大值
+		q[++t] = i;//动态维护 i - k + 1 到 k的最小值
 		while (q[h] <= i - k)h++;
 		cout << A[q[h]] << " ";
 	}
@@ -31,7 +31,7 @@ void solve() {
 		q[++t] = i;
 	}
 	for (ll i = k; i <= n; i++) {
-		while (h <= t and A[q[t]] <= A[i])t--;
+		while (h <= t and A[q[t]] <= A[i])t--;//动态维护一定范围内的最大值
 		q[++t] = i;
 		while (q[h] <= i - k)h++;
 		cout << A[q[h]] << " ";
