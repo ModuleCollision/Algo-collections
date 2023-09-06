@@ -62,3 +62,83 @@ public:
 
 
 /*线段树优化dp*/
+const int inf = 0x3f3f3f3f;
+const int maxn = 1e6 + 5;
+
+class Solution {
+public:
+	/*void pushup(int p, sq tr[]） {
+
+	}*/
+	int n; int  m;
+	struct sq {
+		int l; int r; int mn; int laz;
+	} tr1[maxn], tr2[maxn];
+
+	void build(int p, int l, int r, sq tr[]) {
+		tr[p].l = l; tr[p].r = r;
+		tr[p].mn = tr[p].laz = inf;
+		if (l == r) {
+			return;
+		}
+		int mid = (l + r) >> 1;
+		build(p << 1, l, mid, tr);
+		build(p << 1 | 1, mid + 1, r, tr);
+		tr[p].mn = std::min(tr[p << 1].mn, tr[p << 1 | 1].mn);
+	}
+	void pushdown(int p, sq tr[]) {
+		if (tr[p].laz != inf) {
+			int lz = tr[p].laz;
+			tr[p].laz = inf;
+			tr[p << 1].mn = min(tr[p << 1].mn, lz);
+			tr[p << 1 | 1].mn = min(tr[p << 1 | 1].mn, lz);
+			tr[p << 1].laz = min(tr[p << 1].laz, lz);
+			tr[p << 1 | 1].laz = min(tr[p << 1 | 1].laz, lz);
+		}
+	}
+	int query(int p, int l, int r, sq tr[]) {
+		if (l > r)return inf;
+		if (tr[p].l >= l and tr[p].r <= r)return tr[p].mn;
+		pushdown(p, tr);
+		int mid = (tr[p].l + tr[p].r) >> 1;
+		int ret = inf;
+		if (r > mid)ret = min(ret, query(p << 1 | 1, l, r, tr));
+		if (l <= mid)ret = min(ret, query(p << 1, l, r, tr));
+		return ret;
+	}
+
+	void modify(int p, int l, int r, int v, sq tr[]) {
+		if (l > r)return;
+		if (tr[p].l >= l and tr[p].r <= r) {
+			tr[p].mn = min(tr[p].mn, v);
+			tr[p].laz = min(tr[p].laz, v);
+			return;
+		}
+		pushdown(p, tr);
+		int mid = (tr[p].l + tr[p].r) >> 1;
+		if (r > mid)modify(p << 1 | 1, l, r, v, tr);
+		if (l <= mid)modify(p << 1, l, r, v, tr);
+		tr[p].mn = std::min(tr[p << 1].mn, tr[p << 1 | 1].mn);
+	}
+	int minimumVisitedCells(vector<vector<int>>& grid) {
+		n = grid.size(); m = grid[0].size();
+		build(1, 1, m * n, tr1);
+		build(1, 1, m * n, tr2);
+		modify(1, 1, 1, 1, tr1);
+		modify(1, 1, 1, 1, tr2);
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				if (not grid[i][j])continue;
+				int v = grid[i][j];
+				int s1 = i + 1, s2 = min(i + v, n - 1);
+				int w = min(query(1, i + j * n + 1, i + j * n + 1, tr1), query(1, j + i * m + 1, j + i * m + 1, tr2));
+				modify(1, s1 + j * n + 1, s2 + j * n + 1, w + 1, tr1);
+				s1 = j + 1, s2 = min(j + v, m - 1);
+				modify(1, i * m + s1 + 1, s2 + i * m + 1, w + 1, tr2);
+			}
+		}
+		int ans = min(query(1, n * m, n * m, tr1), query(1, n * m, n * m, tr2));
+		if (ans == inf)return -1;
+		return ans;
+	}
+};
