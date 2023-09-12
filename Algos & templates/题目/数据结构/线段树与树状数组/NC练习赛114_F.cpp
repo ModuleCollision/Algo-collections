@@ -1,3 +1,4 @@
+/*线段树上二分模板*/
 #include<bits/stdc++.h>
 using namespace std;
 #define fi fifst
@@ -25,8 +26,8 @@ void build(ll p, ll l, ll r) {
 	build(p << 1 | 1, mid + 1, r);
 	pushup(p);
 }
+/*查找某范围内 >= v 元素的最靠右的位置*/
 ll ind1(ll p, ll l, ll r, ll v) {
-	if (l > r)return 0ll;
 	if (tr[p].l == tr[p].r) {
 		if (tr[p].mx >= v)return tr[p].l;
 		return 0;
@@ -39,8 +40,8 @@ ll ind1(ll p, ll l, ll r, ll v) {
 	if (k2)return k2;
 	return 0;
 }
+/*查找某范围内 >= v 的元素的最靠左的位置*/
 ll ind2(ll p, ll l, ll r, ll v) {
-	if (l > r)return 0ll;
 	if (tr[p].l == tr[p].r) {
 		if (tr[p].mx >= v)return tr[p].l;
 		return 0;
@@ -53,12 +54,21 @@ ll ind2(ll p, ll l, ll r, ll v) {
 	if (k2)return k2;
 	return 0;
 }
-/*线段树上二分模板*/
 void solve() {
-
+	ll n; std::cin >> n;
+	for (ll i = 1; i <= n; i++)cin >> h[i];
+	build(1, 1, n); ll ans = 0;
+	for (ll i = 1; i <= n; i++)cin >> w[i], w[i] += w[i - 1];
+	for (ll i = 1; i <= n; i++) {
+		ll pre = 0;
+		ll l = ind1(1, 1, i - 1, h[i]);
+		ll r = ind2(1, i + 1, n, h[i]);
+		if (not r or i == n)r = n + 1;
+		ans = max(ans, w[r - 1] - w[l]);
+	}
+	cout << ans << endl;
 }
 signed main() {
 	ll T; std::cin >> T;
-	while (T--)
-		solve();
+	while (T--)solve();
 }

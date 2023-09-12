@@ -15,35 +15,18 @@ void solve() {
 	for (ll i = 1; i <= n; i++) {
 		ll v; std::cin >> v; cnt[v]++;
 	}
-	for (auto [x, y] : cnt) {
-		A[x] = y;
-	}
-	vector<ll>tr(n + 5, 0);
-	auto add = [&](ll idx, ll v) {
-		for (; idx <= n; idx += (idx & -idx))tr[idx] += v;
-	};
-	auto query = [&](ll idx) {
-		ll ret = 0;
-		for (; idx >= 1; idx -= (idx & -idx))ret += tr[idx];
-		return ret;
-	};
+	ll tot = 0;
+	for (auto [x, y] : cnt)A[++tot] = x;
 	for (ll i = 1; i <= n; i++) {
-		add(i, A[i] - A[i - 1]);
-	}
-	ll i = 1;
-	while (i <= n) {
-		ll l = i;
-		ll r = i + 5 - 1; if (r > n) {
-			puts("NO"); return;
-		}
-		while (r + 1 <= n and query(r + 1) >= query(r))r++;
-		ll d = query(i);
-		add(l, -d); add(r + 1, d);
-		while (query(i) <= 0 and i <= n) {
-			if (query(i) < 0) {
+		while (cnt[A[i]] > 0) {
+			ll j = A[i];
+			while (cnt[j + 1] >= cnt[j] and j <= n and cnt[j + 1] > 0) {
+				cnt[j]--; j++;
+			}
+			cnt[j]--;
+			if (j - A[i] + 1 < 5) {
 				puts("NO"); return;
 			}
-			i++;
 		}
 	}
 	puts("YES"); return;
