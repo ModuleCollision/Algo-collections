@@ -4,17 +4,17 @@ using namespace std;
 typedef double db;
 typedef long long ll;
 typedef long double lb;
-const ll maxn = 1e5 + 5;
+const ll maxn = 5e6 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9 + 7;
 struct edge {
 	ll v; ll cap; ll flow; ll c; ll nx;
-};
+} e[maxn];
+ll head[maxn], cur[maxn], dis[maxn]; bool vis[maxn];
 void solve() {
 	ll n, m, s, t; std::cin >> n >> m >> s >> t;
-	vector<ll>dis(n + 5, inf), head(n + 5, -1), cur(n + 1, -1);
-	vector<bool>vis(n + 5, false);
-	ll cnt = 0; vector<edge>e(m + 5);
+	std::fill(head + 1, head + 1 + n, -1);
+	ll cnt = 0;
 	auto add_edge = [&](ll u, ll v, ll w, ll c) {
 		e[cnt].flow = 0;
 		e[cnt].v = v; e[cnt].cap = w; e[cnt].c = c; e[cnt].nx = head[u];
@@ -26,7 +26,7 @@ void solve() {
 		add_edge(v, u, 0, -c);
 	}
 	auto spfa = [&](ll s, ll t) {
-		std::fill(dis.begin() + 1, dis.begin() + 1 + n, inf);
+		std::fill(dis + 1, dis + 1 + n, inf);
 		std::queue<ll>q;
 		q.push(s); dis[s] = 0; vis[s] = 1;
 		while (q.size()) {
@@ -65,7 +65,7 @@ void solve() {
 	auto mcmf = [&](ll s, ll t) {
 		ll ans = 0;
 		while (spfa(s, t)) {
-			for (ll i = 1; i <= n; i++)cur[i] = head[i];
+			memcpy(cur, head, sizeof(ll) * (n + 1));
 			ll x; while (x = dfs(s, t, inf)) {
 				ans += x;
 			}
