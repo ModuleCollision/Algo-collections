@@ -1,84 +1,47 @@
-/*二分图最大匹配问题, 要求输出具体方案*/
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 typedef double db;
 typedef long long ll;
 typedef long double lb;
-const ll maxn = 1e4 + 5;
+const ll maxn = 1e5 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9 + 7;
-ll head[maxn], cur[maxn]; ll dep[maxn];
-struct edge {
-	ll v, cap; ll flow; ll nxt;
-} e[200005]; ll cnt = 0; ll s, t;
 void solve() {
-	ll n1, n2, m; std::cin >> n1 >> n2 >> m;
-	std::fill(head, head + n1 + n2 + 5, -1);
-	auto add_edge = [&](ll u, ll v, ll w) {
-		e[cnt] = {v, w, 0, head[u]};
-		head[u] = cnt++;
-	};
-	ll u, v;
-	for (ll i = 1; i <= m; i++) {
-		std::cin >> u >> v;
-		add_edge(u, v + n1, 1);
-		add_edge(v + n1, u, 0);
+	ll n, m, e; std::cin >> n >> m >> e;
+	vector<ll>pa(n + 5, 0), pb(n + 5, 0), vis(n + 5, 0);
+	ll dfn = 0, res = 0;
+	vector<vector<ll>>tr(n + 5);
+	for (ll i = 1; i <= e; i++) {
+		ll u, v; std::cin >> u >> v;
+		tr[u].push_back(v);
 	}
-	for (ll i = 1; i <= n1; i++) {
-		add_edge(0, i, 1);
-		add_edge(i, 0, 0);
-	}
-	for (ll i = n1 + 1; i <= n1 + n2; i++) {
-		add_edge(i, n1 + n2 + 1, 1);
-		add_edge(n1 + n2 + 1, i, 0);
-	}
-	s = 0, t = n1 + n2 + 1;
-	auto bfs = [&]() {
-		queue<ll>q; for (ll i = 0; i <= n1 + n2 + 5; i++)dep[i] = 0;
-		dep[s] = 1;
-		q.push(s);
-		while (q.size()) {
-			ll u = q.front(); q.pop();
-			for (ll j = head[u]; j != -1; j = e[j].nxt) {
-				ll v = e[j].v;
-				if ((not dep[v]) and (e[j].cap > e[j].flow)) {
-					dep[v] = dep[u] + 1;//未曾增广过而且流量存有剩余
-					q.push(v);
-				}
+	function<bool(ll)>dfs = [&](ll u) {
+		vis[u] = dfn;
+		for (auto v : tr[u]) {
+			if (not pb[v]) {
+				pb[v] = u; pa[u] = v; return true;
 			}
 		}
-		return dep[t];
-	};
-	function<ll(ll , ll)>dfs = [&](ll u, ll flow) {
-		if (u == t or (not flow))return flow;
-		ll ret = 0;
-		for (ll j = cur[u]; j != -1; j = e[j].nxt) {
-			ll v = e[j].v;
-			if (dep[v] == dep[u] + 1) {
-				//到达汇点时的剩余流量回溯至增广路
-				ll d = dfs(v, min(e[j].cap - e[j].flow, flow - ret));
-				if (d) {
-					ret += d;
-					e[j].flow += d;
-					e[j ^ 1].flow -= d;
-					if (ret == flow)return ret;
-				}
+		for (auto v : tr[u]) {
+			if (vis[pb[v]] != dfn and dfs(pb[v])) {
+				pa[u] = v; pb[v] = u; return true;
 			}
 		}
-		return ret;
+		return false;
 	};
-	ll ans = 0;
-	auto dinic = [&]() {
-		while (bfs()) {
-			ll d = 0;
-			memcpy(cur, head, sizeof(ll) * (n1 + n2 + 5));
-			while (d = dfs(s, inf)) {
-				ans += d;
-			}
+	while (1) {
+		dfn++; ll cnt = 0;
+		for (ll i = 1; i <= n; i++) {
+			if (not pa[i] and dfs(i))cnt++;
 		}
-		cout << ans << endl;
-	};
-	dinic();
+		if (not cnt)break;
+		res += cnt;
+	}
+	cout << res << endl;
+	for (ll i = 1; i <= n; i++) {
+		cout << pa[i] << " ";
+	}
+	return;
 }
 signed main() {
 	solve();
