@@ -6,7 +6,6 @@ typedef long double lb;
 const ll maxn = 1e4 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
-/*根号分治 + 容斥*/
 void solve() {
 	ll n, q; cin >> n; vector<ll>A(n + 5, 0);
 	std::map<ll, ll>cnt;
