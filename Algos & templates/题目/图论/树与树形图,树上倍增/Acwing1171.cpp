@@ -103,10 +103,12 @@ ll lca(ll u, ll v) {
   if (dep[u] < dep[v]) {
     swap(u, v);
   }
-  for (ll i = log2(dep[u] - dep[v]); i >= 0; i--) {
-    if (dep[fa[u][i]] >= dep[v]) {
-      ret += dis[u][i];
-      u = fa[u][i];
+  if (dep[u] != dep[v]) {
+    for (ll i = log2(dep[u] - dep[v]); i >= 0; i--) {
+      if (dep[fa[u][i]] >= dep[v]) {
+        ret += dis[u][i];
+        u = fa[u][i];
+      }
     }
   }
   if (u == v) {
