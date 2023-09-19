@@ -1,3 +1,4 @@
+/*子数组和的异或和*/
 #include<bits/stdc++.h>
 using namespace std;
 #define fi first
