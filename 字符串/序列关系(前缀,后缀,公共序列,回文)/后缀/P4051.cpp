@@ -29,15 +29,15 @@ void solve() {
 			++cnt[key1[i] = rk[id[i]]];
 		}
 		for (i = 1; i <= m; i++)cnt[i] += cnt[i - 1];
-		for (ll i = n; i >= 1; i--)sa[cnt[key1[i]]--] = id[i];
-		for (ll i = 1; i <= n; i++) {
+		for (i = n; i >= 1; i--)sa[cnt[key1[i]]--] = id[i];
+		for (i = 1; i <= n; i++) {
 			oldrk[i] = rk[i];
 		}
 		for (p = 0, i = 1; i <= n; i++) {
 			rk[sa[i]] = cmp(sa[i], sa[i - 1], w) ? p : ++p;
 		}
 		if (p == n) {
-			for (ll i = 1; i <= n; i++)sa[rk[i]] = i;
+			for (i = 1; i <= n; i++)sa[rk[i]] = i;
 			break;
 		}
 	}
