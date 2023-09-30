@@ -79,5 +79,3 @@ void solve() {
 signed main() {
   solve();
 }
-
-//连亮剑都不敢的人才是怂货
