@@ -8,6 +8,7 @@ typedef long double lb;
 const ll maxn = 1e6 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9 + 7;
+//dfs生成树找无向图环
 void solve() {
 	ll n, a, b; std::cin >> n >> a >> b;
 	vector<vector<ll>>tr(n + 1);
