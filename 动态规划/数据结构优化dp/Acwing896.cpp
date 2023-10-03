@@ -19,7 +19,7 @@ void solve() {
 		sk[i] = p[i]; ks[p[i]] = i;
 	}
 	vector<ll>dp(N + 5);
-	for (ll i = 1; i <= N; i++)dp[1] = 1;
+	dp[1] = 1;
 	vector<ll>tr(cnt + 5);
 	auto add = [&](ll idx, ll v) {
 		for (; idx <= cnt; idx += (idx & -idx)) {
