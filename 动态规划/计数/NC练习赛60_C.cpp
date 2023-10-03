@@ -8,7 +8,7 @@ const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 233;
 ll n, k; char s[maxn];
 ll pre[30];
-ll dp[maxn][maxn];//以i结尾长度为k的总长度
+ll dp[maxn][maxn];//以i结尾长度为k的序列总数
 void solve() {
 	std::cin >> n >> k;
 	std::cin >> (s + 1);
