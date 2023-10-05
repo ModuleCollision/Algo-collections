@@ -10,25 +10,41 @@ const ll maxn = 1e7 + 10;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
 void solve() {
-	ll n; std::cin >> n;
-	vector<ll>A(n + 1, 0); vector<ll>pre(n + 1, 0);
+	ll n; std::cin >> n; vector<ll>A(n + 1, 0);
 	for (ll i = 1; i <= n; i++)cin >> A[i];
-	for (ll i = 1; i <= n; i++) {
-		pre[i] = A[i] ^ pre[i - 1];
+	vector<vector<ll>>tr(n + 1);
+	for (ll i = 1; i <= n - 1; i++) {
+		ll u, v; std::cin >> u >> v; tr[u].push_back(v);
+		tr[v].push_back(u);
 	}
-	ll ans = 0;
-	for (ll i = 0; i <= 33; i++) {
-		vector<ll>cnt(2, 0); vector<ll>p(2, 0);
-		for (ll j = 0; j <= n; j++) {
-			ll cur = ((pre[j] >> i) & 1);
-			ll d = cnt[cur ^ 1] % mod * j % mod;
-			d = ((d - p[cur ^ 1]) % mod + mod) % mod;
-			ans = (ans % mod + d % mod * (1ll << i)) % mod;
-			cnt[cur]++; p[cur] += j;
+	vector<ll>dp(n + 1, 0); auto sz = dp;
+	function<void(ll, ll)>dfs = [&](ll u, ll f) {
+		sz[u] = 1;
+		for (auto v : tr[u]) {
+			if (v == f)continue;
+			dfs(v, u);
+			sz[u] += sz[v];
+			dp[u] += sz[v] * (A[u] ^ A[v]) + dp[v];
 		}
-	}
-	cout << ans % mod << endl;
+	};
+	vector<ll>ans(n + 1, 0);
+	function<void(ll, ll)>dfs2 = [&](ll u, ll f) {
+		ans[u] = dp[u];
+		for (auto v : tr[u]) {
+			if (v == f)continue;
+			ll szv = sz[v], szu = sz[u], dpu = dp[u], dpv = dp[v];
+			dp[u] -= dp[v] + sz[v] * (A[u] ^ A[v]); sz[u] -= sz[v];
+			dp[v] += sz[u] * (A[u] ^ A[v]) + dp[u];
+			sz[v] += sz[u];
+			dfs2(v, u);
+			dp[u] = dpu; dp[v] = dpv; sz[u] = szu; sz[v] = szv;
+		}
+	};
+	dfs(1, 0); dfs2(1, 0);
+	for (ll i = 1; i <= n; i++)cout << ans[i] << " ";
+	cout << endl;
 }
 signed main() {
-	solve();
+	ll T; std::cin >> T;
+	while (T --) solve();
 }
