@@ -7,7 +7,7 @@ const ll maxn = 1e6 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
 ll p[maxn], A[maxn];
-/*线性基维护重复数最大异或和*/
+/*线性基判断01向量组是否能线性表出某个数*/
 void solve() {
 	auto insert = [&](ll u) {
 		for (ll i = 33; i >= 0; i--) {
