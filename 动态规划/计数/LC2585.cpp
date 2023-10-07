@@ -24,3 +24,24 @@ public:
 		return dp[n][target] % mod;
 	}
 };
+
+/*多重背包一维*/
+class Solution {
+public:
+	typedef long long ll;
+	const ll mod = 1e9 + 7;
+	int waysToReachTarget(int target, vector<vector<int>>& types) {
+		int dp[10005]; memset(dp, 0, sizeof(dp));
+		dp[0] = 1;
+		int n = types.size();
+		for (auto p : types) {
+			int count = p[0], marks = p[1];
+			for (int j = target; j >= 0; j--) {
+				for (int k = 1; k <= count and k * marks <= j; k++) {
+					dp[j] = (dp[j] % mod + dp[j - k * marks]) % mod;
+				}
+			}
+		}
+		return dp[target] % mod;
+	}
+};

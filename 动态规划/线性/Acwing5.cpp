@@ -10,6 +10,7 @@ ll N, V;
 ll v[maxn], w[maxn], s[maxn];
 ll x[maxn], y[maxn];
 ll dp[maxn], cnt = 0;
+/*多重背包的二进制优化*/
 void solve() {
 	std::cin >> N >> V;
 	for (ll i = 1; i <= N; i++) {

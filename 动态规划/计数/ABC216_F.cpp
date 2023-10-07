@@ -21,6 +21,7 @@ void solve() {
         return a.first < b.first;
     });
     dp[0][0] = 1; ll ans = 0;
+    //二维0 1 背包，不限枚举次序
     for (ll i = 1; i <= N; i++) {
         for (ll j = 5e3 + 5; j >= 0; j--) {
             if (j >= st[i].second) {
