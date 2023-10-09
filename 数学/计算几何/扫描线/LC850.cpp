@@ -1,4 +1,4 @@
-/*离散化 + 扫描线*/
+/*离散化 + 朴素扫描线*/
 class Solution {
 public:
     int rectangleArea(vector<vector<int>>& rectangles) {
