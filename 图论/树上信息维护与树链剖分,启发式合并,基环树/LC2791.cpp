@@ -1,9 +1,9 @@
 typedef long long ll;
 class Solution {
 public:
-  
+
   long long countPalindromePaths(vector<int>& parent, string s) {
-    std::map<ll, int>cnt;
+    std::unordered_map<ll, ll>cnt;
     std::vector<vector<pair<int, char>>>tr(parent.size() + 5);
     for (int i = 1; i < parent.size(); i++) {
       tr[i].push_back({parent[i], s[i]});
