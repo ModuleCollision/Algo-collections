@@ -52,6 +52,7 @@ void init() {
 		}
 		return ret % mod;
 	};
+	//卡特兰数的通项 ： Cata[n] = C(2 * n , n) / (n + 1)
 	fac[0] = infac[0] = 1; catl[0] = 1;
 	for (ll i = 1; i <= 1e6; i++) {
 		catl[i] = catl[i - 1] % mod * ((4 * i % mod - 2) % mod + mod) % mod * inv(i + 1) % mod;
