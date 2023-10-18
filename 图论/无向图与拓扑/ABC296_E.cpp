@@ -1,4 +1,4 @@
-/*拓扑排序也可以检测出自环 t --> t*/
+/*内向基环树*/
 #include<bits/stdc++.h>
 using namespace std;
 typedef double db;

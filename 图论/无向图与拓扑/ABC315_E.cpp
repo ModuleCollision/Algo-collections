@@ -6,7 +6,7 @@ typedef long double lb;
 const ll maxn = 1e4 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 998244353;
-/*根号分治 + 容斥*/
+/*内向基环树*/
 void solve() {
 	ll n; std::cin >> n;
 	vector<vector<ll>>tr(n + 1), tr2(n + 1);
