@@ -29,13 +29,14 @@ void solve() {
         ll sum = 0;
         for (ll i = 1; i <= n; i++) {
             if (mid % A[i] == 0) {
-                sum += lower_bound(B.begin() + 1, B.begin() + 1 + m, mid / A[i]) - B.begin() - 1;
+                sum += upper_bound(B.begin() + 1, B.begin() + 1 + m, mid / A[i]) - B.begin() - 1;
             } else {
                 sum += upper_bound(B.begin() + 1, B.begin() + 1 + m, mid / A[i]) - B.begin() - 1;
             }
         }
-        sum -= lower_bound(C.begin() + 1, C.begin() + 1 + k, mid) - C.begin() - 1;
-        return sum <= x - 1;
+        sum -= upper_bound(C.begin() + 1, C.begin() + 1 + k, mid) - C.begin() - 1;
+        // 等价于大于等于mid的个数 >= x
+        return sum >= x;
     };
     while (Q--) {
         std::cin >> x;
@@ -44,9 +45,9 @@ void solve() {
             ll mid = (l + r) >> 1;
             if (check(mid)) {
                 ans = mid;
-                l = mid + 1;
-            } else {
                 r = mid - 1;
+            } else {
+                l = mid + 1;
             }
         }
         //第二种二分方
