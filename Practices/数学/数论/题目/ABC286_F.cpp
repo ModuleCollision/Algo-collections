@@ -53,9 +53,9 @@ void solve() {
   }
   ll ans = 0;
   for (ll i = 0; i < b; i++) {
-    ll m = k / r[i], b, y;
-    exgcd(m, r[i], b, y);
-    ans = (ans % k + d[i] % k * b % k * m % k) % k;
+    ll m = k / r[i], s, y;
+    exgcd(m, r[i], s, y);
+    ans = (ans % k + d[i] % k * s % k * m % k) % k;
   }
   cout << (ans % k + k) % k << endl;
 }
