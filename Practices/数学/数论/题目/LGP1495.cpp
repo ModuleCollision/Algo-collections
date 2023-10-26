@@ -19,7 +19,6 @@ ll exgcd(ll a, ll b, ll &x, ll &y) {
 }
 void solve() {
   vector<ll>r;//模数
-
   vector<ll>d;//余数
   ll n; cin >> n; ll k = 1;
   for (ll i = 1; i <= n; i++) {
