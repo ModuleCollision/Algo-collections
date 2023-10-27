@@ -8,12 +8,12 @@ const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9 + 7;
 void solve() {
 	ll n, m, e; std::cin >> n >> m >> e;
-	vector<ll>pa(n + 5, 0), pb(n + 5, 0), vis(n + 5, 0);
+	vector<ll>pa(n + 5, 0), pb(n + m + 5, 0), vis(n + 5, 0);
 	ll dfn = 0, res = 0;
 	vector<vector<ll>>tr(n + 5);
 	for (ll i = 1; i <= e; i++) {
 		ll u, v; std::cin >> u >> v;
-		tr[u].push_back(v);
+		tr[u].push_back(v + n);
 	}
 	function<bool(ll)>dfs = [&](ll u) {
 		vis[u] = dfn;
@@ -32,16 +32,15 @@ void solve() {
 	while (1) {
 		dfn++; ll cnt = 0;
 		for (ll i = 1; i <= n; i++) {
-			if (not pa[i] and dfs(i))cnt++;
+			if ((not pa[i]) and dfs(i))cnt++;
 		}
 		if (not cnt)break;
 		res += cnt;
 	}
 	cout << res << endl;
 	for (ll i = 1; i <= n; i++) {
-		cout << pa[i] << " ";
+		cout << max(0ll, pa[i] - n) << " \n"[i == n];
 	}
-	return;
 }
 signed main() {
 	solve();
