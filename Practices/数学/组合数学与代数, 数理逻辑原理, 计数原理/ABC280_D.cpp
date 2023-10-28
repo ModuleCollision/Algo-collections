@@ -50,6 +50,7 @@ void solve() {
 				return false;
 			}
 		}//其阶乘最多能为该素数因子提供的幂次
+		//勒让德公式
 		return true;
 	};
 	ll l = 1, r = inf;
