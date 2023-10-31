@@ -18,6 +18,7 @@ void solve() {
 		dp[i][0] = max(dp[i][0], dp[i - 1][1]);
 		dp[i][0] = max(dp[i][0], dp[i - 1][0]);
 	}
+	cout << max(dp[n][0], dp[n][1]) << endl;
 }
 signed main() {
 	solve();

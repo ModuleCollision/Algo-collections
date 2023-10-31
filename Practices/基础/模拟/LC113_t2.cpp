@@ -10,6 +10,7 @@ public:
     /*按照键值排序，取最大键值*/
     int minLengthAfterRemovals(vector<int>& nums) {
         std::set<pair<int, int>, greater<>>st;
+        //std::set<pair<int, int>, cmp>st; 也可
         std::unordered_map<int, int>cnt;
         for (auto c : nums)cnt[c]++;
         for (auto [a, b] : cnt)st.insert({b, a});
@@ -21,6 +22,7 @@ public:
             for (auto x : nums) {
                 if (cnt[x] == 0)continue;
                 st.erase(st.lower_bound({cnt[x], x}));
+                //st.erase({cnt[x], x});也可以
                 cnt[x]--;
                 if (cnt[x] > 0)st.insert({cnt[x], x});
                 auto p = st.begin();
