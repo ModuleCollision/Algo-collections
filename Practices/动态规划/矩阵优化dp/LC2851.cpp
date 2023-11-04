@@ -33,7 +33,7 @@ public:
     auto ksm = [&](vector<vector<ll>>w, ll b) {
       vector ret(2, vector<ll>(2, 0)); ret[0][0] = 1; ret[1][1] = 1;
       while (b) {
-        if (b & 1)ret = mul(ret, w);
+        if (b & 1)ret = mul(w, ret);//次序不能错
         w = mul(w, w);
         b >>= 1;
       }
