@@ -4,10 +4,16 @@ struct cmp {
         return x.second > y.second;
     }
 };
+
+
 class Solution {
 public:
     /*模拟自平衡排序二叉树*/
     /*按照键值排序，取最大键值*/
+    /*支持删除修改查询*/
+    //1. cmp重载规则不允许出现等号
+    //2. 不允许引入外部变量定义比较规则
+    //3. 多个变量排序规则一致
     int minLengthAfterRemovals(vector<int>& nums) {
         std::set<pair<int, int>, greater<>>st;
         //std::set<pair<int, int>, cmp>st; 也可
