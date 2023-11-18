@@ -21,6 +21,7 @@ public:
   struct sq {
     int to[2]; int cnt = 0;
   };
+  /*支持撤销的 0 1 trie*/
   int maximumStrongPairXor(vector<int>& nums) {
     sort(nums.begin(), nums.end());
     int n = nums.size();
