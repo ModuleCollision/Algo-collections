@@ -25,7 +25,7 @@ void solve() {
     g[x].push_back({y, z});
     g[y].push_back({x, z});
   }
-  vector<set<int>>dp(1 << n);
+  vector<set<i64>>dp(1 << n);
   dp[1].insert(0);
   for (int i = 0; i < (1 << n); i++) {
     if (not (i & 1))continue;
@@ -39,7 +39,7 @@ void solve() {
       }
     }
   }
-  cout << (*dp.back().begin()) << endl;
+  cout << (*dp.back().begin()) << "\n";
 }
 signed main() {
   solve();
