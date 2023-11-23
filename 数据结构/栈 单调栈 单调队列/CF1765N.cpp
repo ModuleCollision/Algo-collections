@@ -21,12 +21,15 @@ signed main() {
   i64 T; cin >> T;
   while (T--) {
     cin >> s >> k;
-    i64 i = 0;
-    while (i < s.size() and s[i] == '0') {
-      i++; k--;
+    i64 j = 0;
+    for (int i = 0; i <= k; i++) {
+      if (s[i] > '0' and s[i] < s[j]) {
+        j = i;
+      }
     }
-    string ans;
-    for (; i < s.size(); i++) {
+    k -= j;
+    string ans; ans.push_back(s[j]);
+    for (i64 i = j + 1; i < s.size(); i++) {
       while (ans.size() > 1 and ans.back() > s[i] and k) {
         k--; ans.pop_back();
       }
