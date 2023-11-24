@@ -8,6 +8,7 @@ typedef long double lb;
 const ll maxn = 2e5 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 999911659;
+/*dp + 二分*/
 void solve() {
   ll n, m; cin >> n >> m;
   vector<vector<array<db, 3>>>g(n + 1);
