@@ -1,42 +1,51 @@
+#include<bits/stdc++.h>
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+const i64 mod = 1e9 + 7;
+const i64 maxn = 1e6 + 5;
+const i64 inf = 0x3f3f3f3f3f3f3f3f;
 class Solution {
 public:
     int maximumPoints(vector<vector<int>>& edges, vector<int>& coins, int K) {
-        int n = coins.size();
-        const int MAXP = 20;
-
-        // 建图
-        vector<int> e[n];
-        for (auto &edge : edges) {
-            e[edge[0]].push_back(edge[1]);
-            e[edge[1]].push_back(edge[0]);
+        i64 n = coins.size();
+        vector<vector<int>>g(n + 1);
+        for (auto e : edges) {
+            g[e[0] + 1].push_back(e[1] + 1);
+            g[e[1] + 1].push_back(e[0] + 1);
         }
-
-        const long long INF = 1e18;
-        long long dp[n][MAXP][2];
-        for (int i = 0; i < n; i++) for (int j = 0; j < MAXP; j++) dp[i][j][0] = dp[i][j][1] = -INF;
-        // 树 dp
-        function<void(int, int)> dfs = [&](int sn, int fa) {
-            long long now = coins[sn];
-            for (int j = 0; j < MAXP; j++) {
-                dp[sn][j][0] = now - K;
-                if (j > 0) dp[sn][j][1] = now;
+        vector dp(n + 1, vector(25, array<i64, 2> { -inf , -inf}));
+        function<void(i64, i64)>dfs = [&](i64 u, i64 fa) {
+            i64 now = coins[u - 1];
+            for (i64 j = 0; j < 20; j++) {
+                dp[u][j][0] = now - K;
+                if (j > 0)dp[u][j][1] = now;
                 now >>= 1;
             }
-            // 枚举子节点的操作
-            for (int fn : e[sn]) if (fn != fa) {
-                    dfs(fn, sn);
-                    for (int j = 0; j < MAXP; j++) {
-                        // 这里的 min 是因为我们只考虑 log 次操作
-                        long long best = max(dp[fn][j][0], dp[fn][min(MAXP - 1, j + 1)][1]);
-                        dp[sn][j][0] += best;
-                        dp[sn][j][1] += best;
-                    }
+            for (auto v : g[u]) {
+                if (v == fa)continue;
+                dfs(v, u);
+                for (i64 j = 0; j < 19; j++) {
+                    i64 f = max(dp[v][j][0], dp[v][min(19ll, j + 1)][1]);
+                    dp[u][j][0] += f;
+                    dp[u][j][1] += f;
                 }
+            }
         };
-        dfs(0, -1);
-
-        long long ans = 0;
-        for (int j = 0; j < MAXP; j++) ans = max({ans, dp[0][j][0], dp[0][j][1]});
+        dfs(1, 0);
+        i64 ans = 0;
+        for (i64 j = 0; j < 20; j++)ans = max({ans, dp[1][j][0], dp[1][j][1]});
         return ans;
     }
 };
