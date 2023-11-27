@@ -21,85 +21,86 @@ i64 len, tot; i64 a[maxn], d[maxn], laz[maxn];
 i64 L[maxn], R[maxn], be[maxn];
 i64 n, q;
 void build() {
-  len = sqrt(n); tot = (n + len - 1) / len;
-  for (int i = 1; i <= n; i++) {
-    be[i] = (i + len - 1) / len, d[i] = a[i];
-  }
-  for (int i = 1; i <= tot; i++) {
-    L[i] = (i - 1) * len + 1, R[i] = i * len;
-  }
-  R[tot] = n;
-  for (i64 i = 1; i <= tot; i++) {
-    sort(d + L[i], d + R[i] + 1);
-  }
+    len = sqrt(n); tot = (n + len - 1) / len;
+    for (int i = 1; i <= n; i++) {
+        be[i] = (i + len - 1) / len, d[i] = a[i];
+    }
+    for (int i = 1; i <= tot; i++) {
+        L[i] = (i - 1) * len + 1, R[i] = i * len;
+    }
+    R[tot] = n;
+    for (i64 i = 1; i <= tot; i++) {
+        sort(d + L[i], d + R[i] + 1);
+    }
 }
 void modify(i64 x, i64 y, i64 k) {
-  if (be[x] == be[y]) {
-    for (i64 i = x; i <= y; i++)a[i] += k;
-    for (i64 i = L[be[x]]; i <= R[be[x]]; i++) {
-      d[i] = a[i];
+    if (be[x] == be[y]) {
+        for (i64 i = x; i <= y; i++)a[i] += k;
+        for (i64 i = L[be[x]]; i <= R[be[x]]; i++) {
+            d[i] = a[i];
+        }
+        sort(d + L[be[x]], d + R[be[x]] + 1);
+    } else {
+        for (int i = x; i <= R[be[x]]; i++) {
+            a[i] += k;
+        }
+        for (int i = L[be[x]]; i <= R[be[x]]; i++) {
+            d[i] = a[i];
+        }
+        sort(d + L[be[x]], d + R[be[x]] + 1);
+        for (int i = L[be[y]]; i <= y; i++) {
+            a[i] += k;
+        }
+        for (int i = L[be[y]]; i <= R[be[y]]; i++) {
+            d[i] = a[i];
+        }
+        sort(d + L[be[y]], d + R[be[y]] + 1);
+        for (int i = be[x] + 1; i <= be[y] - 1; i++) {
+            laz[i] += k;
+        }
     }
-    sort(d + L[be[x]], d + R[be[x]] + 1);
-  } else {
-    for (int i = x; i <= R[be[x]]; i++) {
-      a[i] += k;
-    }
-    for (int i = L[be[x]]; i <= R[be[x]]; i++) {
-      d[i] = a[i];
-    }
-    sort(d + L[be[x]], d + R[be[x]] + 1);
-    for (int i = L[be[y]]; i <= y; i++) {
-      a[i] += k;
-    }
-    for (int i = L[be[y]]; i <= R[be[y]]; i++) {
-      d[i] = a[i];
-    }
-    sort(d + L[be[y]], d + R[be[y]] + 1);
-    for (int i = be[x] + 1; i <= be[y] - 1; i++) {
-      laz[i] += k;
-    }
-  }
 }
 
 i64 query(i64 x, i64 y, i64 k) {
-  i64 ret = 0;
-  if (be[x] == be[y]) {
-    for (i64 i = x; i <= y; i++) {
-      if (laz[be[x]] + a[i] >= k)ret++;
+    i64 ret = 0;
+    if (be[x] == be[y]) {
+        for (i64 i = x; i <= y; i++) {
+            if (laz[be[x]] + a[i] >= k)ret++;
+        }
+    } else {
+        for (i64 i = x; i <= R[be[x]]; i++) {
+            if (laz[be[x]] + a[i] >= k)ret++;
+        }
+        for (i64 i = L[be[y]]; i <= y; i++) {
+            if (laz[be[y]] + a[i] >= k)ret++;
+        }
+        for (i64 i = be[x] + 1; i <= be[y] - 1; i++) {
+            i64 l = L[i], r = R[i]; i64 ans = 0;
+            while (l <= r) {
+                i64 mid = (l + r) >> 1;
+                if (d[mid] + laz[i] >= k)r = mid - 1, ans = mid;
+                else l = mid + 1;
+            }
+            if (ans)
+                ret += (R[i] - ans + 1);
+        }
     }
-  } else {
-    for (i64 i = x; i <= R[be[x]]; i++) {
-      if (laz[be[x]] + a[i] >= k)ret++;
-    }
-    for (i64 i = L[be[y]]; i <= y; i++) {
-      if (laz[be[y]] + a[i] >= k)ret++;
-    }
-    for (i64 i = be[x] + 1; i <= be[y] - 1; i++) {
-      i64 l = L[i], r = R[i]; i64 ans = 0;
-      while (l <= r) {
-        i64 mid = (l + r) >> 1;
-        if (d[mid] + laz[i] >= k)r = mid - 1, ans = mid;
-        else l = mid + 1;
-      }
-      ret += (R[i] - ans + 1);
-    }
-  }
-  return ret;
+    return ret;
 }
 void solve() {
-  cin >> n >> q;
-  for (i64 i = 1; i <= n; i++)cin >> a[i];
-  build();
-  while (q--) {
-    string o; cin >> o;
-    i64 x, y, k; cin >> x >> y >> k;
-    if (o == "M") {
-      modify(x, y, k);
-    } else {
-      cout << query(x, y, k) << "\n";
+    cin >> n >> q;
+    for (i64 i = 1; i <= n; i++)cin >> a[i];
+    build();
+    while (q--) {
+        string o; cin >> o;
+        i64 x, y, k; cin >> x >> y >> k;
+        if (o == "M") {
+            modify(x, y, k);
+        } else {
+            cout << query(x, y, k) << "\n";
+        }
     }
-  }
 }
 signed main() {
-  solve();
+    solve();
 }
