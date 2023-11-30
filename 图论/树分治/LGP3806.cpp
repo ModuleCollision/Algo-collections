@@ -20,6 +20,7 @@ i64 d[maxn], n, m, sum, q[maxn], rt, sz[maxn], mx[maxn]; bool tf[10000010];
 bool ans[maxn], vis[maxn]; i64 dis[maxn];
 vector<pair<i64, i64>>tr[maxn];
 queue<i64>tag; i64 cnt = 0;
+/*点分治模板*/
 void solve() {
     cin >> n >> m;
     for (i64 i = 1; i < n; i++) {
@@ -48,10 +49,12 @@ void solve() {
             }
         }
     };
+    // 以重心连边来重构树
     function<void(i64, i64)>dfs2 = [&](i64 u, i64 fa) {
         tf[0] = true;
         tag.push(0); vis[u] = true;
         for (auto [v, w] : tr[u]) {
+            //枚举经过该点的树链
             if (v != fa and not vis[v]) {
                 dis[v] = w;
                 cal(v, u);
@@ -73,10 +76,10 @@ void solve() {
             if (v != fa and not vis[v]) {
                 sum = sz[v];
                 rt = 0;
-                mx[rt] = inf;
+                mx[rt] = inf; // 找到每一颗子树的重心
                 dfs1(v, u);
                 dfs1(rt, -1);
-                dfs2(rt, u);
+                dfs2(rt, u); // 从重心开始dfs
             }
         }
     };
