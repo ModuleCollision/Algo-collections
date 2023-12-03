@@ -5,7 +5,7 @@ typedef long long ll;
 typedef long double lb;
 const ll maxn = 1e3 + 5;
 const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 233;
+const ll mod = 1e9 + 7;
 ll n, k; char s[maxn];
 ll pre[30];
 ll dp[maxn][maxn];//以i结尾长度为k的序列总数
