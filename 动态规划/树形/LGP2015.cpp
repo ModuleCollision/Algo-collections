@@ -26,20 +26,23 @@ void solve() {
     tr[v].push_back({u, w});
   }
   vector<i64>sz(n + 1);
-  vector dp(n + 1, vector<i64>(n + 1, 0));
+  vector dp(n + 1, vector<i64>(q + 1, 0));
   function<void(i64, i64)>dfs = [&](i64 u, i64 f) {
     sz[u] = 1;
     for (auto [v, w] : tr[u]) {
       if (v == f)continue;
       dfs(v, u);
       vector<i64>tmp(sz[u] + sz[v] + 1, 0);
-      for (i64 j = 0; j <= sz[u] - 1; j++) {
-        for (i64 k = 0; k <= sz[v] - 1; k++) {
-          tmp[j + k + 1] = max(dp[u][j + k + 1], dp[u][j] + dp[v][k] + w);
+      for (i64 j = min(sz[u] - 1, q); j >= 0; j--) {
+        for (i64 k = min(sz[v], q - j - 1); k >= 0; k--) {
+          tmp[j + k + 1] = max(tmp[j + k + 1], dp[u][j] + dp[v][k] + w);
         }
       }
-      for (i64 j = 0; j <= sz[u] + sz[v] - 1; j++) {
-        dp[u][j] = max(dp[u][j], tmp[j]);
+      for (i64 j = min(sz[u] - 1, q); j >= 0; j--) {
+        tmp[j] = max(tmp[j], dp[u][j]);
+      }
+      for (i64 j = 0; j <= min(sz[v] + sz[u] - 1, q); j++) {
+        dp[u][j] = tmp[j];
       }
       sz[u] += sz[v];
     }
