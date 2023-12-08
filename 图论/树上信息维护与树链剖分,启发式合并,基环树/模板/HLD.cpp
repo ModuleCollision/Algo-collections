@@ -1,5 +1,5 @@
 /*重链剖分*/
-struct HLD: public SegmentTree<int> {
+struct HLD {
     int n;
     std::vector<int> siz, top, dep, parent, in, out, seq;
     std::vector<std::vector<int>> adj;
