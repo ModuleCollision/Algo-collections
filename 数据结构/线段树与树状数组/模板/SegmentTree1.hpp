@@ -1,7 +1,7 @@
 
 template<typename T>
 struct SegmentTree {
-
+/*单懒标记线段树*/
 public:
 
     struct Node {
