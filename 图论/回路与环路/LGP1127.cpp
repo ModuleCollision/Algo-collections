@@ -16,15 +16,16 @@ using namespace std;
 const i64 mod = 666623333;
 const i64 maxn = 1e6 + 5;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;
+/*无向图找欧拉通路 / 欧拉回路*/
 void solve() {
-    int n; cin >> n; vector<string>s(n + 1);
-    vector<int>ind(30), rnd(30);
+    int n; cin >> n; std::vector<std::string>s(n + 1);
+    std::vector<int>ind(30), rnd(30);
     for (int i = 1; i <= n; i++) {
         cin >> s[i]; ++ind[s[i][0] - 'a'];
-        --rnd[s[i].back() - 'a'];
+        ++rnd[s[i].back() - 'a'];
     }
-    vector<vector<int>>g(n + 1);
-    sort(s.begin() + 1, s.begin() + 1 + n);
+    std::vector<vector<int>>g(n + 1);
+    std::sort(s.begin() + 1, s.begin() + 1 + n);
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {
             if (i != j and s[i].back() == s[j].front()) {
@@ -32,8 +33,8 @@ void solve() {
             }
         }
     }
-    vector<bool>vis(n + 1);
-    function<void(int, string, int)>dfs = [&](int u, string cur, int cnt) {
+    std::vector<bool>vis(n + 1);
+    std::function<void(int, std::string, int)>dfs = [&](int u, std::string cur, int cnt) {
         if (cnt == n) {
             cur.pop_back();
             cout << cur;

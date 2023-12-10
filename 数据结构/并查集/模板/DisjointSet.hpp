@@ -1,20 +1,20 @@
-struct DisjoinSets {
+struct DisjoinSet {
 
+public:
 	std::vector<i64>f, v;
 
-	DisjoinSets() {}
+	DisjoinSet() {}
 
-	DisjoinSets(int n)f(n + 1), v(n + 1) {}
+	DisjoinSet(int n) {init(n);}
 
 	void init(int n) {
 		f.assign(n + 1, 0);
-		v.assign(n + 1, 0);
+		v.assign(n + 1, 1);
 		std::iota(f.begin() + 1, f.begin() + 1 + n, 1);
-		v.assign(n, 1);
 	}
 	int find(int x) {
-		while (x != fa[x]) {
-			x = fa[x] = fa[fa[x]];
+		while (x != f[x]) {
+			x = f[x] = f[f[x]];
 		}
 		return x;
 	}

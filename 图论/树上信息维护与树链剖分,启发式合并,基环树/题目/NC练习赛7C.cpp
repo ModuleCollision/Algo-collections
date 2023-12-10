@@ -1,64 +1,89 @@
 #include<bits/stdc++.h>
-using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
-ll son[maxn];
-ll fa[maxn], rk[maxn], dfn[maxn], top[maxn], sz[maxn];
-ll cnt = 0;
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+
+constexpr i64 mod = 1e9 + 7;
+constexpr i64 maxn = 1e5 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+int son[maxn];
+int fa[maxn], rk[maxn], dfn[maxn], top[maxn], sz[maxn];
+int cnt = 0;
 struct edge {
-	ll v; ll nx;
+	int v; int nx;
 } e[maxn];
-ll head[maxn]; ll tot_edge = 0;
-void add_edge(ll u, ll v) {
+int head[maxn]; i64 tot_edge = 0;
+void add_edge(int u, int v) {
 	e[tot_edge].v = v;
 	e[tot_edge].nx = head[u];
 	head[u] = tot_edge++;
 }
-struct sq {
-	ll l; ll r; ll v;
-} tr[7][maxn << 2];
-ll prime[] = {0, 2, 3, 5, 7, 11, 13};
-void pushup(ll q, ll p) {
-	tr[q][p].v = tr[q][p << 1].v + tr[q][p << 1 | 1].v;
-}
-void build(ll q, ll p, ll l, ll r) {
-	tr[q][p].l = l; tr[q][p].r = r;
-	if (l == r) {
-		tr[q][p].v = 0; return;
+
+std::vector<i64>prime {0, 2, 3, 5, 7, 11, 13};
+
+
+struct SegmentTree {
+
+	struct sq {
+		int l; int r; i64 v;
+	};
+	std::vector<sq>tr; int n;
+	SegmentTree() {}
+	SegmentTree(int n): tr(n * 4 + 5), n(n) {}
+	void init(int n) {
+		tr.resize(4 * n + 5);
+		this -> n = n;
 	}
-	ll mid = (l + r) >> 1;
-	build(q, p << 1, l, mid);
-	build(q, p << 1 | 1, mid + 1, r);
-	pushup(q, p);
-}
-void modify(ll q, ll p, ll idx, ll w) {
-	if (tr[q][p].l == tr[q][p].r) {
-		tr[q][p].v += w;
-		return;
+	void pushup(int p) {
+		tr[p].v = tr[p << 1].v + tr[p << 1 | 1].v;
 	}
-	ll mid = (tr[q][p].l + tr[q][p].r) >> 1;
-	if (idx <= mid)modify(q, p << 1, idx, w);
-	else if (idx > mid)modify(q, p << 1 | 1, idx, w);
-	pushup(q, p);
-}
-ll query(ll q, ll p, ll l, ll r) {
-	if (tr[q][p].l >= l and tr[q][p].r <= r) {
-		return tr[q][p].v;
+	void build(int p, int l, int r) {
+		tr[p].l = l; tr[p].r = r;
+		if (l == r) {
+			tr[p].v = 0; return;
+		}
+		int mid = (l + r) >> 1;
+		build(p << 1, l, mid);
+		build(p << 1 | 1, mid + 1, r);
+		pushup(p);
 	}
-	ll ret = 0;
-	ll mid = (tr[q][p].l + tr[q][p].r) >> 1;
-	if (l <= mid)ret += query(q, p << 1, l, r);
-	if (r > mid)ret += query(q, p << 1 | 1, l, r);
-	return ret;
-}
-void dfs1(ll u, ll f) {
+	void modify(int p, int idx, i64 w) {
+		if (tr[p].l == tr[p].r) {
+			tr[p].v += w;
+			return;
+		}
+		int mid = (tr[p].l + tr[p].r) >> 1;
+		if (idx <= mid)modify(p << 1, idx, w);
+		else if (idx > mid)modify(p << 1 | 1, idx, w);
+		pushup(p);
+	}
+	i64 query( i64 p, i64 l, i64 r) {
+		if (tr[p].l >= l and tr[p].r <= r) {
+			return tr[p].v;
+		}
+		i64 ret = 0;
+		i64 mid = (tr[p].l + tr[p].r) >> 1;
+		if (l <= mid)ret += query( p << 1, l, r);
+		if (r > mid)ret += query( p << 1 | 1, l, r);
+		return ret;
+	}
+};
+void dfs1(i64 u, i64 f) {
 	sz[u] = 1; fa[u] = f;
-	for (ll ec = head[u]; ec != -1; ec = e[ec].nx) {
-		ll v = e[ec].v;
+	for (i64 ec = head[u]; ec != -1; ec = e[ec].nx) {
+		i64 v = e[ec].v;
 		if (v == f)continue;
 		dfs1(v, u);
 		sz[u] += sz[v];
@@ -67,29 +92,31 @@ void dfs1(ll u, ll f) {
 		}
 	}
 }
-void dfs2(ll u, ll t) {
+void dfs2(i64 u, i64 t) {
 	top[u] = t;
 	cnt++; rk[u] = cnt;
 	dfn[cnt] = u; if (son[u] == -1)return;
 	dfs2(son[u], t);
-	for (ll ec = head[u]; ec != -1; ec = e[ec].nx) {
-		ll v = e[ec].v;
+	for (i64 ec = head[u]; ec != -1; ec = e[ec].nx) {
+		i64 v = e[ec].v;
 		if (v == fa[u])continue;
 		if (v == son[u])continue;
 		dfs2(v, v);
 	}
 }
+i64 n;
+std::vector<SegmentTree>t(7);
 void solve() {
-	ll n; std::cin >> n;
+	std::cin >> n;
 	std::fill(son + 1, son + 1 + n, -1);
 	std::fill(head + 1, head + 1 + n, -1);
-	for (ll i = 1; i <= n - 1; i++) {
-		ll u, v; std::cin >> u >> v;
+	for (i64 i = 1; i <= n - 1; i++) {
+		i64 u, v; std::cin >> u >> v;
 		u++; v++;
 		add_edge(u, v); add_edge(v, u);
 	}
-	auto ksm = [&](ll x, ll y) {
-		ll ret = 1;
+	auto ksm = [&](i64 x, i64 y) {
+		i64 ret = 1;
 		while (y) {
 			if (y & 1)ret = ret * x % mod;
 			x = x * x % mod;
@@ -97,38 +124,39 @@ void solve() {
 		}
 		return ret % mod;
 	};
+
 	dfs1(1, 1); dfs2(1, 1);
-	for (ll i = 1; i <= 6; i++)build(i, 1, 1, n);
-	for (ll i = 1; i <= n; i++) {
-		ll w; std::cin >> w;
-		for (ll j = 1; j <= 6; j++) {
-			ll ww = 0;
+	for (i64 i = 1; i <= 6; i++)t[i].init(n), t[i].build(1, 1, n);
+	for (i64 i = 1; i <= n; i++) {
+		i64 w; std::cin >> w;
+		for (i64 j = 1; j <= 6; j++) {
+			i64 ww = 0;
 			while (w % prime[j] == 0) {
 				w /= prime[j]; ww++;
 			}
-			modify(j, 1, rk[i], ww);
+			t[j].modify(1, rk[i], ww);
 		}
 	}
-	ll q; std::cin >> q;
+	i64 q; std::cin >> q;
 	while (q--) {
-		string op; std::cin >> op;
+		std::string op; std::cin >> op;
 		if (op == "SEED") {
-			ll u, x; std::cin >> u >> x; u++;
-			for (ll j = 1; j <= 6; j++) {
-				ll ww = 0; while (x % prime[j] == 0) {
+			i64 u, x; std::cin >> u >> x; u++;
+			for (i64 j = 1; j <= 6; j++) {
+				i64 ww = 0; while (x % prime[j] == 0) {
 					x /= prime[j]; ww++;
 				}
-				modify(j, 1, rk[u], ww);
+				t[j].modify(1, rk[u], ww);
 			}
 		} else {
-			ll ans = 1, res = 1;
-			ll u; std::cin >> u; u++;
-			for (ll i = 1; i <= 6; i++) {
-				ll cur = query(i, 1, rk[u], rk[u] + sz[u] - 1);
+			i64 ans = 1, res = 1;
+			i64 u; std::cin >> u; u++;
+			for (i64 i = 1; i <= 6; i++) {
+				i64 cur = t[i].query(1, rk[u], rk[u] + sz[u] - 1);
 				res = res % mod * (cur + 1) % mod;
 				ans = (ans % mod) * ksm(prime[i], cur) % mod;
 			}
-			cout << ans << " " << res << endl;
+			std::cout << ans << " " << res << "\n";
 		}
 	}
 }
