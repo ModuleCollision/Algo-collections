@@ -20,9 +20,7 @@ void solve() {
 	}
 	for (ll i = 1; i <= K; i++) {
 		ll x; std::cin >> x;
-		if (dp[q[x].b] > dp[q[x].a] + q[x].c) {
-			dp[q[x].b] = dp[q[x].a] + q[x].c;
-		}
+		dp[q[x].b] = std::min(dp[q[x].b], dp[q[x].a] + q[x].c);
 	}
 	if (dp[N] == inf) {
 		puts("-1");

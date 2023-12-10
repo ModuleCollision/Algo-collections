@@ -20,7 +20,7 @@ void solve() {
 		for (ll j = 0; j < N; j++) {
 			if ((i >> j) & 1) {
 				for (ll k = 0; k < N; k++) {
-					if ((i >> k) & 1) {
+					if ((i >> k) & 1) { // 哈密顿图不允许重复访问
 						dp[i][j] = min(dp[i][j], dp[i - (1 << j)][k] + w[k][j]);
 					}
 				}
