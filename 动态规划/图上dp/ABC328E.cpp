@@ -25,6 +25,7 @@ void solve() {
     g[x].push_back({y, z});
     g[y].push_back({x, z});
   }
+  /*枚举点和出边dp*/
   vector<set<i64>>dp(1 << n);
   dp[1].insert(0);
   for (int i = 0; i < (1 << n); i++) {

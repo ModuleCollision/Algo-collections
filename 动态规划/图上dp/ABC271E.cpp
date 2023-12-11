@@ -18,6 +18,7 @@ void solve() {
 	for (ll i = 1; i <= M; i++) {
 		std::cin >> q[i].a >> q[i].b >> q[i].c;
 	}
+	/*枚举边进行dp*/
 	for (ll i = 1; i <= K; i++) {
 		ll x; std::cin >> x;
 		dp[q[x].b] = std::min(dp[q[x].b], dp[q[x].a] + q[x].c);

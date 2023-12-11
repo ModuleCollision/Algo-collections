@@ -16,6 +16,7 @@ using namespace std;
 const i64 mod = 1e9 + 7;
 const i64 maxn = 1e6 + 5;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;
+/*枚举边dp*/
 void solve() {
   i64 n, m, T; cin >> n >> m >> T;
   vector dp(n + 1, vector<i64>(n + 1, inf));

@@ -18,6 +18,7 @@ void solve() {
 		tr[u].push_back(v); tr[v].push_back(u);
 	}
 	dp[0][1] = 1; ll pre = 1;
+	/*枚举点和出边进行dp*/
 	for (ll i = 1; i <= k; i++) {
 		ll cur = pre; pre = 0;
 		for (ll j = 1; j <= n; j++) {
