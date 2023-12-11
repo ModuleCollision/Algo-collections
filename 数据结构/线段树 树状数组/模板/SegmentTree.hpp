@@ -237,11 +237,11 @@ public:
             tr[p].sum = (tr[p].sum % m * v) % m;
             return;
         }
-        pushdown(p);
+        pushDown(p);
         i64 mid = (tr[p].l + tr[p].r) >> 1;
         if (l <= mid)modify1(tr[p].ls, l, r, v);
         if (r > mid)modify1(tr[p].rs, l, r, v);
-        pushup(p);
+        pushUp(p);
     }
 
     void modify2(i64 p, i64 l, i64 r, T v) {
@@ -250,18 +250,18 @@ public:
             tr[p].sum = (tr[p].sum + (tr[p].r - tr[p].l + 1) % m * v) % m;
             return;
         }
-        pushdown(p);
+        pushDown(p);
         i64 mid = (tr[p].l + tr[p].r) >> 1;
         if (l <= mid)modify2(tr[p].ls, l, r, v);
         if (r > mid)modify2(tr[p].rs, l, r, v);
-        pushup(p);
+        pushUp(p);
     }
 
     T query(i64 u, i64 l, i64 r) {
         if (tr[u].l >= l and tr[u].r <= r) {
             return tr[u].sum % m;
         }
-        pushdown(u);
+        pushDown(u);
         T ret = 0;
         i64 mid = (tr[u].l + tr[u].r) >> 1;
         if (l <= mid)ret = (ret % m + query(tr[u].ls, l, r)) % m;
@@ -270,4 +270,3 @@ public:
     }
 
 };
-
