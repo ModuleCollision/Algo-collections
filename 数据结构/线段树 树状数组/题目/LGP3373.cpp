@@ -143,6 +143,7 @@ struct Node {
   i64 mul, add, sum;
 
 } tr[maxn * 2 + 5]; i64 n, q, m, tot = 1, a[maxn];
+/*动态开点只需开 2 * n 的空间*/
 void pushup(i64 p) {
   tr[p].sum = (tr[tr[p].ls].sum % m + tr[tr[p].rs].sum) % m;
   return;
