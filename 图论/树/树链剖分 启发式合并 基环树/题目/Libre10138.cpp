@@ -1,21 +1,32 @@
-#include<bits/stdc++.h>
-using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 60010;
-const ll inf = 2e9;
-const ll mod = 998244353;
-ll n;
-ll sz[maxn], son[maxn]; ll top[maxn];
-ll rk[maxn], w[maxn], dfn[maxn];
-ll cnt = 0; ll dep[maxn], fa[maxn];
-vector<ll>tr[maxn];
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 1e7 + 500;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 n;
+i64 sz[maxn], son[maxn]; i64 top[maxn];
+i64 rk[maxn], w[maxn], dfn[maxn];
+i64 cnt = 0; i64 dep[maxn], fa[maxn];
+std::vector<i64>tr[maxn];
 //树链剖分中一条重链的dfn序是连续的
 struct sq {
-	ll l; ll r; ll mx; ll sum;
+	i64 l; i64 r; i64 mx; i64 sum;
 } st[maxn * 4 + 5];
-void dfs1(ll u, ll f) {
+void dfs1(i64 u, i64 f) {
 	dep[u] = dep[f] + 1;
 	fa[u] = f;
 	son[u] = -1; sz[u] = 1;
@@ -28,7 +39,7 @@ void dfs1(ll u, ll f) {
 		}
 	}
 }
-void dfs2(ll u, ll t) {
+void dfs2(i64 u, i64 t) {
 	top[u] = t;
 	cnt++;
 	dfn[u] = cnt;
@@ -41,68 +52,68 @@ void dfs2(ll u, ll t) {
 		dfs2(v, v);
 	}
 }
-void pushup(ll u) {
+void pushup(i64 u) {
 	st[u].sum = st[u << 1].sum + st[u << 1 | 1].sum;
-	st[u].mx = max(st[u << 1].mx, st[u << 1 | 1].mx);
+	st[u].mx = std::max(st[u << 1].mx, st[u << 1 | 1].mx);
 }
-void build(ll u, ll l, ll r) {
+void build(i64 u, i64 l, i64 r) {
 	st[u].l = l; st[u].r = r;
 	if (l == r) {
 		st[u].mx = st[u].sum = w[rk[l]];
 		return;
 	}
-	ll mid = (l + r) >> 1;
+	i64 mid = (l + r) >> 1;
 	build(u << 1, l, mid);
 	build(u << 1 | 1, mid + 1, r);
 	pushup(u);
 }
-ll query2(ll p, ll l, ll r) {
+i64 query2(i64 p, i64 l, i64 r) {
 	if (st[p].l >= l and st[p].r <= r) {
 		return st[p].sum;
 	}
-	ll ret = 0;
-	ll mid = (st[p].l + st[p].r) >> 1;
+	i64 ret = 0;
+	i64 mid = (st[p].l + st[p].r) >> 1;
 	if (r > mid)ret += query2(p << 1 | 1, l, r);
 	if (l <= mid)ret += query2(p << 1, l, r);
 	return ret;
 }
-ll query1(ll p, ll l, ll r) {
+i64 query1(i64 p, i64 l, i64 r) {
 	if (st[p].l >= l and st[p].r <= r) {
 		return st[p].mx;
 	}
-	ll ret = -inf;
-	ll mid = (st[p].l + st[p].r) >> 1;
-	if (r > mid)ret = max(ret, query1(p << 1 | 1, l, r));
-	if (l <= mid)ret = max(ret, query1(p << 1, l, r));
+	i64 ret = -inf;
+	i64 mid = (st[p].l + st[p].r) >> 1;
+	if (r > mid)ret = std::max(ret, query1(p << 1 | 1, l, r));
+	if (l <= mid)ret = std::max(ret, query1(p << 1, l, r));
 	return ret;
 }
-void modify(ll u, ll idx, ll v) {
+void modify(i64 u, i64 idx, i64 v) {
 	if (st[u].l == st[u].r) {
 		st[u].sum = v; st[u].mx = v; return;
 	}
-	ll mid = (st[u].l + st[u].r) >> 1;
+	i64 mid = (st[u].l + st[u].r) >> 1;
 	if (idx <= mid)modify(u << 1, idx, v);
 	if (idx > mid)modify(u << 1 | 1, idx, v);
 	pushup(u);
 }
-ll querymax(ll x, ll y) {
-	ll ret = -inf, fx = top[x], fy = top[y];
+i64 querymax(i64 x, i64 y) {
+	i64 ret = -inf, fx = top[x], fy = top[y];
 	while (fx != fy) {//最终的目的是跳到同一条重链上
 		if (dep[fx] >= dep[fy])
-			ret = max(ret, query1(1, dfn[fx], dfn[x])), x = fa[fx];
+			ret = std::max(ret, query1(1, dfn[fx], dfn[x])), x = fa[fx];
 		else
-			ret = max(ret, query1(1, dfn[fy], dfn[y])), y = fa[fy];
+			ret = std::max(ret, query1(1, dfn[fy], dfn[y])), y = fa[fy];
 		fx = top[x]; fy = top[y];
 	}
 	if (dfn[x] < dfn[y]) {
-		ret = max(ret, query1(1, dfn[x], dfn[y]));
+		ret = std::max(ret, query1(1, dfn[x], dfn[y]));
 	} else {
-		ret = max(ret, query1(1, dfn[y], dfn[x]));
+		ret = std::max(ret, query1(1, dfn[y], dfn[x]));
 	}
 	return ret;
 }
-ll querysum(ll x, ll y) {
-	ll ret = 0, fx = top[x], fy = top[y];
+i64 querysum(i64 x, i64 y) {
+	i64 ret = 0, fx = top[x], fy = top[y];
 	while (fx != fy) {
 		if (dep[fx] >= dep[fy])
 			ret += query2(1, dfn[fx], dfn[x]), x = fa[fx];
@@ -118,25 +129,25 @@ ll querysum(ll x, ll y) {
 	return ret;
 }
 void solve() {
-	string opt;
-	ll n, u, v;
+	std::string opt;
+	i64 n, u, v;
 	std::cin >> n;
-	for (ll i = 1; i < n; i++) {
-		cin >> u >> v;
+	for (i64 i = 1; i < n; i++) {
+		std::cin >> u >> v;
 		tr[u].push_back(v); tr[v].push_back(u);
 	}
-	for (ll i = 1; i <= n; i++)cin >> w[i];
+	for (i64 i = 1; i <= n; i++)std::cin >> w[i];
 	dfs1(1, 1); dfs2(1, 1);
 	build(1, 1, n);
-	ll q; std::cin >> q;
+	i64 q; std::cin >> q;
 	while (q--) {
 		std::cin >> opt >> u >> v;
 		if (opt == "CHANGE") {
 			modify(1, dfn[u], v);
 		} else if (opt == "QMAX") {
-			cout << querymax(u, v) << endl;
+			std::cout << querymax(u, v) << "\n";
 		} else {
-			cout << querysum(u, v) << endl;
+			std::cout << querysum(u, v) << "\n";
 		}
 	}
 }
