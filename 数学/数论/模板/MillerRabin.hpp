@@ -1,4 +1,5 @@
-bool mr(i64 n) {
+/*素数判定*/
+bool isPrime(i64 n) {
 	if (n < 3 or n % 2 == 0)return n == 2;
 	i64 u = n - 1, t = 0;
 	while (u % 2 == 0)u /= 2, t++;
