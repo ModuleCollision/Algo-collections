@@ -1,48 +1,63 @@
-#include<bits/stdc++.h>
+/*300兆字节 1- 2 秒*/
+
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 2e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-void kk() {
-	ll n; std::cin >> n;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+void SG() {
+	i64 n; std::cin >> n;
 	vector<bool>vis(n + 5, 0);
-	vector<ll>SG(n + 5, 0); ll l, r; std::cin >> l >> r;
-	function<void(ll)>dfs = [&](ll x) {
+	vector<i64>SG(n + 5, 0); i64 l, r; std::cin >> l >> r;
+	function<void(i64)>dfs = [&](i64 x) {
 		vis[x] = 1;
 		if (not x) {
 			SG[x] = 0; return;//无状态可转移是必输状态,SG值为0
 		}
-		std::set<ll>st;
-		for (ll i = max(0ll, x - r); i <= x - l; i++) {
+		std::set<i64>st;
+		for (i64 i = max(0i64, x - r); i <= x - l; i++) {
 			if (not vis[i]) {
 				dfs(i);
 			}
 			st.insert(SG[i]);
 		}
 		//所有待转移的值取mex值,即为该状态的SG值
-		for (ll i = 0;; i++) {
+		for (i64 i = 0;; i++) {
 			if (not st.count(i)) {
 				SG[x] = i; return;
 			}
 		}//SG定理,直接求出其SG值
 	};
 	dfs(n);
-	for (ll i = 0; i <= n; i++) {
+	for (i64 i = 0; i <= n; i++) {
 		cout << SG[i] << " ";
 	}
 	cout << endl;
 }
 void solve() {
-	ll l, r, n;
+	i64 l, r, n;
 	std::cin >> n >> l >> r;
-	auto SG = [&](ll x) {
+	auto SG = [&](i64 x) {
 		return x % (l + r) / l;
 	};
-	vector<ll>A(n + 5, 0); ll ans = 0;
-	for (ll i = 1; i <= n; i++) {
+	vector<i64>A(n + 5, 0); i64 ans = 0;
+	for (i64 i = 1; i <= n; i++) {
 		cin >> A[i]; ans ^= SG(A[i]);
 	}
 	//SG定理,必输状态(先手输)的状态SG值为0,总状态的SG值所有子状态(每一位)SG值的异或和

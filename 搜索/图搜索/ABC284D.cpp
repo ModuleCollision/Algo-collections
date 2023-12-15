@@ -1,16 +1,32 @@
-#include<bits/stdc++.h>
+/*300兆字节 1- 2 秒*/
+
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 2e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-vector<ll>tr[maxn]; bool vis[maxn];
-ll N, M, S, K = 1e6;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+
+vector<i64>tr[maxn]; bool vis[maxn];
+i64 N, M, S, K = 1e6;
 void solve() {
 	/*典型的路径搜索题,按照枚举的思路dfs搜索即可*/
-	function<void(ll, ll)>dfs = [&](ll u, ll fa) {
+	function<void(i64, i64)>dfs = [&](i64 u, i64 fa) {
 		S++;
 		if (S > K)return;
 		for (auto v : tr[u]) {
@@ -23,7 +39,7 @@ void solve() {
 	};
 	std::cin >> N >> M;
 	while (M--) {
-		ll u, v; std::cin >> u >> v;
+		i64 u, v; std::cin >> u >> v;
 		tr[u].push_back(v);
 		tr[v].push_back(u);
 	}
