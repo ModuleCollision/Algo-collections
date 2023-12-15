@@ -36,7 +36,7 @@ public:
             a[i].assign(len, 0);
         }
     }
-    friend Matrix operator*(const Matrix x, const Matrix y) {
+    friend Matrix operator*(Matrix x, Matrix y) {
         i64 n = x.n;
         Matrix ret(n);
         for (i64 i = 0; i < n; i++) {

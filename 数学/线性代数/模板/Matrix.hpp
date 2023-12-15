@@ -6,7 +6,15 @@ public:
 			a[i].assign(len, 0);
 		}
 	}
-	friend Matrix operator*(const Matrix x, const Matrix y) {
+	void init() {
+		for (i64 i = 0; i < n; i++) {
+			for (i64 j = 0; j < n; j++) {
+				if (i == j)a[i][j] = 1;
+				else a[i][j] = 0;
+			}
+		}
+	}
+	friend Matrix operator*(Matrix x, Matrix y) {
 		i64 n = x.n;
 		Matrix ret(n);
 		for (i64 i = 0; i < n; i++) {
@@ -14,6 +22,15 @@ public:
 				for (i64 k = 0; k < n; k++) {
 					ret.a[i][j] = (ret.a[i][j] % mod + x.a[i][k] % mod * y.a[k][j] % mod) % mod;
 				}
+			}
+		}
+		return ret;
+	}
+	friend Matrix operator+(Matrix x, Matrix y) {
+		Matrix ret(x.n);
+		for (i64 i = 0; i < x.n; i++) {
+			for (i64 j = 0; j < y.n; j++) {
+				ret.a[i][j] = (x.a[i][j] % mod + y.a[i][j]) % mod;
 			}
 		}
 		return ret;
