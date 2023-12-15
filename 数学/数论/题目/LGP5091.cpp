@@ -1,3 +1,6 @@
+
+/*扩展欧拉定理*/
+
 #include<bits/stdc++.h>
 using i8 = signed char;
 typedef long long ll;
@@ -17,7 +20,6 @@ using namespace std;
 const i64 mod = 9901;
 const i64 maxn = 1005;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;
-/*扩展欧拉定理*/
 signed main() {
   i64 a, m; string b;
   cin >> a >> m >> b; reverse(b.begin(), b.end());

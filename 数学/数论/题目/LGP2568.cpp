@@ -1,3 +1,5 @@
+/*筛法求欧拉函数*/
+
 #include<bits/stdc++.h>
 using i8 = signed char;
 using u8 = unsigned char;
@@ -16,8 +18,10 @@ using namespace std;
 const i64 mod = 1e9 + 7;
 const i64 maxn = 1e7 + 5;
 const i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 i64 prime[maxn], tot = 0; i64 e[maxn];
 bool vis[maxn]; i64 n; i64 pre[maxn];
+
 void init() {
     e[1] = 1; pre[1] = e[1];
     for (i64 i = 2; i <= n; i++) {

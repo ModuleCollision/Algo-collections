@@ -1,36 +1,51 @@
-#include<bits/stdc++.h>
+/*求解 基于 ax + by = c 的最小正整数解*/
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 3010;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 1145141;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+
 void solve() {
-  function<ll(ll, ll, ll&, ll&)>exgcd = [&](ll a, ll b, ll & x, ll & y) {
+  function<i64(i64, i64, i64&, i64&)>exgcd = [&](i64 a, i64 b, i64 & x, i64 & y) {
     if (b == 0) {
       x = 1; y = 0; return a;
     }
-    ll d = exgcd(b, a % b, x, y);
-    ll tmp = x; x = y;
+    i64 d = exgcd(b, a % b, x, y);
+    i64 tmp = x; x = y;
     y = tmp - (a / b) * y;
     return d;
   };
-  ll n, p, x, q, y;
+  i64 n, p, x, q, y;
   std::cin >> n >> p >> x >> q >> y;
-  ll tot = 0;
-  for (ll i = 1; i <= n; i++) {
-    ll v; std::cin >> v;
+  i64 tot = 0;
+  for (i64 i = 1; i <= n; i++) {
+    i64 v; std::cin >> v;
     tot = (tot % n + v) % n;
   }
-  ll a, b; ll d = exgcd(y, n, a, b);
-  ll ans = inf;
-  for (ll i = 0; i <= n; i++) {
-    ll nd = (tot + i % n * x) % n;
-    ll cost = p * i;
+  i64 a, b; i64 d = exgcd(y, n, a, b);
+  i64 ans = inf;
+  for (i64 i = 0; i <= n; i++) {
+    i64 nd = (tot + i % n * x) % n;
+    i64 cost = p * i;
     if (nd % d)continue;
-    ll c = nd / d * a;
-    ll t = n / d;
+    i64 c = nd / d * a;
+    i64 t = n / d;
     c = (c % t + t) % t;
     cost += (1 * c * q);
     ans = min(ans, cost);
@@ -42,4 +57,3 @@ void solve() {
 signed main() {
   solve();
 }
-/*整理后发现求a * x + tot = b * y + c * n, 枚举x做ex _ gcd 即可*/
