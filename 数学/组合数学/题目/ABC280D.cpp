@@ -1,18 +1,33 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-ll p[maxn], cnt[maxn], tt = 0;
-ll n;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+
+
+i64 p[maxn], cnt[maxn], tt = 0;
+i64 n;
 void pre() {
-	for (ll i = 2; i <= sqrt(n); i++) {
+	for (i64 i = 2; i <= sqrt(n); i++) {
 		if (n % i == 0) {
 			p[++tt]	= i;
-			ll tmp = 0;
+			i64 tmp = 0;
 			while (n % i == 0) {
 				n /= i; tmp++;
 			}
@@ -26,8 +41,8 @@ void pre() {
 }
 void solve() {
 	std::cin >> n; pre();
-	auto lg = [&](ll a, ll b) {
-		ll ret = 0, r = 1;
+	auto lg = [&](i64 a, i64 b) {
+		i64 ret = 0, r = 1;
 		while (r <= b) {
 			r *= a; ret++;
 		}
@@ -37,12 +52,12 @@ void solve() {
 		return ret;
 	};
 	//cout << lg(2, 8) << endl;
-	auto check = [&](ll mid) {
-		for (ll i = 1; i <= tt; i++) {
-			ll pp = p[i], tmp = mid, tot = 0;
-			ll k = lg(pp, mid);
-			ll ans = 0; ll cur = 1;
-			for (ll i = 1; i <= k; i++) {
+	auto check = [&](i64 mid) {
+		for (i64 i = 1; i <= tt; i++) {
+			i64 pp = p[i], tmp = mid, tot = 0;
+			i64 k = lg(pp, mid);
+			i64 ans = 0; i64 cur = 1;
+			for (i64 i = 1; i <= k; i++) {
 				cur *= pp;
 				ans += mid / cur;
 			}
@@ -53,9 +68,9 @@ void solve() {
 		//勒让德公式
 		return true;
 	};
-	ll l = 1, r = inf;
+	i64 l = 1, r = inf;
 	while (l < r) {
-		ll mid = (l + r) >> 1;
+		i64 mid = (l + r) >> 1;
 		if (check(mid)) {
 			r = mid;
 		} else {

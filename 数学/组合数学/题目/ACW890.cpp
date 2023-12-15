@@ -1,17 +1,30 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll n, m; std::cin >> n >> m; ll ans = 0;
-	vector<ll>w(m + 5, 0); for (ll i = 0; i < m; i++)cin >> w[i];
-	for (ll i = 1; i < (1 << m); i++) {
-		ll k = 1; ll cnt = 0; bool f = 1;
-		for (ll j = 0; j < m; j++) {
+	i64 n, m; std::cin >> n >> m; i64 ans = 0;
+	vector<i64>w(m + 5, 0); for (i64 i = 0; i < m; i++)cin >> w[i];
+	for (i64 i = 1; i < (1 << m); i++) {
+		i64 k = 1; i64 cnt = 0; bool f = 1;
+		for (i64 j = 0; j < m; j++) {
 			if ((i >> j) & 1) {
 				if (k * w[j] > n) {
 					f = 0; break;
@@ -20,7 +33,7 @@ void solve() {
 			}
 		}
 		if (f) {
-			ll res = n / k;
+			i64 res = n / k;
 			if (cnt & 1)ans += res;
 			else ans -= res;
 		}

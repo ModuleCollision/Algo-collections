@@ -1,30 +1,40 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 305;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-  ll n; cin >> n;
-  vector<vector<ll>>w(n + 1);
-  for (ll i = 1; i <= n; i++) {
-    for (ll j = i; j <= n; j += i) {
+  i64 n; cin >> n;
+  vector<vector<i64>>w(n + 1);
+  for (i64 i = 1; i <= n; i++) {
+    for (i64 j = i; j <= n; j += i) {
       w[j].push_back(i);
     }
   }
-  vector<ll>pos(n + 1); std::iota(pos.begin() + 1, pos.begin() + 1 + n, 1);
-  vector<ll>q(n + 1);
-  for (ll i = 1; i <= n; i++)cin >> q[i];
-  sort(pos.begin() + 1, pos.begin() + 1 + n, [&](ll x, ll y)->bool{
+  vector<i64>pos(n + 1); std::iota(pos.begin() + 1, pos.begin() + 1 + n, 1);
+  vector<i64>q(n + 1);
+  for (i64 i = 1; i <= n; i++)cin >> q[i];
+  sort(pos.begin() + 1, pos.begin() + 1 + n, [&](i64 x, i64 y)->bool{
     return q[x] < q[y];
   });
-  auto ksm = [&](ll x, ll y) {
-    ll ret = 1;
+  auto ksm = [&](i64 x, i64 y) {
+    i64 ret = 1;
     while (y) {
       if (y & 1)ret = ret * x % mod;
       x = x * x % mod;
@@ -32,11 +42,11 @@ void solve() {
     }
     return ret % mod;
   };
-  ll ans = 0;
-  ll t = n; vector<bool>vis(n + 1, true);
-  for (ll i = n; i >= 1; i--) {
-    ll p = pos[i];
-    ll cnt = 0; for (auto v : w[p])if (vis[v]) {
+  i64 ans = 0;
+  i64 t = n; vector<bool>vis(n + 1, true);
+  for (i64 i = n; i >= 1; i--) {
+    i64 p = pos[i];
+    i64 cnt = 0; for (auto v : w[p])if (vis[v]) {
         cnt++;
       }
     t -= cnt;

@@ -1,21 +1,34 @@
 /*计数dp*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 3010;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll n, m; std::cin >> n >> m;
-	vector dp(n + 5, vector<ll>(m + 5, 0));
+	i64 n, m; std::cin >> n >> m;
+	vector dp(n + 5, vector<i64>(m + 5, 0));
 	dp[0][0] = 1;
-	vector<ll>A(n + 5, 0);
-	for (ll i = 1; i <= n; i++)cin >> A[i];
-	for (ll i = 1; i <= n; i++) {
-		for (ll j = 0; j <= m; j++) {
-			for (ll k = 0; k <= min(j, A[i]); k++) {
+	vector<i64>A(n + 5, 0);
+	for (i64 i = 1; i <= n; i++)cin >> A[i];
+	for (i64 i = 1; i <= n; i++) {
+		for (i64 j = 0; j <= m; j++) {
+			for (i64 k = 0; k <= min(j, A[i]); k++) {
 				dp[i][j] = (dp[i][j] % mod + dp[i - 1][j - k]) % mod;
 			}
 		}
@@ -27,21 +40,34 @@ signed main() {
 }
 
 
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
-ll fac[maxn];
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 fac[maxn];
 void init() {
 	fac[0] = 1;
-	for (ll i = 1; i <= 1e6; i++)fac[i] = (fac[i - 1] % mod * i) % mod;
+	for (i64 i = 1; i <= 1e6; i++)fac[i] = (fac[i - 1] % mod * i) % mod;
 }
-ll ksm(ll x, ll y) {
-	ll ret = 1;
+i64 ksm(i64 x, i64 y) {
+	i64 ret = 1;
 	while (y) {
 		if (y & 1)ret = ret * x % mod;
 		x = x * x % mod;
@@ -49,26 +75,26 @@ ll ksm(ll x, ll y) {
 	}
 	return ret % mod;
 }
-ll inv(ll x) {
+i64 inv(i64 x) {
 	return ksm(x, mod - 2) % mod;
 }
-ll comb(ll n, ll m) {
-	if (n < m)return 0ll;
+i64 comb(i64 n, i64 m) {
+	if (n < m)return 0i64;
 	return fac[n] % mod * inv(fac[m] % mod * fac[n - m] % mod) % mod;
 }
 void solve() {
 	init();
-	ll n, m; std::cin >> n >> m; vector<ll>A(n + 1, 0);
-	for (ll i = 0; i < n; i++)cin >> A[i];
-	ll res = comb(n + m - 1, n - 1) % mod; ll d = 0;
-	for (ll i = 1; i < (1 << n); i++) {
-		vector<ll>s; ll cnt = 0;
-		for (ll j = 0; j < n; j++)if ((i >> j) & 1)s.push_back(j), cnt++;
-		ll p = n + m - 1;
+	i64 n, m; std::cin >> n >> m; vector<i64>A(n + 1, 0);
+	for (i64 i = 0; i < n; i++)cin >> A[i];
+	i64 res = comb(n + m - 1, n - 1) % mod; i64 d = 0;
+	for (i64 i = 1; i < (1 << n); i++) {
+		vector<i64>s; i64 cnt = 0;
+		for (i64 j = 0; j < n; j++)if ((i >> j) & 1)s.push_back(j), cnt++;
+		i64 p = n + m - 1;
 		for (auto c : s) {
 			p -= (A[c] + 1);
 		}
-		ll v = comb(p, n - 1) % mod;
+		i64 v = comb(p, n - 1) % mod;
 		if (cnt & 1)d = (d % mod + v) % mod;
 		else d = ((d - v) % mod + mod) % mod;
 	}

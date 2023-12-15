@@ -1,6 +1,5 @@
 #include<bits/stdc++.h>
 using i8 = signed char;
-typedef long long ll;
 using u8 = unsigned char;
 using i16 = signed short int;
 using u16 = unsigned short int;
