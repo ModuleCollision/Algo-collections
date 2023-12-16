@@ -1,35 +1,48 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 5e3 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
 	string s; std::cin >> s;
-	ll N; std::cin >> N;
+	i64 N; std::cin >> N;
 	reverse(s.begin(), s.end());
-	ll cur = 0;
-	ll ks = s.size();
-	vector<ll>idx;
-	for (ll i = 0; i < ks; i++) {
+	i64 cur = 0;
+	i64 ks = s.size();
+	vector<i64>idx;
+	for (i64 i = 0; i < ks; i++) {
 		if (s[i] == '1') {
-			cur += (1ll << i);
+			cur += (1i64 << i);
 		}
 	}
 	if (cur > N) {
 		puts("-1"); return;
 	}
-	ll ans = cur;
-	for (ll i = 0; i < ks; i++)if (s[i] == '?')idx.push_back(i);
-	ll len = idx.size();
-	for (ll i = len - 1; i >= 0; i--) {
-		ll t = cur + (1ll << idx[i]);
+	i64 ans = cur;
+	for (i64 i = 0; i < ks; i++)if (s[i] == '?')idx.push_back(i);
+	i64 len = idx.size();
+	for (i64 i = len - 1; i >= 0; i--) {
+		i64 t = cur + (1i64 << idx[i]);
 		if (t > N)continue;
-		for (ll j = i - 1; j >= 0; j--) {
-			if ((t + (1ll << idx[j])) > N)continue;
-			else t += (1ll << idx[j]);
+		for (i64 j = i - 1; j >= 0; j--) {
+			if ((t + (1i64 << idx[j])) > N)continue;
+			else t += (1i64 << idx[j]);
 		}
 		ans = max(ans, t);
 	}

@@ -1,19 +1,32 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 5e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct sq {
-	ll val; ll fa;
-} tr[maxn]; ll tot = 0; ll it = 0, x = 0;
-std::map<ll, ll>sta; //The page to the state
+	 i64 val;  i64 fa;
+} tr[maxn];  i64 tot = 0;  i64 it = 0, x = 0;
+std::map< i64,  i64>sta; //The page to the state
 void init() {
 	tr[0].fa = -1;
 }
-void add(ll x) {
+void add( i64 x) {
 	tr[++tot].fa = it;
 	it = tot;
 	tr[tot].val = x;
@@ -24,16 +37,16 @@ void del() {
 	it = tr[it].fa;
 	return;
 }
-void save(ll x) {
+void save( i64 x) {
 	sta[x] = it;
 }
-void load(ll x) {
+void load( i64 x) {
 	it = sta[x];
 }
-ll Q; string opt;
+ i64 Q; string opt;
 void solve() {
 	std::cin >> Q; init();
-	for (ll i = 1; i <= Q; i++) {
+	for ( i64 i = 1; i <= Q; i++) {
 		std::cin >> opt;
 		if (opt == "ADD") {
 			std::cin >> x; add(x);

@@ -1,34 +1,44 @@
-#include <bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 1e6 + 10;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 char s[maxn];
-ll sa[maxn], rk[maxn], oldrk[maxn << 1], id[maxn], key1[maxn], cnt[maxn];
+i64 sa[maxn], rk[maxn], oldrk[maxn << 1], id[maxn], key1[maxn], cnt[maxn];
 void solve() {
-  ll n; std::cin >> n;
+  i64 n; std::cin >> n;
   auto re = [&]() {
     char c = getchar();
     while (not isalpha(c))c = getchar();
     return c;
   };
-  ll l = 1, r = n;
-  for (ll i = 1; i <= n; i++) {
+  i64 l = 1, r = n;
+  for (i64 i = 1; i <= n; i++) {
     s[i] = re();
     s[(n << 1) + 2 - i] = s[i];
   }
   s[n + 1] = 0;
   n = 2 * n + 1;
-  auto cmp = [&](ll x, ll y, ll w) {
+  auto cmp = [&](i64 x, i64 y, i64 w) {
     return oldrk[x] == oldrk[y] and oldrk[x + w] == oldrk[y + w];
   };
-  ll m = 127; ll p, w, i;
+  i64 m = 127; i64 p, w, i;
   for (i = 1; i <= n; i++)++cnt[rk[i] = s[i]];
   for (i = 1; i <= m; i++)cnt[i] += cnt[i - 1];
   for (i = n; i >= 1; i--)sa[cnt[rk[i]]--] = i;//计数排序
@@ -54,7 +64,7 @@ void solve() {
       break;
     }
   }
-  ll cnt = 0;
+  i64 cnt = 0;
   while (l <= r) {
     putchar(rk[l] < rk[n + 1 - r] ? s[l++] : s[r--]);
     cnt++; if (cnt % 80 == 0)putchar('\n');

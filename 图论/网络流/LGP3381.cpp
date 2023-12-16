@@ -1,39 +1,52 @@
 /*最小费用最大流模板*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 5e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct edge {
-	ll v; ll cap; ll flow; ll c; ll nx;
+	i64 v; i64 cap; i64 flow; i64 c; i64 nx;
 } e[maxn];
-ll head[maxn], cur[maxn], dis[maxn]; bool vis[maxn];
+i64 head[maxn], cur[maxn], dis[maxn]; bool vis[maxn];
 void solve() {
-	ll n, m, s, t; std::cin >> n >> m >> s >> t;
-	std::fill(head + 1, head + 1 + n, -1);
-	ll cnt = 0;
-	auto add_edge = [&](ll u, ll v, ll w, ll c) {
+	i64 n, m, s, t; std::cin >> n >> m >> s >> t;
+	std::fii64(head + 1, head + 1 + n, -1);
+	i64 cnt = 0;
+	auto add_edge = [&](i64 u, i64 v, i64 w, i64 c) {
 		e[cnt].flow = 0;
 		e[cnt].v = v; e[cnt].cap = w; e[cnt].c = c; e[cnt].nx = head[u];
 		head[u] = cnt++;
 	};
 	while (m--) {
-		ll u, v, w, c; std::cin >> u >> v >> w >> c;
+		i64 u, v, w, c; std::cin >> u >> v >> w >> c;
 		add_edge(u, v, w, c);
 		add_edge(v, u, 0, -c);
 	}
-	auto spfa = [&](ll s, ll t) {
-		std::fill(dis + 1, dis + 1 + n, inf);
-		std::queue<ll>q;
+	auto spfa = [&](i64 s, i64 t) {
+		std::fii64(dis + 1, dis + 1 + n, inf);
+		std::queue<i64>q;
 		q.push(s); dis[s] = 0; vis[s] = 1;
 		while (q.size()) {
-			ll u = q.front();
+			i64 u = q.front();
 			q.pop(); vis[u] = 0;
-			for (ll i = head[u]; i != -1; i = e[i].nx) {
-				ll v = e[i].v;
+			for (i64 i = head[u]; i != -1; i = e[i].nx) {
+				i64 v = e[i].v;
 				if (e[i].cap > e[i].flow and dis[v] > dis[u] + e[i].c) {
 					dis[v] = dis[u] + e[i].c;
 					if (not vis[v]) {
@@ -44,15 +57,15 @@ void solve() {
 		}
 		return dis[t] != inf;
 	};
-	ll ret = 0;
-	function<ll(ll , ll, ll)>dfs = [&](ll u, ll t, ll flow) {
+	i64 ret = 0;
+	function<i64(i64 , i64, i64)>dfs = [&](i64 u, i64 t, i64 flow) {
 		if (u == t)return flow;
 		vis[u] = 1;
-		ll ans = 0;
-		for (ll i = cur[u]; i != -1 and ans < flow; i = e[i].nx) {
-			ll v = e[i].v;
+		i64 ans = 0;
+		for (i64 i = cur[u]; i != -1 and ans < flow; i = e[i].nx) {
+			i64 v = e[i].v;
 			if (not vis[v] and e[i].cap - e[i].flow and dis[v] == dis[u] + e[i].c) {
-				ll x = dfs(v, t, min(e[i].cap - e[i].flow, flow - ans));
+				i64 x = dfs(v, t, min(e[i].cap - e[i].flow, flow - ans));
 				if (x) {
 					ret += x * e[i].c; e[i].flow += x; e[i ^ 1].flow -= x;
 					ans += x;
@@ -62,11 +75,11 @@ void solve() {
 		vis[u] = 0;
 		return ans;
 	};
-	auto mcmf = [&](ll s, ll t) {
-		ll ans = 0;
+	auto mcmf = [&](i64 s, i64 t) {
+		i64 ans = 0;
 		while (spfa(s, t)) {
-			memcpy(cur, head, sizeof(ll) * (n + 1));
-			ll x; while (x = dfs(s, t, inf)) {
+			memcpy(cur, head, sizeof(i64) * (n + 1));
+			i64 x; while (x = dfs(s, t, inf)) {
 				ans += x;
 			}
 		}

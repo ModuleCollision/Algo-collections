@@ -1,17 +1,30 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 5e3 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll n; std::cin >> n;
+	i64 n; std::cin >> n;
 	string s; std::cin >> s; s = " " + s;
 	bool f1 = 1, f2 = 1;
-	ll cnt1 = 0, cnt2 = 0;
-	for (ll i = 1; i <= n; i++) {
+	i64 cnt1 = 0, cnt2 = 0;
+	for (i64 i = 1; i <= n; i++) {
 		if (s[i] == '(')cnt1++;
 		else {
 			if (cnt1) {
@@ -21,7 +34,7 @@ void solve() {
 			}
 		}
 	}
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		if (s[i] == ')') {
 			cnt2++;
 		}
@@ -35,14 +48,14 @@ void solve() {
 	}
 	if ((cnt1 == 0 and f1) or (cnt2 == 0 and f2)) {
 		cout << 1 << endl;
-		for (ll i = 1; i <= n; i++) {
+		for (i64 i = 1; i <= n; i++) {
 			cout << 1 << " ";
 		}
 		cout << endl; return;
 	}
-	vector<ll>co(n + 5, 0), stk1(n + 5, 0), stk2(n + 5, 0);
-	ll top1 = 0, top2 = 0;
-	for (ll i = 1; i <= n; i++) {
+	vector<i64>co(n + 5, 0), stk1(n + 5, 0), stk2(n + 5, 0);
+	i64 top1 = 0, top2 = 0;
+	for (i64 i = 1; i <= n; i++) {
 		if (s[i] == '(') {
 			if (top2) {
 				co[i] = co[stk2[top2]] = 2; top2--;
@@ -56,7 +69,7 @@ void solve() {
 			}
 		}
 	}
-	/*for (ll i = 1; i <= n; i++) {
+	/*for (i64 i = 1; i <= n; i++) {
 		if (co[i])continue;
 		if (s[i] == ')') {
 			stk2[++top2] = i;
@@ -66,18 +79,18 @@ void solve() {
 			}
 		}
 	}*/
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		if (not co[i]) {
 			puts("-1"); return;
 		}
 	}
 	cout << 2 << endl;
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		cout << co[i] << " ";
 	}
 	cout << endl;
 }
 signed main() {
-	ll T; std::cin >> T;
+	i64 T; std::cin >> T;
 	while (T--)solve();
 }

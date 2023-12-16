@@ -1,26 +1,37 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll n, m, k; std::cin >> n >> m >> k;
-	vector<ll>h(n + 5, 0);
-	vector<vector<ll>>tr(n + 1);
-	vector<ll>d(n + 5, 0), w(n + 5, 0);
-	queue<ll>q;
-	for (ll i = 1; i <= n; i++)cin >> h[i];
-	for (ll i = 1; i <= m; i++) {
-		ll u, v; std::cin >> u >> v;
+	i64 n, m, k; std::cin >> n >> m >> k;
+	vector<i64>h(n + 5, 0);
+	vector<vector<i64>>tr(n + 1);
+	vector<i64>d(n + 5, 0), w(n + 5, 0);
+	queue<i64>q;
+	for (i64 i = 1; i <= n; i++)cin >> h[i];
+	for (i64 i = 1; i <= m; i++) {
+		i64 u, v; std::cin >> u >> v;
 		tr[u].push_back(v); w[v]++;
 	}
-	vector<pair<ll, ll>>p;
-	for (ll i = 1; i <= n; i++) {
+	vector<pair<i64, i64>>p;
+	for (i64 i = 1; i <= n; i++) {
 		if (not w[i]) {
 			q.push(i); p.push_back({i, h[i]});
 		}
@@ -33,12 +44,12 @@ void solve() {
 			if (not w[v])q.push(v);
 		}
 	}
-	ll ws = 0;
-	for (ll i = 1; i <= n; i++) {
+	i64 ws = 0;
+	for (i64 i = 1; i <= n; i++) {
 		ws = max(ws, d[i] * k + h[i]);
 	}
-	ll ans = inf;
-	function<void(ll)>dfs = [&](ll x) {
+	i64 ans = inf;
+	function<void(i64)>dfs = [&](i64 x) {
 		d[x]++;
 		ws = max(ws, d[x] * k + h[x]);
 		for (auto v : tr[x]) {
@@ -48,14 +59,14 @@ void solve() {
 	std::sort(p.begin(), p.end(), [&](auto x, auto y)->bool{
 		return x.se < y.se;
 	});
-	for (ll i = 0; i < p.size(); i++) {
+	for (i64 i = 0; i < p.size(); i++) {
 		ans = min(ans, ws - p[i].se);
 		dfs(p[i].fi);
 	}
 	cout << ans << endl;
 }
 signed main() {
-	ll T; std::cin >> T;
+	i64 T; std::cin >> T;
 	while (T--)
 		solve();
 }

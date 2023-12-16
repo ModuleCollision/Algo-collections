@@ -1,7 +1,26 @@
-typedef long long ll;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct cmp {
-	bool operator()(pair<ll, int>a, pair<ll, int>b) {
+	bool operator()(pair<i64, int>a, pair<i64, int>b) {
 		return a.first > b.first;
 	}
 };
@@ -27,7 +46,7 @@ public:
 			X[y] = x.first;
 			Y[y] = x.second;
 		}
-		vector<vector<pair<ll, int>>>tr(n + 5);
+		vector<vector<pair<i64, int>>>tr(n + 5);
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				if (i != j) {
@@ -42,9 +61,9 @@ public:
 		}
 		int s = mp[ {start[0], start[1]}];
 		int t = mp[ {target[0], target[1]}];
-		vector<ll>dis(n + 5, inf); vector<bool>vis(n + 5, false);
+		vector<i64>dis(n + 5, inf); vector<bool>vis(n + 5, false);
 		dis[s] = 0;
-		priority_queue<pair<ll, int>, vector<pair<ll, int>>, cmp>q;
+		priority_queue<pair<i64, int>, vector<pair<i64, int>>, cmp>q;
 		q.push({0, s});
 		while (q.size()) {
 			auto [d, u] = q.top(); q.pop();

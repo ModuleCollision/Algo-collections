@@ -1,23 +1,34 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi fifst
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
-ll d1[maxn], d2[maxn];
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 d1[maxn], d2[maxn];
 void solve() {
-	ll x, y; std::cin >> x >> y;
-	ll tx = 0, ty = 0;
-	ll n; std::cin >> n;
-	string s; std::cin >> s; ll k = s.size(); s = " " + s;
+	i64 x, y; std::cin >> x >> y;
+	i64 tx = 0, ty = 0;
+	i64 n; std::cin >> n;
+	string s; std::cin >> s;  i64 k = s.size(); s = " " + s;
 	if (not x and not y) {
 		puts("Yes"); return;
 	}
-	for (ll i = 1; i <= k; i++) {
+	for ( i64 i = 1; i <= k; i++) {
 		if (s[i] == 'U')ty++;
 		else if (s[i] == 'D')ty--;
 		else if (s[i] == 'R')tx++;
@@ -29,19 +40,19 @@ void solve() {
 	if (not tx and not ty) {
 		puts("No"); return;
 	}
-	ll xx = 0, yy = 0;
-	for (ll i = 1; i <= k; i++) {
+	i64 xx = 0, yy = 0;
+	for ( i64 i = 1; i <= k; i++) {
 		if (s[i] == 'U')yy++;
 		else if (s[i] == 'D')yy--;
 		else if (s[i] == 'R')xx++;
 		else xx--;
-		ll dx = x - xx; ll dy = y - yy;
+		i64 dx = x - xx;  i64 dy = y - yy;
 		if (dx and (not tx or dx % tx)) {
 			continue;
 		}
 		if (dy and (not ty or dy % ty))continue;
-		ll wx = tx ? dx / tx : 0;
-		ll wy = ty ? dy / ty : 0;
+		i64 wx = tx ? dx / tx : 0;
+		i64 wy = ty ? dy / ty : 0;
 		if (not wx or not wy or (wx == wy) and wx >= 0 and wx < n and wy >= 0 and wy < n) {
 			puts("Yes"); return;
 		}
@@ -49,7 +60,7 @@ void solve() {
 	puts("No");
 }
 signed main() {
-	ll T; std::cin >> T;
+	i64 T; std::cin >> T;
 	while (T--)
 		solve();
 }

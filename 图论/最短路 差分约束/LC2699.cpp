@@ -1,7 +1,26 @@
-typedef long long ll;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct sq {
-	int u; ll dis;
+	int u; i64 dis;
 	bool operator<(const sq&b)const {
 		return dis > b.dis;
 	}
@@ -10,7 +29,7 @@ class Solution {
 public:
 	vector<vector<int>> modifiedGraphEdges(int n, vector<vector<int>>& edges, int source, int destination, int target) {
 		vector<vector<pair<int, int>>>G(n + 5);
-		auto cons = [&](ll idx, int target) {
+		auto cons = [&](i64 idx, int target) {
 			for (int i = 0; i < n; i++)G[i].clear();
 			for (auto e : edges) {
 				int u = e[0], v = e[1], w = e[2];
@@ -32,7 +51,7 @@ public:
 		};
 
 		auto dij = [&](int s, int t) {
-			vector<ll>dis(n + 5, inf);
+			vector<i64>dis(n + 5, inf);
 			vector<bool>vis(n + 5, false);
 			dis[s] = 0; priority_queue<sq>q;
 			q.push({s, 0});
@@ -50,21 +69,21 @@ public:
 			}
 			return dis[t];
 		};
-		ll k = 0;
+		i64 k = 0;
 		for (auto e : edges) {
 			if (e[2] == -1)k++;
 		}
-		cons(0ll, target);
+		cons(0i64, target);
 		if (dij(source, destination) > target) {
 			return {};
 		}
-		cons((ll)k * (target - 1), target);
+		cons((i64)k * (target - 1), target);
 		if (dij(source, destination) < target) {
 			return {};
 		}
-		ll l = 0, r = (ll)k * (target - 1), ans = 0;
+		i64 l = 0, r = (i64)k * (target - 1), ans = 0;
 		while (l <= r) {
-			ll mid = (l + r) >> 1;
+			i64 mid = (l + r) >> 1;
 			cons(mid, target);
 			if (dij(source, destination) >= target) {
 				ans = mid; r = mid - 1;

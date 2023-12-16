@@ -1,11 +1,24 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 5e3 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
 	int n; std::cin >> n;
 	string s; cin >> s;
@@ -26,7 +39,7 @@ void solve() {
 				tmp += min(p, (int)ks[st[i]].size());
 			}
 			if (tmp >= mx) {
-				mx = tmp; vector<ll>pp;
+				mx = tmp; vector<i64>pp;
 				string res(n + 5, ' ');
 				for (int i = 0; i < cnt; i++) {
 					for (int j = 0; j < p; j++) {
@@ -54,7 +67,7 @@ void solve() {
 	cout << endl;
 }
 signed main() {
-	ll T; std::cin >> T;
+	i64 T; std::cin >> T;
 	while (T--) {
 		solve();
 	}

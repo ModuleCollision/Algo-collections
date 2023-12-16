@@ -1,22 +1,35 @@
 /*内向基环树*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 233;
-vector<ll>tr[maxn]; ll N;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+vector<i64>tr[maxn]; i64 N;
 void solve() {
-	std::cin >> N; ll A;
-	vector<ll>d(N + 5, 0);
-	for (ll i = 1; i <= N; i++) {
+	std::cin >> N; i64 A;
+	vector<i64>d(N + 5, 0);
+	for (i64 i = 1; i <= N; i++) {
 		std::cin >> A; tr[i].push_back(A);
 		d[A]++;
 	}
-	queue<ll>q; vector<bool>vis(N + 5);
-	for (ll i = 1; i <= N; i++) {
+	queue<i64>q; vector<bool>vis(N + 5);
+	for (i64 i = 1; i <= N; i++) {
 		if (not d[i]) {
 			q.push(i); vis[i] = 1;
 		}
@@ -30,10 +43,10 @@ void solve() {
 			}
 		}
 	}
-	ll ans = 0;
-	for (ll i = 1; i <= N; i++) {
+	i64 ans = 0;
+	for (i64 i = 1; i <= N; i++) {
 		if (not vis[i]) {
-			ll t = i; ans++;
+			i64 t = i; ans++;
 			vis[t] = 1;
 			while (1) {
 				bool f = 1;

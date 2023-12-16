@@ -1,16 +1,29 @@
 /*AC自动机用于判定字符串中出现最多的文本串*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 2e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-ll tot = 0, tr[maxn][26];
-ll fail[maxn], idx[maxn], val[maxn];
-ll cnt[maxn];
-ll n;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 tot = 0, tr[maxn][26];
+i64 fail[maxn], idx[maxn], val[maxn];
+i64 cnt[maxn];
+i64 n;
 void solve() {
 	memset(tr, 0, sizeof(tr));
 	memset(fail, 0, sizeof(fail));
@@ -18,9 +31,9 @@ void solve() {
 	memset(val, 0, sizeof(val));
 	memset(cnt, 0, sizeof(cnt));
 	tot = 0;
-	auto insert = [&](string s, ll id) {
-		ll u = 0;
-		for (ll i = 0; i < s.size(); i++) {
+	auto insert = [&](string s, i64 id) {
+		i64 u = 0;
+		for (i64 i = 0; i < s.size(); i++) {
 			if (not tr[u][s[i] - 'a']) {
 				tr[u][s[i] - 'a'] = ++tot;
 			}
@@ -29,14 +42,14 @@ void solve() {
 		idx[u] = id;
 	};
 	auto build = [&]() {
-		queue<ll>q;
-		for (ll i = 0; i < 26; i++) {
+		queue<i64>q;
+		for (i64 i = 0; i < 26; i++) {
 			if (tr[0][i])q.push(tr[0][i]);
 		}
 		while (q.size()) {
-			ll u = q.front();
+			i64 u = q.front();
 			q.pop();
-			for (ll i = 0; i < 26; i++) {
+			for (i64 i = 0; i < 26; i++) {
 				if (tr[u][i]) {
 					fail[tr[u][i]] = tr[fail[u]][i];
 					q.push(tr[u][i]);
@@ -47,10 +60,10 @@ void solve() {
 		}
 	};
 	auto query = [&](string t) {//代表
-		ll u = 0; ll res = 0;
-		for (ll i = 0; i < t.size(); i++) {
+		i64 u = 0; i64 res = 0;
+		for (i64 i = 0; i < t.size(); i++) {
 			u = tr[u][t[i] - 'a'];
-			for (ll j = u; j; j = fail[j]) {
+			for (i64 j = u; j; j = fail[j]) {
 				val[j]++;
 			}
 		}
@@ -63,14 +76,14 @@ void solve() {
 		return res;
 	};
 	vector<string>s(n + 5);
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		std::cin >> s[i];
 		insert(s[i], i);
 	}
 	build();
 	string t; cin >> t;
-	ll x = query(t); cout << x << endl;
-	for (ll i = 1; i <= n; i++) {
+	i64 x = query(t); cout << x << endl;
+	for (i64 i = 1; i <= n; i++) {
 		if (cnt[i] == x) {
 			cout << s[i] << endl;
 		}

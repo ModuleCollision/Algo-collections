@@ -1,29 +1,41 @@
-/*双指针维护一个定值*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct sq {
-	ll v; ll col; ll lr; ll idx;
+	 i64 v;  i64 col;  i64 lr;  i64 idx;
 };
 struct cmp {
-	bool operator()(const pair<ll, ll>&x, const pair<ll, ll>&y)const {
+	bool operator()(const pair< i64,  i64>&x, const pair< i64,  i64>&y)const {
 		return x.first < y.first;
 	}
 };
 void solve() {
-	ll n; std::cin >> n; vector<ll>a(n + 5), b(n + 5);
-	priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, cmp>q1, q2;
-	for (ll i = 1; i <= n; i++)cin >> a[i];
-	for (ll i = 1; i <= n; i++)cin >> b[i];
-	ll ans = 0;
+	 i64 n; std::cin >> n; vector< i64>a(n + 5), b(n + 5);
+	priority_queue<pair< i64,  i64>, vector<pair< i64,  i64>>, cmp>q1, q2;
+	for ( i64 i = 1; i <= n; i++)cin >> a[i];
+	for ( i64 i = 1; i <= n; i++)cin >> b[i];
+	 i64 ans = 0;
 	vector<bool>exp(n + 5, false);
-	vector<ll>col(n + 1); vector<sq>p;
-	for (ll i = 1; i <= n; i++) {
+	vector< i64>col(n + 1); vector<sq>p;
+	for ( i64 i = 1; i <= n; i++) {
 		ans += abs(a[i] - b[i]);
 		if (a[i] > b[i]) {
 			col[i] = 1;
@@ -38,7 +50,7 @@ void solve() {
 	std::sort(p.begin(), p.end(), [&](sq x, sq y) {
 		return x.v < y.v;
 	});
-	ll mx = 0;
+	 i64 mx = 0;
 	for (auto it : p) {
 		if (it.col == 2 and it.lr == 1) {
 			q1.push({b[it.idx], it.idx});

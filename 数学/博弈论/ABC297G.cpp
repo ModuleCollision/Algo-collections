@@ -31,7 +31,7 @@ void SG() {
 			SG[x] = 0; return;//无状态可转移是必输状态,SG值为0
 		}
 		std::set<i64>st;
-		for (i64 i = max(0i64, x - r); i <= x - l; i++) {
+		for (i64 i = max(0ll, x - r); i <= x - l; i++) {
 			if (not vis[i]) {
 				dfs(i);
 			}

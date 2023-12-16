@@ -1,36 +1,46 @@
-#include <bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 2e5 + 10;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
-ll fa[maxn];
-ll dis[maxn][30]; ll p[maxn][30]; ll dep[maxn];
-ll find(ll x) {
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 fa[maxn];
+i64 dis[maxn][30]; i64 p[maxn][30]; i64 dep[maxn];
+i64 find(i64 x) {
   while (x != fa[x])
     x = fa[x] = fa[fa[x]];
   return x;
 }
-bool same(ll x, ll y) {
+bool same(i64 x, i64 y) {
   return find(x) == find(y);
 }
-void merge(ll x, ll y) {
-  ll a = find(x), b = find(y);
+void merge(i64 x, i64 y) {
+  i64 a = find(x), b = find(y);
   fa[a] = b;
 }
 void solve() {
-  ll n, m, q;
+  i64 n, m, q;
   std::cin >> n >> m >> q;
-  vector<array<ll, 3>> w;
+  vector<array<i64, 3>> w;
   std::iota(fa + 1, fa + 1 + n, 1);
-  vector<vector<array<ll, 2>>> tr(n + 1);
-  for (ll i = 1; i <= m; i++) {
-    ll u, v, c;
+  vector<vector<array<i64, 2>>> tr(n + 1);
+  for (i64 i = 1; i <= m; i++) {
+    i64 u, v, c;
     std::cin >> u >> v >> c;
     w.push_back({u, v, c});
   }
@@ -44,10 +54,10 @@ void solve() {
     tr[u].push_back({v, c});
     tr[v].push_back({u, c});
   }
-  function<void(ll, ll)> dfs = [&](ll u, ll f) {
+  function<void(i64, i64)> dfs = [&](i64 u, i64 f) {
     p[u][0] = f;
     dep[u] = dep[p[u][0]] + 1;
-    for (ll i = 1; (1 << i) <= dep[u]; i++) {
+    for (i64 i = 1; (1 << i) <= dep[u]; i++) {
       p[u][i] = p[p[u][i - 1]][i - 1];
       dis[u][i] = max(dis[u][i - 1], dis[p[u][i - 1]][i - 1]);
     }
@@ -58,12 +68,12 @@ void solve() {
       dfs(x, u);
     }
   };
-  auto lca = [&](ll u, ll v) {
-    ll ret = 0;
+  auto lca = [&](i64 u, i64 v) {
+    i64 ret = 0;
     if (dep[u] < dep[v])
       swap(u, v);
     if (dep[u] != dep[v]) {
-      for (ll i = log2(dep[u] - dep[v]); i >= 0; i--) {
+      for (i64 i = log2(dep[u] - dep[v]); i >= 0; i--) {
         if (dep[p[u][i]] >= dep[v]) {
           ret = max(ret, dis[u][i]);
           u = p[u][i];
@@ -72,7 +82,7 @@ void solve() {
     }
     if (u == v)
       return ret;
-    for (ll i = log2(dep[u]); i >= 0; i--) {
+    for (i64 i = log2(dep[u]); i >= 0; i--) {
       if (p[u][i] != p[v][i]) {
         ret = max(ret, dis[u][i]);
         ret = max(ret, dis[v][i]);
@@ -88,9 +98,9 @@ void solve() {
   };
   dfs(1, 0);
   while (q--) {
-    ll u, v, c;
+    i64 u, v, c;
     std::cin >> u >> v >> c;
-    ll lc = lca(u, v);
+    i64 lc = lca(u, v);
     // cout << "#" << lc << " " << endl;
     if (c <= lc) {
       puts("Yes");

@@ -1,25 +1,35 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-const db eps = 0.0000001;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+const f64 eps = 0.0000001;
 void solve() {
-	ll v0, x, y;
+	i64 v0, x, y;
 	std::cin >> v0 >> x >> y;
-	auto f = [&](db t)->db{
-		return (db)t + (db)y / ((db)v0 + t * x);
+	auto f = [&](f64 t)->f64{
+		return (f64)t + (f64)y / ((f64)v0 + t * x);
 	};
-	db l = 0, r = 1e9;
+	f64 l = 0, r = 1e9;
 	while (r - l > eps) {
-		db mid = (l + r) / 2;
-		db lmid = mid - eps;
-		db rmid = mid + eps;
+		f64 mid = (l + r) / 2;
+		f64 lmid = mid - eps;
+		f64 rmid = mid + eps;
 		if (f(lmid) < f(rmid)) {
 			r = mid;
 		} else l = mid;

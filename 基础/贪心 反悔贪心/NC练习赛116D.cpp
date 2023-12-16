@@ -1,45 +1,55 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 1e7 + 10;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll n, m; std::cin >> n >> m;
-	vector<ll>a(n + 1, 0), b(n + 1, 0), c(n + 1, 0);
-	for (ll i = 1; i <= n; i++) {
+	i64 n, m; std::cin >> n >> m;
+	vector<i64>a(n + 1, 0), b(n + 1, 0), c(n + 1, 0);
+	for (i64 i = 1; i <= n; i++) {
 		cin >> a[i], a[i] += a[i - 1];
 	}
-	for (ll i = 1; i <= n; i++)cin >> b[i];
-	for (ll i = 1; i <= n; i++)cin >> c[i];
-	ll mx = 0, mn = n;
-	auto cal = [&](ll i) {
-		ll l = i, r = n; ll ret = i - 1;
-		ll v = b[i] * c[i];
+	for (i64 i = 1; i <= n; i++)cin >> b[i];
+	for (i64 i = 1; i <= n; i++)cin >> c[i];
+	i64 mx = 0, mn = n;
+	auto cal = [&](i64 i) {
+		i64 l = i, r = n; i64 ret = i - 1;
+		i64 v = b[i] * c[i];
 		while (l <= r) {
-			ll mid = (l + r) >> 1;
+			i64 mid = (l + r) >> 1;
 			if (a[mid] - a[i - 1] <= v)l = mid + 1, ret = mid;
 			else r = mid - 1;
 		}
 		return ret;
 	};
-	priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<>>q;
-	for (ll i = 1; i <= n; i++) {
-		ll pos = cal(i); ll len = pos - i + 1;
+	priority_queue<pair<i64, i64>, vector<pair<i64, i64>>, greater<>>q;
+	for (i64 i = 1; i <= n; i++) {
+		i64 pos = cal(i); i64 len = pos - i + 1;
 		mx = max(mx, len); mn = min(mn, len);
 		q.push({len, i});
 	}
-	/*贪心策略 ： */ll ans = inf;
+	/*贪心策略 ： */i64 ans = inf;
 	while (m--) {
 		auto p = q.top();
 		q.pop(); c[p.second]++;
-		ll pos = cal(p.second);
-		ll len = pos - p.second + 1;
+		i64 pos = cal(p.second);
+		i64 len = pos - p.second + 1;
 		mx = max(mx, len);
 		p.first = len; q.push(p);
 		mn = q.top().first;

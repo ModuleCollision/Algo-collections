@@ -1,22 +1,35 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const int maxn = 4e5 + 5;
-const ll inf = 1e9;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll n; std::cin >> n;
-	vector<ll>w(n + 5);
-	vector<vector<ll>>tr(n + 1);
-	for (ll i = 1; i <= n; i++)cin >> w[i];
-	for (ll i = 1; i < n; i++) {
-		ll u, v; std::cin >> u >> v;
+	 i64 n; std::cin >> n;
+	vector< i64>w(n + 5);
+	vector<vector< i64>>tr(n + 1);
+	for ( i64 i = 1; i <= n; i++)cin >> w[i];
+	for ( i64 i = 1; i < n; i++) {
+		 i64 u, v; std::cin >> u >> v;
 		tr[u].push_back(v); tr[v].push_back(u);
 	}
-	std::multiset<ll>st;
-	function<void(ll, ll, ll)>dfs = [&](ll u, ll f, ll dep) {
+	std::multiset< i64>st;
+	function<void( i64,  i64,  i64)>dfs = [&]( i64 u,  i64 f,  i64 dep) {
 		//if (dep == 0)
 		st.insert(w[u]);
 		//else if (dep == 1)st.insert(w[u] + 1);
@@ -27,9 +40,9 @@ void solve() {
 		}
 	};
 	//利用了换根的思想
-	dfs(1, 0, 0); ll ans = inf;
-	function<void(ll, ll)>dfs2 = [&](ll u, ll f) {
-		ll t = -inf;
+	dfs(1, 0, 0);  i64 ans = inf;
+	function<void( i64,  i64)>dfs2 = [&]( i64 u,  i64 f) {
+		 i64 t = -inf;
 		t = max(t, w[u]);
 		st.erase(st.find(w[u]));
 		for (auto v : tr[u]) {

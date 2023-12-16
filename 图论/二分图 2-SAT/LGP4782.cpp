@@ -1,23 +1,32 @@
-/*浮点二分模板*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-ll dfn[maxn], low[maxn], dfncnt, in_stack[maxn], tp;
-ll s[maxn];
-ll scc[maxn], sc; ll sz[maxn], in[maxn];
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 dfn[maxn], low[maxn], dfncnt, in_stack[maxn], tp;
+i64 s[maxn];
+i64 scc[maxn], sc; i64 sz[maxn], in[maxn];
 void solve() {
-  ll n; cin >> n;
-  vector<vector<ll>>g(2 * n + 1);
-  ll m; cin >> m;
-  function<void(ll)>tarjan = [&](ll u) {
+  i64 n; cin >> n;
+  vector<vector<i64>>g(2 * n + 1);
+  i64 m; cin >> m;
+  function<void(i64)>tarjan = [&](i64 u) {
     low[u] = dfn[u] = ++dfncnt;
     s[++tp] = u, in_stack[u] = 1;
     for (auto v : g[u]) {
@@ -39,22 +48,22 @@ void solve() {
       in_stack[s[tp]] = 0; --tp;
     }
   };
-  for (ll i = 1; i <= m; i++) {
-    ll a1, a2, c1, c2;
+  for (i64 i = 1; i <= m; i++) {
+    i64 a1, a2, c1, c2;
     cin >> a1 >> a2 >> c1 >> c2;
     g[2 * a1 + c1].push_back(2 * a2 + 1 - c2);
     g[2 * a2 + c2].push_back(2 * a1 + 1 - c1);
   }
-  for (ll i = 0; i < 2 * n; i++) {
+  for (i64 i = 0; i < 2 * n; i++) {
     if (not dfn[i])tarjan(i);
   }
-  for (ll i = 0; i < 2 * n; i += 2) {
+  for (i64 i = 0; i < 2 * n; i += 2) {
     if (scc[i] == scc[i + 1]) {
       puts("NO"); return;
     }
   }
   puts("YES");
-  for (ll i = 0; i < 2 * n; i++) {
+  for (i64 i = 0; i < 2 * n; i++) {
     cout << (scc[i] < scc[i + 1]) << " \n"[i == 2 * n - 1];
   }
 }

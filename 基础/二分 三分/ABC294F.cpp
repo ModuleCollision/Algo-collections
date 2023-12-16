@@ -1,45 +1,55 @@
 /*浮点二分模板*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+ 
 void solve() {
-  ll n, m, k; std::cin >> n >> m >> k;
-  vector<pair<ll, ll>>p(n + 1), q(m + 1);
-  for (ll i = 1; i <= n; i++) {
-    cin >> p[i].fi >> p[i].se;
+  i64 n, m, k; std::cin >> n >> m >> k;
+  vector<pair<i64, i64>>p(n + 1), q(m + 1);
+  for (i64 i = 1; i <= n; i++) {
+    cin >> p[i].first >> p[i].second;
   }
-  for (ll i = 1; i <= m; i++) {
+  for (i64 i = 1; i <= m; i++) {
     cin >> q[i].fi >> q[i].se;
   }
-  db l = 0.0000, r = 100.00000;
-  auto check = [&](db mid) {
+  f64 l = 0.0000, r = 100.00000;
+  auto check = [&](f64 mid) {
     mid /= 100.0;
-    vector<db>s1(n + 1), s2(m + 1);
-    for (ll i = 1; i <= n; i++) {
+    vector<f64>s1(n + 1), s2(m + 1);
+    for (i64 i = 1; i <= n; i++) {
       s1[i] = (1.0 - mid) * p[i].fi - mid * p[i].se;
     }
-    for (ll i = 1; i <= m; i++) {
+    for (i64 i = 1; i <= m; i++) {
       s2[i] = (mid - 1.0) * q[i].fi + mid * q[i].se;
       s2[i] = -s2[i];
     }
-    ll ret = 0;
+    i64 ret = 0;
     sort(s2.begin() + 1, s2.begin() + 1 + m);
-    for (ll i = 1; i <= n; i++) {
-      ll idx = lower_bound(s2.begin() + 1, s2.begin() + 1 + m, -s1[i]) - s2.begin();
+    for (i64 i = 1; i <= n; i++) {
+      i64 idx = lower_bound(s2.begin() + 1, s2.begin() + 1 + m, -s1[i]) - s2.begin();
       ret += m - idx + 1;
     }
     return ret >= k;
   };
   while (r - l > 0.0000000001) {
-    db mid = (r + l) / 2;
+    f64 mid = (r + l) / 2;
     if (check(mid))l = mid;
     else r = mid;
   }

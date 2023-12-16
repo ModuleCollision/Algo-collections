@@ -1,20 +1,34 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-const ll mask = std::chrono::steady_clock::now().time_since_epoch().count();
-ll shift(ll x) {
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+const  i64 mask = std::chrono::steady_clock::now().time_since_epoch().count();
+
+ i64 shift( i64 x) {
 	x ^= mask;
 	x ^= (x << 13);
 	x ^= (x >> 7);
 	x ^= (x << 17); x ^= mask; return x;
 }
-ll inv(ll x) {
-	ll ret = 1, y = mod - 2;
+ i64 inv( i64 x) {
+	 i64 ret = 1, y = mod - 2;
 	while (y) {
 		if (y & 1) {
 			ret = ret * x % mod;
@@ -25,15 +39,15 @@ ll inv(ll x) {
 	return ret % mod;
 }
 struct sq {
-	ll hash, deg, ans;//记录每个节点的子节点同构数,答案,该子树哈希值
-	std::map<ll, ll>son;
+	 i64 hash, deg, ans;//记录每个节点的子节点同构数,答案,该子树哈希值
+	std::map< i64,  i64>son;
 	void add(sq &o) {
-		ll tmp = shift(o.hash);
+		 i64 tmp = shift(o.hash);
 		hash += tmp;
 		ans = (ans) * (++deg) % mod * inv(++son[tmp]) % mod * o.ans % mod;
 	}
 	void remove(sq &o) {
-		ll tmp = shift(o.hash);
+		 i64 tmp = shift(o.hash);
 		hash -= tmp;
 		ans = ans * inv(deg--) % mod * (son[tmp]--) % mod * inv(o.ans) % mod;
 	}
@@ -45,16 +59,16 @@ struct sq {
 	}
 };
 void solve() {
-	ll n; std::cin >> n;
-	vector<vector<ll>>tr(n + 5);
-	for (ll i = 1; i < n; i++) {
-		ll u, v; std::cin >> u >> v;
+	 i64 n; std::cin >> n;
+	vector<vector< i64>>tr(n + 5);
+	for ( i64 i = 1; i < n; i++) {
+		 i64 u, v; std::cin >> u >> v;
 		tr[u].push_back(v);
 		tr[v].push_back(u);
 	}
 	vector<sq>sub(n + 5), root(n + 5);
-	std::map<ll, ll>trees;
-	function<void(ll , ll)>getSub = [&](ll u, ll f) {
+	std::map< i64,  i64>trees;
+	function<void( i64 ,  i64)>getSub = [&]( i64 u,  i64 f) {
 		sub[u].clear();
 		for (auto v : tr[u]) {
 			if (v == f)continue;
@@ -63,7 +77,7 @@ void solve() {
 		}
 	};
 
-	function<void(ll, ll) >getRoot = [&](ll u, ll f) {
+	function<void( i64,  i64) >getRoot = [&]( i64 u,  i64 f) {
 		for (auto v : tr[u]) {
 			if (v == f)continue;
 			root[u].remove(sub[v]);
@@ -77,14 +91,14 @@ void solve() {
 	getSub(1, 0);
 	root[1] = sub[1];
 	getRoot(1, 0);
-	ll ans = 0;
+	 i64 ans = 0;
 	for (auto [x, y] : trees) {
 		ans = (ans % mod + y) % mod;
 	}
 	cout << ans << endl;
 }
 signed main() {
-	ll T; std::cin >> T;
+	 i64 T; std::cin >> T;
 	while (T--)
 		solve();
 }

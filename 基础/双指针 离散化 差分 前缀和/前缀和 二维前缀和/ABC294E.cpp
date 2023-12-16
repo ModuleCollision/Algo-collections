@@ -1,31 +1,44 @@
 /*前缀和*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll L, N1, N2;
+	i64 L, N1, N2;
 	std::cin >> L >> N1 >> N2;
-	vector<ll>v1(N1 + 5, 0), v2(N2 + 5, 0);
-	ll l;
-	vector<pair<ll, ll>>p1(N1 + 5), p2(N2 + 5);
-	ll pre = 0;
-	for (ll i = 1; i <= N1; i++) {
+	vector<i64>v1(N1 + 5, 0), v2(N2 + 5, 0);
+	i64 l;
+	vector<pair<i64, i64>>p1(N1 + 5), p2(N2 + 5);
+	i64 pre = 0;
+	for (i64 i = 1; i <= N1; i++) {
 		std::cin >> v1[i] >> l;
 		p1[i] = {pre + 1, pre + l};
 		pre += l;
 	}
 	pre = 0;
-	for (ll i = 1; i <= N2; i++) {
+	for (i64 i = 1; i <= N2; i++) {
 		std::cin >> v2[i] >> l;
 		p2[i] = {pre + 1, pre + l};
 		pre += l;
 	}
-	ll sp = 1, fp = 1, ans = 0;
+	i64 sp = 1, fp = 1, ans = 0;
 	while (sp <= N1 and fp <= N2) {
 		if (p1[sp].second < p2[fp].second) {
 			if (v1[sp] == v2[fp]) {

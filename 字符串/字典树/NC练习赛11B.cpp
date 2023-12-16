@@ -1,22 +1,38 @@
 /*字典树+拓扑排序*/
 /*一个字符串用于确立大小关系,如果出现了环即为自相矛盾,这里采用拓扑排序判环*/
 /*显然,字典树用于确立前缀关系*/
-#include<bits/stdc++.h>
+/*300兆字节 1- 2 秒*/
+
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 5e2 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+
 bool ed[maxn];
-ll tr[maxn][30], tot = 0;
-ll d[30]; vector<ll>G[30];
+i64 tr[maxn][30], tot = 0;
+i64 d[30]; vector<i64>G[30];
 vector<string>ans;
 bool top_sort() {
-	ll cnt = 0;
-	queue<ll>q;
-	for (ll i = 0; i < 26; i++) {
+	i64 cnt = 0;
+	queue<i64>q;
+	for (i64 i = 0; i < 26; i++) {
 		if (d[i] == 0) {
 			q.push(i);
 		}
@@ -34,9 +50,9 @@ bool top_sort() {
 	return cnt == 26;
 }
 void insert(string s) {
-	ll u = 0;
+	i64 u = 0;
 	for (auto c : s) {
-		ll cur = c - 'a';
+		i64 cur = c - 'a';
 		if (not tr[u][cur]) {
 			tr[u][cur] = ++tot;
 		}
@@ -45,9 +61,9 @@ void insert(string s) {
 	ed[u] = true;
 }
 bool check(string s) {
-	ll u = 0;
-	for (ll i = 0; i < s.size(); i++) {
-		for (ll j = 0; j < 26; j++) {
+	i64 u = 0;
+	for (i64 i = 0; i < s.size(); i++) {
+		for (i64 j = 0; j < 26; j++) {
 			if (j == s[i] - 'a') {
 				continue;
 			}
@@ -62,16 +78,16 @@ bool check(string s) {
 	}
 	return top_sort();
 }
-ll N; string s[maxn];
+i64 N; string s[maxn];
 void solve() {
 	std::cin >> N;
-	for (ll i = 1; i <= N; i++) {
+	for (i64 i = 1; i <= N; i++) {
 		std::cin >> s[i];
 		insert(s[i]);
 	}
-	for (ll i = 1; i <= N; i++) {
+	for (i64 i = 1; i <= N; i++) {
 		memset(d, 0, sizeof(d));
-		for (ll j = 0; j < 26; j++)G[j].clear();
+		for (i64 j = 0; j < 26; j++)G[j].clear();
 		if (check(s[i])) {
 			ans.push_back(s[i]);
 		}

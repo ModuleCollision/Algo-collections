@@ -1,24 +1,36 @@
-#include<bits/stdc++.h>
+/*300兆字节 1- 2 秒*/
+
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct sq {
-  ll v[2]; ll idx;
+  i64 v[2]; i64 idx;
 };
 void solve() {
-  ll n, k; std::cin >> n >> k;
+  i64 n, k; std::cin >> n >> k;
   vector<sq>tr; tr.push_back(sq());
-  auto add = [&](ll x, ll idx) {
-    ll u = 0;
-    for (ll i = k - 1; i >= 0; i--) {
-      ll b = ((x >> i) & 1);
+  auto add = [&](i64 x, i64 idx) {
+    i64 u = 0;
+    for (i64 i = k - 1; i >= 0; i--) {
+      i64 b = ((x >> i) & 1);
       if (not tr[u].v[b]) {
         tr[u].v[b] = tr.size();
         tr.push_back(sq());
@@ -27,36 +39,36 @@ void solve() {
     }
     tr[u].idx = idx;
   };
-  ll s = 0, y = 0, z = 0; ll w = 0;
-  auto get = [&](ll x, ll idx) {
-    ll f = 0; ll u = 0; ll q = 0;
-    for (ll i = k - 1; i >= 0; i--) {
-      ll b = (x >> i) & 1;
+  i64 s = 0, y = 0, z = 0; i64 w = 0;
+  auto get = [&](i64 x, i64 idx) {
+    i64 f = 0; i64 u = 0; i64 q = 0;
+    for (i64 i = k - 1; i >= 0; i--) {
+      i64 b = (x >> i) & 1;
       if (tr[u].v[b]) {
         u = tr[u].v[b];
-        q |= (1ll << i);
-        if (not b)f |= (1ll << i);
+        q |= (1i64 << i);
+        if (not b)f |= (1i64 << i);
       }
       else if (tr[u].v[b ^ 1])u = tr[u].v[b ^ 1];
       else return;
     }
-    ll p = tr[u].idx;
+    i64 p = tr[u].idx;
     //cout << "#" << p << endl;
     if (q >= w) {
       w = q; z = f; y = idx; s = p;
     }
   };
-  vector<ll>A(n + 1, 0);
-  for (ll i = 1; i <= n; i++)cin >> A[i];
+  vector<i64>A(n + 1, 0);
+  for (i64 i = 1; i <= n; i++)cin >> A[i];
   add(A[1], 1);
-  for (ll i = 2; i <= n; i++) {
+  for (i64 i = 2; i <= n; i++) {
     get(A[i], i);
     add(A[i], i);
   }
   cout << s << " " << y << " " << z << endl;
 }
 signed main() {
-  ll T; std::cin >> T;
+  i64 T; std::cin >> T;
   while (T--)
     solve();
 }

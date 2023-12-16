@@ -1,14 +1,24 @@
-#include <bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 3e6 + 10;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct state {
   int len; int link; int sz;
   int nxt[30];
@@ -54,7 +64,7 @@ void add(int u, int v) {
   e[tot2].nxt = head[u];
   head[u] = tot2++;
 }
-ll ans = 0;
+i64 ans = 0;
 void dfs(int u) {
   for (int i = head[u]; i != -1; i = e[i].nxt) {
     int v = e[i].v;
@@ -62,7 +72,7 @@ void dfs(int u) {
     st[u].sz += st[v].sz;
   }
   if (st[u].sz != 1 and u != 1) {
-    ans = max(ans, (ll)st[u].sz * (ll)st[u].len);
+    ans = max(ans, (i64)st[u].sz * (i64)st[u].len);
   }
 }
 void solve() {

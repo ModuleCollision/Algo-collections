@@ -1,16 +1,30 @@
 // 单组测试数据开vector 多组测试数据开全局数组
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
 
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed  i64;
+using u64 = unsigned  i64;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
 
-const long long maxn = 1e5 + 5;
-const long long inf = 0x3f3f3f3f3f3f3f3f;
-const long long mod = 1e9 + 7;
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 char s[maxn]; int tot = 0;
-long long nums[maxn];
+i64 nums[maxn];
 int opt[maxn];
-long long ksm(long long x, long long y, long long z) {
-  long long ret = 1; x %= z;
+i64 ksm( i64 x,  i64 y,  i64 z) {
+  i64 ret = 1; x %= z;
   while (y) {
     if (y & 1)ret = ret % z * x % z;
     x = x  % z * x % z;
@@ -22,7 +36,7 @@ bool f = false;
 void dfs(int now) {
   if (f)return;
   if (now > tot - 2) {
-    long long cur = nums[1];
+    i64 cur = nums[1];
     for (int i = 1; i <= tot - 2; i++) {
       if (opt[i] == 1) {
         cur += nums[i + 1];

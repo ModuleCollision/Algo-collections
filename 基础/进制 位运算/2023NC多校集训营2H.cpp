@@ -1,22 +1,35 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll n, q; std::cin >> n >> q;
-	ll ps = 0;
+	i64 n, q; std::cin >> n >> q;
+	i64 ps = 0;
 	string s; std::cin >> s;
 	s = " " + s;
-	vector<ll>pre(n + 5, 0);
-	vector<ll>pre2(n + 5, 0);
-	vector<ll>f(n + 5); ll cnt = 0;
-	ll ws = 1;
-	std::set<ll>st; st.insert(0);
-	for (ll i = 1; i <= n; i++) {
+	vector<i64>pre(n + 5, 0);
+	vector<i64>pre2(n + 5, 0);
+	vector<i64>f(n + 5); i64 cnt = 0;
+	i64 ws = 1;
+	std::set<i64>st; st.insert(0);
+	for (i64 i = 1; i <= n; i++) {
 		pre[i] += pre[i - 1];
 		pre2[i] += pre2[i - 1];
 		if (s[i] == 'A') {
@@ -31,34 +44,34 @@ void solve() {
 	//cout << pre2[n] - pre2[0] << endl;
     string x; 
 	while (q--) {
-		ll l, r; std::cin >> l >> r;
+		i64 l, r; std::cin >> l >> r;
 		std::cin >> x;
-		ll ms = (1 << (x.size()));
+		i64 ms = (1 << (x.size()));
 		l = ((ps ^ l) % n) + 1;
 		r = ((ps ^ r) % n) + 1;
 		if (l > r)swap(l, r);
-		ll cur = 0;
-		for (ll i = x.size() - 1; i >= 0; i--) {
+		i64 cur = 0;
+		for (i64 i = x.size() - 1; i >= 0; i--) {
 			if (x[i] == '1')
 				cur = (cur % ms + (1 << (x.size() - 1 - i))) % ms;
 		}
-		ll v = pre2[r] - pre2[l - 1];
+		i64 v = pre2[r] - pre2[l - 1];
 		auto pp = st.lower_bound(l);
-		ll pos = f[*pp];
+		i64 pos = f[*pp];
 		if (pos % 2 == 0) {
 			v = ((0 - v) % ms + ms) % ms;
 		}
 		string res = "";
 		cur = (cur % ms + v) % ms;
 		if ((pre[r] - pre[l - 1]) & 1) {
-			ll ans = ((((1 << x.size()) - 1) - cur) % ms + ms) % ms;
-			for (ll i = 0; ans >> i; i++) {
+			i64 ans = ((((1 << x.size()) - 1) - cur) % ms + ms) % ms;
+			for (i64 i = 0; ans >> i; i++) {
 				res += (char)('0' + ((ans >> i) & 1));
 			}
 			ps = ans;
 		} else {
-			ll ans = (cur) % ms;
-			for (ll i = 0; i < x.size(); i++) {
+			i64 ans = (cur) % ms;
+			for (i64 i = 0; i < x.size(); i++) {
 				res += (char)('0' + ((ans >> i) & 1));
 			}
 			ps = ans;

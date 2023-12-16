@@ -1,47 +1,60 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct cmp {
-	bool operator()(const pair<ll, ll>& x, const pair<ll, ll>&y)const {
+	bool operator()(const pair<i64, i64>& x, const pair<i64, i64>&y)const {
 		return x.second > y.second;
 	}
 };
 struct edge {
-	ll u, v, w;
+	i64 u, v, w;
 };
 void solve() {
-	ll n, m, s, t, k;
+	i64 n, m, s, t, k;
 	std::cin >> n >> m >> s >> t >> k;
-	vector<vector<pair<ll, ll>>>tr(n + 5);
-	ll u, v, w; ll mx = 0;
+	vector<vector<pair<i64, i64>>>tr(n + 5);
+	i64 u, v, w; i64 mx = 0;
 	vector<edge>ed(m + 5);
-	for (ll i = 1; i <= m; i++) {
+	for (i64 i = 1; i <= m; i++) {
 		std::cin >> ed[i].u >> ed[i].v >> ed[i].w;
 		mx = max(mx, ed[i].w);
 	}
 	if (s == t) {
 		puts("0"); return;
 	}
-	vector<ll>dis(n + 5, 0);
+	vector<i64>dis(n + 5, 0);
 	vector<bool>vis(n + 5, 0);
-	auto cal = [&](ll x) {
+	auto cal = [&](i64 x) {
 		return (x * 114 + 513) / 514;
 	};
-	auto check = [&](ll ts) {
-		priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, cmp>q;
+	auto check = [&](i64 ts) {
+		priority_queue<pair<i64, i64>, vector<pair<i64, i64>>, cmp>q;
 		q.push({s, 0});
 		std::fill(dis.begin(), dis.end(), inf);
 		std::fill(vis.begin(), vis.end(), 0);
 		dis[s] = 0;
-		for (ll i = 1; i <= n; i++) {
+		for (i64 i = 1; i <= n; i++) {
 			tr[i].clear();
 		}
-		for (ll i = 1; i <= m; i++) {
+		for (i64 i = 1; i <= m; i++) {
 			auto [u, v, w] = ed[i];
 			if (w <= ts) {
 				tr[u].push_back({v, 0});
@@ -65,9 +78,9 @@ void solve() {
 		}
 		return dis[t] <= k;//满足最短路径上的药水<=k即可
 	};
-	ll l = 0, r = mx; ll ans = 0;
+	i64 l = 0, r = mx; i64 ans = 0;
 	while (l <= r) {
-		ll mid = (l + r) >> 1;
+		i64 mid = (l + r) >> 1;
 		if (check(mid)) {
 			r = mid - 1; ans = mid;
 		} else {
@@ -75,17 +88,17 @@ void solve() {
 		}
 	}
 	if (not ans) {
-		puts("I really need TS1's time machine again!");
+		puts("I reai64y need TS1's time machine again!");
 		return;
 	}
 	cout << ans << endl;
 	/*while (l < r) {
-		ll mid = (l + r) >> 1;
+		i64 mid = (l + r) >> 1;
 		if (check(mid))r = mid;
 		else l = mid + 1;
 	}
 	if (r == mx) {
-		puts("I really need TS1's time machine again!");
+		puts("I reai64y need TS1's time machine again!");
 		return;
 	}
 	cout << r << endl;*/
@@ -96,50 +109,62 @@ signed main() {
 
 
 /*用multiset + 重载代替优先队列也可*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 struct cmp {
-	bool operator()(const pair<ll, ll>& x, const pair<ll, ll>&y)const {
+	bool operator()(const pair<i64, i64>& x, const pair<i64, i64>&y)const {
 		return x.second < y.second;
 	}
 };
 struct edge {
-	ll u, v, w;
+	i64 u, v, w;
 };
 void solve() {
-	ll n, m, s, t, k;
+	i64 n, m, s, t, k;
 	std::cin >> n >> m >> s >> t >> k;
-	vector<vector<pair<ll, ll>>>tr(n + 5);
-	ll u, v, w; ll mx = 0;
+	vector<vector<pair<i64, i64>>>tr(n + 5);
+	i64 u, v, w; i64 mx = 0;
 	vector<edge>ed(m + 5);
-	for (ll i = 1; i <= m; i++) {
+	for (i64 i = 1; i <= m; i++) {
 		std::cin >> ed[i].u >> ed[i].v >> ed[i].w;
 		mx = max(mx, ed[i].w);
 	}
 	if (s == t) {
 		puts("0"); return;
 	}
-	vector<ll>dis(n + 5, 0);
+	vector<i64>dis(n + 5, 0);
 	vector<bool>vis(n + 5, 0);
-	auto cal = [&](ll x) {
+	auto cal = [&](i64 x) {
 		return (x * 114 + 513) / 514;
 	};
-	auto check = [&](ll ts) {
-		multiset<pair<ll, ll>, cmp>q;
+	auto check = [&](i64 ts) {
+		multiset<pair<i64, i64>, cmp>q;
 		q.insert({s, 0});
 		std::fill(dis.begin(), dis.end(), inf);
 		std::fill(vis.begin(), vis.end(), 0);
 		dis[s] = 0;
-		for (ll i = 1; i <= n; i++) {
+		for (i64 i = 1; i <= n; i++) {
 			tr[i].clear();
 		}
-		for (ll i = 1; i <= m; i++) {
+		for (i64 i = 1; i <= m; i++) {
 			auto [u, v, w] = ed[i];
 			if (w <= ts) {
 				tr[u].push_back({v, 0});
@@ -163,9 +188,9 @@ void solve() {
 		}
 		return dis[t] <= k;//满足最短路径上的药水<=k即可
 	};
-	ll l = 0, r = mx; ll ans = 0;
+	i64 l = 0, r = mx; i64 ans = 0;
 	while (l <= r) {
-		ll mid = (l + r) >> 1;
+		i64 mid = (l + r) >> 1;
 		if (check(mid)) {
 			r = mid - 1; ans = mid;
 		} else {
@@ -173,17 +198,17 @@ void solve() {
 		}
 	}
 	if (not ans) {
-		puts("I really need TS1's time machine again!");
+		puts("I reai64y need TS1's time machine again!");
 		return;
 	}
 	cout << ans << endl;
 	/*while (l < r) {
-		ll mid = (l + r) >> 1;
+		i64 mid = (l + r) >> 1;
 		if (check(mid))r = mid;
 		else l = mid + 1;
 	}
 	if (r == mx) {
-		puts("I really need TS1's time machine again!");
+		puts("I reai64y need TS1's time machine again!");
 		return;
 	}
 	cout << r << endl;*/

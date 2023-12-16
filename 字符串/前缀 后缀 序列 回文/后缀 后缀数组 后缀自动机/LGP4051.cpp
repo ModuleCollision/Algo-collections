@@ -1,21 +1,33 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 233;
-//
-ll sa[maxn], rk[maxn], oldrk[maxn << 1], id[maxn], key1[maxn], cnt[maxn];
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 sa[maxn], rk[maxn], oldrk[maxn << 1], id[maxn], key1[maxn], cnt[maxn];
 void solve() {
 	string s; std::cin >> s; s += s;
-	ll n = s.size();
+	i64 n = s.size();
 	s = " " + s;
-	auto cmp = [&](ll x, ll y, ll w) {
+	auto cmp = [&](i64 x, i64 y, i64 w) {
 		return oldrk[x] == oldrk[y] and oldrk[x + w] == oldrk[y + w];
 	};
-	ll m = 127, p, w, i;
+	i64 m = 127, p, w, i;
 	for (i = 1; i <= n; i++)++cnt[rk[i] = s[i]];
 	for (i = 1; i <= m; i++)cnt[i] += cnt[i - 1];
 	for (i = n; i >= 1; i--)sa[cnt[rk[i]]--] = i;//计数排序
@@ -41,7 +53,7 @@ void solve() {
 			break;
 		}
 	}
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		if (sa[i] <= (n >> 1)) {
 			putchar(s[sa[i] + (n >> 1) - 1]);
 		}

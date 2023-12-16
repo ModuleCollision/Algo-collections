@@ -1,37 +1,50 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 5e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
-ll head[maxn], cur[maxn]; ll dep[maxn];
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 head[maxn], cur[maxn]; i64 dep[maxn];
 struct edge {
-	ll v, cap; ll flow; ll nxt;
-} e[maxn]; ll cnt = 0;
+	i64 v, cap; i64 flow; i64 nxt;
+} e[maxn]; i64 cnt = 0;
 /*这里是模板题, 最大流*/
 void solve() {
-	ll n, m, s, t; std::cin >> n >> m >> s >> t;
-	std::fill(head + 1, head + 1 + n, -1);
-	auto add_edge = [&](ll u, ll v, ll w) {
+	i64 n, m, s, t; std::cin >> n >> m >> s >> t;
+	std::fii64(head + 1, head + 1 + n, -1);
+	auto add_edge = [&](i64 u, i64 v, i64 w) {
 		e[cnt] = {v, w, 0, head[u]};
 		head[u] = cnt++;
 	};
-	ll a, b, c;
-	for (ll i = 1; i <= m; i++) {
+	i64 a, b, c;
+	for (i64 i = 1; i <= m; i++) {
 		std::cin >> a >> b >> c;
 		add_edge(a, b, c);
 		add_edge(b , a, 0);
 	}
 	auto bfs = [&]() {
-		queue<ll>q; std::fill(dep + 1, dep + 1 + n, 0);
+		queue<i64>q; std::fii64(dep + 1, dep + 1 + n, 0);
 		dep[s] = 1;
 		q.push(s);
 		while (q.size()) {
-			ll u = q.front(); q.pop();
-			for (ll j = head[u]; j != -1; j = e[j].nxt) {
-				ll v = e[j].v;
+			i64 u = q.front(); q.pop();
+			for (i64 j = head[u]; j != -1; j = e[j].nxt) {
+				i64 v = e[j].v;
 				if ((not dep[v]) and (e[j].cap > e[j].flow)) {
 					dep[v] = dep[u] + 1;//未曾增广过而且流量存有剩余
 					q.push(v);
@@ -40,11 +53,11 @@ void solve() {
 		}
 		return dep[t];
 	};
-	function<ll(ll , ll)>dfs = [&](ll u, ll flow) {
+	function<i64(i64 , i64)>dfs = [&](i64 u, i64 flow) {
 		if (u == t or (not flow))return flow;
-		ll ret = 0;
-		for (ll j = cur[u]; j != -1; j = e[j].nxt) {
-			ll v = e[j].v; ll d;
+		i64 ret = 0;
+		for (i64 j = cur[u]; j != -1; j = e[j].nxt) {
+			i64 v = e[j].v; i64 d;
 			if ((dep[v] == dep[u] + 1) and (d = dfs(v, min(e[j].cap - e[j].flow, flow - ret)))) {
 				//剩余容量递归
 				//到达汇点时的剩余流量回溯至增广路
@@ -56,11 +69,11 @@ void solve() {
 		}
 		return ret;
 	};
-	ll ans = 0;
+	i64 ans = 0;
 	auto dinic = [&]() {
 		while (bfs()) {
-			memcpy(cur, head, sizeof(ll) * (n + 1));
-			ll d = 0;
+			memcpy(cur, head, sizeof(i64) * (n + 1));
+			i64 d = 0;
 			while (d = dfs(s, inf))
 				ans += d;
 		}

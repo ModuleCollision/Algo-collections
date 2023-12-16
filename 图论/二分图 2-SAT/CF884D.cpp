@@ -1,24 +1,36 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 2e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
-ll co[maxn]; vector<ll>tr[maxn];
-ll sz[5]; ll N, M, cnt = 0;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+ i64 co[maxn]; vector< i64>tr[maxn];
+ i64 sz[5];  i64 N, M, cnt = 0;
 void solve() {
-	ll n, m, k; std::cin >> n >> m >> k;
-	vector<vector<pair<ll, ll>>>tr(n + 5 + m);
+	 i64 n, m, k; std::cin >> n >> m >> k;
+	vector<vector<pair< i64,  i64>>>tr(n + 5 + m);
 	while (k--) {
-		ll x1, y1, x2, y2;
+		 i64 x1, y1, x2, y2;
 		std::cin >> x1 >> y1 >> x2 >> y2;
 		tr[min(x1, x2)].push_back({n + min(y1 , y2), (x1 + y1 != x2 + y2)});
 		tr[n + min(y1, y2)].push_back({min(x1, x2), (x1 + y1 != x2 + y2)});
 	}
-	vector<ll>co(n + m + 5, -1);
-	function<bool(ll)>dfs = [&](ll u) {
+	vector< i64>co(n + m + 5, -1);
+	function<bool( i64)>dfs = [&]( i64 u) {
 		for (auto [v, e] : tr[u]) {
 			if (co[v] != -1) {
 				if (co[v] != co[u] ^ e)return false;
@@ -30,7 +42,7 @@ void solve() {
 		}
 		return true;
 	};
-	for (ll i = 1; i <= n + m; i++) {
+	for ( i64 i = 1; i <= n + m; i++) {
 		if (co[i] == -1) {
 			co[i] = 0; bool f = dfs(i);
 			if (not f) {
@@ -42,7 +54,7 @@ void solve() {
 }
 
 signed main() {
-	ll T; std::cin >> T;
+	 i64 T; std::cin >> T;
 	while (T--)
 		solve();
 }

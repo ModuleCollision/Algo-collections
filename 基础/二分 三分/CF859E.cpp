@@ -1,28 +1,41 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e3 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-ll n;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 n;
 void solve() {
 	std::cin >> n;
-	vector<ll>pre(n + 5, 0);
-	for (ll i = 1; i <= n; i++) {
+	vector<i64>pre(n + 5, 0);
+	for (i64 i = 1; i <= n; i++) {
 		std::cin >> pre[i];
 		pre[i] += pre[i - 1];
 	}
-	ll l = 1, r = n, ans;
+	i64 l = 1, r = n, ans;
 	while (l < r) {
-		ll mid = (l + r) >> 1;
+		i64 mid = (l + r) >> 1;
 		cout << "? " << (mid - l + 1) << endl;
-		for (ll i = l; i <= mid; i++) {
+		for (i64 i = l; i <= mid; i++) {
 			cout << i << " ";
 		}
 		cout << endl << flush;
-		ll x; std::cin >> x;
+		i64 x; std::cin >> x;
 		if (x == pre[mid] - pre[l - 1]) {
 			l = mid + 1;
 		} else {
@@ -32,6 +45,6 @@ void solve() {
 	cout << "! " << ans << endl << flush;
 }
 signed main() {
-	ll T; std::cin >> T;
+	i64 T; std::cin >> T;
 	while (T--)solve();
 }

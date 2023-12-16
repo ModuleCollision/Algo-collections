@@ -1,23 +1,36 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 /*Manacher板题*/
 string s;
 void solve() {
-  ll len = s.size();
+  i64 len = s.size();
   string st(len * 2 + 5, ' ');
-  for (ll i = 0; i < len; i++) {
+  for (i64 i = 0; i < len; i++) {
     st[i * 2] = '#'; st[i * 2 + 1] = s[i];
   }
   st[len * 2] = '#';
-  vector<ll>d(2 * len + 5);
-  for (ll i = 0, l = 0, r = -1; i < len * 2 + 1; i++) {
-    ll k = (i > r) ? 1 : min(d[l + r - i], r - i + 1);
+  vector<i64>d(2 * len + 5);
+  for (i64 i = 0, l = 0, r = -1; i < len * 2 + 1; i++) {
+    i64 k = (i > r) ? 1 : min(d[l + r - i], r - i + 1);
     while (i - k >= 0 and i + k < 2 * len + 1 and st[i - k] == st[i + k])k++;
     d[i] = k--;
     if (i + k > r) {
@@ -27,14 +40,14 @@ void solve() {
   //st串'#'位对应s偶回文串 idx -> idx / 2 - 1
   //st串字母位对应s奇回文串 idx -> idx / 2
   //st回文半径对应s回文半径 d -> d / 2
-  ll idx = 0;
-  for (ll i = 1; i <= len * 2 - 1; i++) {
+  i64 idx = 0;
+  for (i64 i = 1; i <= len * 2 - 1; i++) {
     if (i + d[i] - 1 == 2 * len) {
       idx = i; break;
     }
   }
-  ll r = idx - d[idx] + 1;
-  for (ll j = r - 1; j >= 1; j--) {
+  i64 r = idx - d[idx] + 1;
+  for (i64 j = r - 1; j >= 1; j--) {
     if (isalpha(st[j]))s += st[j];
   }
   cout << s << endl;

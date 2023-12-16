@@ -1,21 +1,31 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct sq {
-    ll to[2];
+    i64 to[2];
 }; vector<sq>tr;
-void add(ll x) {
-    ll u = 0;
-    for (ll i = 30; i >= 0; i--) {
-        ll cur = (x >> i) & 1;
+void add(i64 x) {
+    i64 u = 0;
+    for (i64 i = 30; i >= 0; i--) {
+        i64 cur = (x >> i) & 1;
         if (not tr[u].to[cur]) {
             tr[u].to[cur] = tr.size();
             tr.push_back(sq());
@@ -24,13 +34,13 @@ void add(ll x) {
     }
 }
 void solve() {
-    ll n; cin >> n;
-    vector<ll>a(n, 0);
+    i64 n; cin >> n;
+    vector<i64>a(n, 0);
     tr.push_back(sq());
-    for (ll i = 0; i < n; i++)cin >> a[i];
-    function<ll(ll, vector<ll>)>dfs = [&](ll cur, vector<ll>v) {
-        if (cur == -1)return 0ll;
-        vector<ll>s, t;
+    for (i64 i = 0; i < n; i++)cin >> a[i];
+    function<i64(i64, vector<i64>)>dfs = [&](i64 cur, vector<i64>v) {
+        if (cur == -1)return 0i64;
+        vector<i64>s, t;
         for (auto c : v) {
             if ((c >> cur) & 1)s.push_back(c);
             else t.push_back(c);

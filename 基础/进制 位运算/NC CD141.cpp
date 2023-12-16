@@ -1,28 +1,39 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-ll tr[maxn][3]; ll tot = 0;
-void insert(ll s) {
-	ll u = 0;
-	for (ll i = 31; i >= 0; i--) {
-		ll cur = ((s >> i) & 1);
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 tr[maxn][3]; i64 tot = 0;
+void insert(i64 s) {
+	i64 u = 0;
+	for (i64 i = 31; i >= 0; i--) {
+		i64 cur = ((s >> i) & 1);
 		if (not tr[u][cur])tr[u][cur] = ++tot;
 		u = tr[u][cur];
 	}
 }
-ll ans = 0;
-void dfs(ll s) {
-	ll u = 0;
-	ll res = 0;
-	for (ll i = 31; i >= 0; i--) {
-		ll cur = ((s >> i) & 1);
+i64 ans = 0;
+void dfs(i64 s) {
+	i64 u = 0;
+	i64 res = 0;
+	for (i64 i = 31; i >= 0; i--) {
+		i64 cur = ((s >> i) & 1);
 		if (i == 31) {
 			if (tr[u][cur])u = tr[u][cur];
 			else u = tr[u][cur ^ 1], res |= (1 << i);
@@ -34,12 +45,12 @@ void dfs(ll s) {
 	ans = max(res, ans);
 }
 void solve() {
-	ll n; std::cin >> n;
-	vector<ll>A(n + 5, 0);
+	i64 n; std::cin >> n;
+	vector<i64>A(n + 5, 0);
 	insert(0);
-	for (ll i = 1; i <= n; i++)cin >> A[i];
+	for (i64 i = 1; i <= n; i++)cin >> A[i];
 	dfs(0);
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		A[i] ^= A[i - 1];
 		dfs(A[i]);
 		insert(A[i]);

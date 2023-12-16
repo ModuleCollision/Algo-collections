@@ -16,37 +16,50 @@
 1. 初始化为1
 2. 从根节点至目标节点搜索, 如果在右子树则贡献 + 1, 若在左子树则将 1 + 右子树的大小算入贡献中
 3.答案为n - 贡献 + 1 */
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 2e5 + 5;
-const ll inf = 0x3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-    ll k, q; std::cin >> k >> q;
-    ll n = (1 << k);
-    auto lowbit = [&](ll x) -> ll {
+     i64 k, q; std::cin >> k >> q;
+     i64 n = (1 << k);
+    auto lowbit = [&]( i64 x) ->  i64 {
         return x & -x;
     };
-    auto sz = [&](ll x)->ll{
+    auto sz = [&]( i64 x)-> i64{
         if (not x)return 0;
         return (lowbit(x) << 1) - 1;
     };
-    auto lch = [&](ll x)->ll{
-        ll cur = x - (lowbit(x) >> 1);
+    auto lch = [&]( i64 x)-> i64{
+         i64 cur = x - (lowbit(x) >> 1);
         if (lowbit(x) == 1)return 0;
         return cur;
     };
-    auto rch = [&](ll x)->ll {
-        ll cur = x + (lowbit(x) >> 1);
+    auto rch = [&]( i64 x)-> i64 {
+         i64 cur = x + (lowbit(x) >> 1);
         if (not(cur >= 1 and cur <= n))return 0;
         return cur;
     };
-    auto pre = [&](ll x) {
-        ll root = n;
-        ll ret = 1;
+    auto pre = [&]( i64 x) {
+         i64 root = n;
+         i64 ret = 1;
         while (root != x) {
             ++ret;
             if (x < root) {
@@ -59,9 +72,9 @@ void solve() {
         }
         return ret;
     };
-    auto mid = [&](ll x) {
-        ll ret = 1;
-        ll root = n;
+    auto mid = [&]( i64 x) {
+         i64 ret = 1;
+         i64 root = n;
         if (x == n) {
             return n;
         }
@@ -77,9 +90,9 @@ void solve() {
         ret += sz(lch(root));
         return ret;
     };
-    auto suf = [&](ll x) {
-        ll ret = 1;
-        ll root = n;
+    auto suf = [&]( i64 x) {
+         i64 ret = 1;
+         i64 root = n;
         while (root != x) {
             ++ret;
             if (x < root) {
@@ -92,7 +105,7 @@ void solve() {
         return n - ret + 1;
     };
     while (q--) {
-        ll x; std::cin >> x;
+         i64 x; std::cin >> x;
         cout << pre(x) << " " << mid(x) << " " << suf(x) << endl;
     }
 }

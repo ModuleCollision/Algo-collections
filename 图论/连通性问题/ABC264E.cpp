@@ -1,48 +1,61 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct DSU {
-	vector<ll>fa; vector<ll>siz;
-	void init(ll n) {
+	vector<i64>fa; vector<i64>siz;
+	void init(i64 n) {
 		fa.resize(n + 5); siz.resize(n + 5, 1);
-		for (ll i = 1; i <= n; i++) {
+		for (i64 i = 1; i <= n; i++) {
 			fa[i] = i;
 		}
 	}
-	ll find(ll x) {
+	i64 find(i64 x) {
 		while (x != fa[x]) {
 			x = fa[x] = fa[fa[x]];
 		}
 		return x;
 	}
 } dsu;
-ll N, M, Q, E;
-pair<ll, ll>e[maxn];
-ll qd[maxn]; ll ed[maxn], ans[maxn];
+i64 N, M, Q, E;
+pair<i64, i64>e[maxn];
+i64 qd[maxn]; i64 ed[maxn], ans[maxn];
 void solve() {
 	std::cin >> N >> M >> E;
-	for (ll i = 1; i <= E; i++) {
+	for (i64 i = 1; i <= E; i++) {
 		std::cin >> e[i].first >> e[i].second;
 	}
 	std::cin >> Q;
-	for (ll i = 1; i <= Q; i++) {
+	for (i64 i = 1; i <= Q; i++) {
 		std::cin >> ed[i];
 		qd[ed[i]] = 1;
 	}
 	dsu.init(N + M + 5);
-	ll tot = 0;
-	auto check = [&](ll mid) ->bool {
+	i64 tot = 0;
+	auto check = [&](i64 mid) ->bool {
 		return mid >= N + 1 and mid <= N + M;
 	};
-	for (ll i = 1; i <= E; i++) {
+	for (i64 i = 1; i <= E; i++) {
 		if (not qd[i]) {
-			ll a = dsu.find(e[i].first);
-			ll b = dsu.find(e[i].second);
+			i64 a = dsu.find(e[i].first);
+			i64 b = dsu.find(e[i].second);
 			if (a != b) {
 				if (a > b)swap(a, b);
 				dsu.fa[a] = b;
@@ -53,9 +66,9 @@ void solve() {
 			}
 		}
 	}
-	for (ll i = Q; i >= 1; i--) {
-		ll x = e[ed[i]].first, y = e[ed[i]].second;
-		ll a = dsu.find(x), b = dsu.find(y);
+	for (i64 i = Q; i >= 1; i--) {
+		i64 x = e[ed[i]].first, y = e[ed[i]].second;
+		i64 a = dsu.find(x), b = dsu.find(y);
 		if (a != b) {
 			if (a > b)swap(a, b);
 			dsu.fa[a] = b;
@@ -66,7 +79,7 @@ void solve() {
 		}
 		ans[i] = tot;
 	}
-	for (ll i = 1; i <= Q; i++) {
+	for (i64 i = 1; i <= Q; i++) {
 		cout << ans[i] << endl;
 	}
 }
