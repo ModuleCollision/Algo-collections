@@ -30,7 +30,7 @@ void solve() {
 	memset(dp, -0x3f, sizeof(dp));
 	dp[0][0] = 0;
 	for (i64 i = 1; i <= 1e5; i++) {//枚举时间
-		for (i64 j = 0; j <= min(i, 4i64); j++) {
+		for (i64 j = 0; j <= min(i, 4ll); j++) {
 			dp[i][j] = max(dp[i][j], dp[i - 1][j]);
 			if (j >= 1)
 				//上一个时刻的后一个坐标

@@ -26,20 +26,25 @@ public:
     }
     vector<i64>val(n + 5), dp(n + 5);
     vector<pair<i64, i64>>w;
+    // w.push_back({0, 0});
     for (i64 i = 1; i <= n; i++) {
-      dp[i] = 1; val[i] = p[i] - p[i - 1];
-      i64 idx = lower_bound(w.begin(), w.end(), p[i], [&](pair<i64, i64>x, i64 y)->bool{
-        return x.first <= y;
-      }) - w.begin() - 1;
-      if (idx >= 0 and idx < w.size() and w[idx].first <= p[i]) {
-        dp[i] = max(dp[i], dp[w[idx].second] + 1);
-        val[i] = max(val[i], p[i] - p[w[idx].second]);
+      i64 l = 0, r = w.size() - 1; i64 res = 0;
+      while (l <= r) {
+        i64 mid = (l + r) >> 1;
+        if (w[mid].first <= p[i]) {
+          res = w[mid].second;
+          l = mid + 1;
+        } else {
+          r = mid - 1;
+        }
       }
+      dp[i] = dp[res] + i - res - 1;
+      val[i] = p[i] - p[res];
       while (w.size() and w.back().first >= val[i] + p[i]) {
         w.pop_back();
       }
       w.push_back({val[i] + p[i], i});
     }
-    return dp[n];
+    return n - dp[n];
   }
 };
