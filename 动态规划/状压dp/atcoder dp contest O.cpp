@@ -15,7 +15,7 @@ using u128 = __uint128_t;
 using f128 = long double;
 using namespace std;
 
-constexpr i64 mod = 998244353;
+constexpr i64 mod = 25;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
