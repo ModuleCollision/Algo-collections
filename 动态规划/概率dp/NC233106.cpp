@@ -20,7 +20,7 @@ constexpr i64 mod = 998244353;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-double dp[1010][1010];
+f64 dp[1010][1010];
 
 int main() {
   i64 n, s; std::cin >> n >> s;

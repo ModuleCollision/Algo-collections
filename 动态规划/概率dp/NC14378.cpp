@@ -22,7 +22,7 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 
 i64 n, m, a[maxn], pre[maxn], x;
-double dp[maxn], f[maxn];
+f64 dp[maxn], f[maxn];
 void solve() {
 	cin >> n >> m; i64 Max = 0;
 	for (i64 i = 1; i <= n; i++) {
@@ -44,7 +44,7 @@ void solve() {
 				tot -= a[j];
 				j--;
 			}
-			dp[i] = (f[i + 1] - f[j + 2]) / double (j - i + 1) + 1;
+			dp[i] = (f[i + 1] - f[j + 2]) / (f64)(j - i + 1) + 1;
 			f[i] = dp[i] + f[i + 1];
 		}
 		printf("%.2lf\n", dp[1]);
