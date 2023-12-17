@@ -21,21 +21,21 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 //单调队列用于维护一定连续区间范围内的最值
 void solve() {//优化方式, 单调队列优化dp
-	ll n, m; std::cin >> n;
-	vector<ll>A(n + 5, 0);
-	for (ll i = 1; i <= n; i++)cin >> A[i];
+	i64 n, m; std::cin >> n;
+	vector<i64>A(n + 5, 0);
+	for (i64 i = 1; i <= n; i++)cin >> A[i];
 	n++;
-	ll l, r;
+	i64 l, r;
 	std::cin >> m;
-	vector<vector<ll>>p(n + 5), f(n + 5);
-	for (ll i = 1; i <= m; i++) {
+	vector<vector<i64>>p(n + 5), f(n + 5);
+	for (i64 i = 1; i <= m; i++) {
 		std::cin >> l >> r;
 		p[l].push_back(r);
 		f[r].push_back(l);
 	}
 	p[n].push_back(n); f[n].push_back(n);
-	vector<ll>lim(n + 5, 0);
-	for (ll i = 1, j = 1, cur = 0; i <= n; i++) {
+	vector<i64>lim(n + 5, 0);
+	for (i64 i = 1, j = 1, cur = 0; i <= n; i++) {
 		for (auto x : f[i]) {
 			if (x >= j) {
 				cur++;
@@ -51,12 +51,12 @@ void solve() {//优化方式, 单调队列优化dp
 		}
 		lim[i] = j;
 	}
-	vector<ll>q(n + 5, 0);
-	ll head = 1, tail = 0;
-	vector<ll>dp(n + 5, 0);
+	vector<i64>q(n + 5, 0);
+	i64 head = 1, tail = 0;
+	vector<i64>dp(n + 5, 0);
 	dp[0] = 0;//初始化为空队列
-	for (ll i = 1; i <= n; i++) {//从1开始维护
-		ll ls = lim[i - 1] - 1;
+	for (i64 i = 1; i <= n; i++) {//从1开始维护
+		i64 ls = lim[i - 1] - 1;
 		while (head <= tail and dp[q[tail]] >= dp[i - 1]) {
 			tail--;
 		}
@@ -70,9 +70,9 @@ void solve() {//优化方式, 单调队列优化dp
 	cout << dp[n] << endl;
 }
 signed main() {
-	ios::sync_with_stdio(false); cin.tie(nullptr);
-	cout.tie(nullptr);
-	ll T; cin >> T;
+	ios::sync_with_stdio(false); cin.tie(nui64ptr);
+	cout.tie(nui64ptr);
+	i64 T; cin >> T;
 	while (T--) {
 		solve();
 	}
