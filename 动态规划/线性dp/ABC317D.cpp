@@ -1,19 +1,30 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi fifst
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-    ll n; std::cin >> n;
-    vector<ll>x(n + 5, 0), y(n + 5, 0), z(n + 5, 0);
-    ll p = 0, sum = 0;
-    vector<array<ll, 3>>w(n + 5); ll tot = 0;
-    for (ll i = 1; i <= n; i++) {
+    i64 n; std::cin >> n;
+    vector<i64>x(n + 5, 0), y(n + 5, 0), z(n + 5, 0);
+    i64 p = 0, sum = 0;
+    vector<array<i64, 3>>w(n + 5); i64 tot = 0;
+    for (i64 i = 1; i <= n; i++) {
         cin >> x[i] >> y[i] >> z[i];
         sum += z[i];
         if (x[i] > y[i])p += z[i];
@@ -21,24 +32,24 @@ void solve() {
             w[++tot] = {x[i], y[i], z[i]};
         }
     }
-    ll s = (sum + 1) / 2;
+    i64 s = (sum + 1) / 2;
     if (p >= s) {
         puts("0"); return;
     }
-    ll v = s - p;
-    vector dp(tot + 5, vector<ll>(sum + 5, inf));
+    i64 v = s - p;
+    vector dp(tot + 5, vector<i64>(sum + 5, inf));
     dp[0][0] = 0;
-    for (ll i = 1; i <= tot; i++) {
-        for (ll j = 0; j <= sum; j++) {
+    for (i64 i = 1; i <= tot; i++) {
+        for (i64 j = 0; j <= sum; j++) {
             dp[i][j] = min(dp[i][j], dp[i - 1][j]);
-            ll d = (w[i][0] + w[i][1] + 1) / 2 - w[i][0];
+            i64 d = (w[i][0] + w[i][1] + 1) / 2 - w[i][0];
             if (j >= w[i][2]) {
                 dp[i][j] = min(dp[i][j], dp[i - 1][j - w[i][2]] + d);
             }
         }
     }
-    ll ans = inf;
-    for (ll j = v; j <= sum; j++)ans = min(ans, dp[tot][j]);
+    i64 ans = inf;
+    for (i64 j = v; j <= sum; j++)ans = min(ans, dp[tot][j]);
     cout << ans << endl;
 }
 signed main() {

@@ -1,5 +1,3 @@
-/*300兆字节 1- 2 秒*/
-
 #include<bits/extc++.h>
 
 using i8 = signed char;

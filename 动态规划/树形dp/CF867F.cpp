@@ -1,25 +1,35 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 1e6 + 10;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-  ll n, k, c; cin >> n >> k >> c;
-  vector<ll>tr[n + 1];
-  for (ll i = 1; i <= n - 1; i++) {
-    ll u, v; cin >> u >> v;
+  i64 n, k, c; cin >> n >> k >> c;
+  vector<i64>tr[n + 1];
+  for (i64 i = 1; i <= n - 1; i++) {
+    i64 u, v; cin >> u >> v;
     tr[u].push_back(v);
     tr[v].push_back(u);
   }
-  vector<ll>dis(n + 1);
-  vector<ll>sif(n + 1, 0);
-  function<void(ll, ll, ll)>dfs1 = [&](ll u, ll f, ll s) {
+  vector<i64>dis(n + 1);
+  vector<i64>sif(n + 1, 0);
+  function<void(i64, i64, i64)>dfs1 = [&](i64 u, i64 f, i64 s) {
     sif[u] = s;
     for (auto v : tr[u]) {
       if (v == f)continue;
@@ -28,10 +38,10 @@ void solve() {
     }
   };
   dfs1(1, 0, 0);
-  vector<ll>ans(n + 1);
-  function<void(ll, ll, ll)>dfs2 = [&](ll u, ll f, ll pre) {
+  vector<i64>ans(n + 1);
+  function<void(i64, i64, i64)>dfs2 = [&](i64 u, i64 f, i64 pre) {
     ans[u] = max(dis[u], pre);
-    ll mx1 = pre, mx2 = -inf;
+    i64 mx1 = pre, mx2 = -inf;
     for (auto v : tr[u]) {
       if (v == f)continue;
       if (dis[v] + 1 >= mx1) {
@@ -51,15 +61,15 @@ void solve() {
     }
   };
   dfs2(1, 0, 0);
-  ll res = -inf;
-  for (ll i = 1; i <= n; i++) {
-    ll cur = ans[i] * k - sif[i] * c;
+  i64 res = -inf;
+  for (i64 i = 1; i <= n; i++) {
+    i64 cur = ans[i] * k - sif[i] * c;
     res = max(res, cur);
   }
   cout << res << endl;
 }
 signed main() {
-  ll T; cin >> T;
+  i64 T; cin >> T;
   while (T--)
     solve();
 }

@@ -1,16 +1,28 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const int maxn = 4e5 + 5;
-const ll inf = 0x3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 1e9 + 7;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 struct sq {
 	int l; int r;
-	ll OR[55];
+	i64 OR[55];
 } tr[maxn << 2];
-ll bit[maxn], a[maxn];
+i64 bit[maxn], a[maxn];
 inline void pushup(int u) {
 	for (int i = 0; i <= 32; i++) {
 		tr[u].OR[i] = (tr[u << 1].OR[i] + tr[u << 1 | 1].OR[i]) % mod;
@@ -29,9 +41,9 @@ void build(int p, int l, int r) {
 	build(p << 1 | 1, mid + 1, r);
 	pushup(p);
 }
-void modify(int p, int idx, ll v) {
+void modify(int p, int idx, i64 v) {
 	if (tr[p].l == tr[p].r) {
-		for (ll i = 0; i <= 32; i++) {
+		for (i64 i = 0; i <= 32; i++) {
 			tr[p].OR[i] = ((v >> i) & 1);
 		}
 		return;
@@ -44,16 +56,16 @@ void modify(int p, int idx, ll v) {
 	}
 	pushup(p);
 }
-vector<ll> query(ll p, ll l, ll r) {
+vector<i64> query(i64 p, i64 l, i64 r) {
 	if (tr[p].l >= l and tr[p].r <= r) {
-		vector<ll>ans(33, 0);
-		for (ll i = 0; i <= 32; i++) {
+		vector<i64>ans(33, 0);
+		for (i64 i = 0; i <= 32; i++) {
 			ans[i] = tr[p].OR[i];
 		}
 		return ans;
 	}
 	int mid = (tr[p].l + tr[p].r) >> 1;
-	vector<ll>ans(33, 0), tmp1(33, 0), tmp2(33, 0);
+	vector<i64>ans(33, 0), tmp1(33, 0), tmp2(33, 0);
 	if (l <= mid) {
 		tmp1 = query(p << 1, l, r);
 	}
@@ -75,12 +87,12 @@ void solve() {
 	while (m--) {
 		int opt; std::cin >> opt;
 		if (opt == 1) {
-			int x; ll y; std::cin >> x >> y;
+			int x; i64 y; std::cin >> x >> y;
 			modify(1, x, y);
 		} else {
 			int l, r; std::cin >> l >> r;
-			vector<ll>ans = query(1, l, r);
-			ll res = 0;
+			vector<i64>ans = query(1, l, r);
+			i64 res = 0;
 			for (int i = 0; i <= 32; i++) {
 				res = (res + bit[i] % mod * (bit[ans[i]] - 1 + mod) % mod) % mod;
 			}

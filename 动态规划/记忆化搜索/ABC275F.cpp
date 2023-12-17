@@ -1,21 +1,34 @@
 
 
 /*采用记忆化搜索来写*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 3e3 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 233;
-ll N, M;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 N, M;
 void solve() {
 	std::cin >> N >> M;
-	vector<ll>A(N + 5, 0);
-	for (ll i = 1; i <= N; i++)std::cin >> A[i];
-	std::map<array<ll, 3>, ll>dp;
-	function<ll(ll, ll, ll)>dfs = [&](ll i, ll j, ll k) {
+	vector<i64>A(N + 5, 0);
+	for (i64 i = 1; i <= N; i++)std::cin >> A[i];
+	std::map<array<i64, 3>, i64>dp;
+	function<i64(i64, i64, i64)>dfs = [&](i64 i, i64 j, i64 k) {
 		if (i == 0) {
 			if (j == 0 and k == 1) {
 				return dp[ {i, j, k}] = 0;
@@ -26,8 +39,8 @@ void solve() {
 		if (dp.count({i, j, k}))return dp[ {i, j, k}];
 		dp[ {i, j, k}] = inf;
 		if (k == 0) {
-			ll v1 = dfs(i - 1, j, 1);
-			ll v2 = dfs(i - 1, j, 0);
+			i64 v1 = dfs(i - 1, j, 1);
+			i64 v2 = dfs(i - 1, j, 0);
 			dp[ {i, j, k}] = min(v1 + 1, v2);
 		} else {
 
@@ -38,7 +51,7 @@ void solve() {
 		}
 		return dp[ {i, j, k}];
 	};
-	for (ll j = 1; j <= M; j++) {
+	for (i64 j = 1; j <= M; j++) {
 		if (dfs(N, j, 0) == inf and dfs(N, j, 1) == inf) {
 			puts("-1");
 		} else {

@@ -1,5 +1,3 @@
-/*300兆字节 1- 2 秒*/
-
 #include<bits/extc++.h>
 
 using i8 = signed char;
@@ -20,7 +18,6 @@ using namespace std;
 constexpr i64 mod = 998244353;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
-
 
 vector<i64>tr[maxn]; bool vis[maxn];
 i64 N, M, S, K = 1e6;

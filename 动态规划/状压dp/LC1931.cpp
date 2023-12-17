@@ -1,7 +1,26 @@
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 class Solution {
 public:
-	typedef long long ll;
-	const ll mod = 1e9 + 7;
 	int colorTheGrid(int m, int n) {
 		int tot = 0;
 		vector<vector<int>>f(66);
@@ -19,7 +38,7 @@ public:
 			}
 		};
 		dfs(1);
-		vector dp(n + 5, vector<ll>(tot + 5, 0));
+		vector dp(n + 5, vector<i64>(tot + 5, 0));
 		for (int i = 1; i <= tot; i++)dp[1][i] = 1;
 		auto check = [&](int i, int j) {
 			for (int k = 1; k <= m; k++) {
@@ -34,8 +53,8 @@ public:
 				}
 			}
 		}
-		ll ans = 0;
-		for (ll i = 1; i <= tot; i++)ans = (ans % mod + dp[n][i]) % mod;
+		i64 ans = 0;
+		for (i64 i = 1; i <= tot; i++)ans = (ans % mod + dp[n][i]) % mod;
 		return ans;
 	}
 };

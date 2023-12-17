@@ -1,17 +1,39 @@
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+
+
+
 class Solution {
 public:
-    typedef long long ll;
-    const ll mod = 1e9 + 7;
     int squareFreeSubsets(vector<int>& nums) {
-        vector<ll>primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
-        const ll maxn = 10;
+        vector<i64>primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
+        const i64 maxn = 10;
         auto check = [&](int x) {
             for (int i = 0; i < 10; i++) {
                 if (x % (primes[i]*primes[i]) == 0)return false;
             }
             return true;
         };
-        ll n = nums.size(); vector dp(n + 5, vector<ll>(1 << 12, 0));
+        i64 n = nums.size(); vector dp(n + 5, vector<i64>(1 << 12, 0));
         dp[0][0] = 1;
         for (int i = 1; i <= n; i++) {
             for (int j = 0; j < (1 << 10); j++) {
@@ -19,7 +41,7 @@ public:
             }
             int x = nums[i - 1];
             if (not check(x))continue;
-            ll msk = 0;
+            i64 msk = 0;
             for (int j = 0; j < 10; j++) {
                 if (x % primes[j] == 0)msk |= (1 << j);
             }
@@ -29,7 +51,7 @@ public:
                 }
             }
         }
-        ll ans = 0;
+        i64 ans = 0;
         for (int j = 0; j < (1 << 10); j++) {
             ans = (ans % mod + dp[n][j]) % mod;
         }

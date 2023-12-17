@@ -1,35 +1,48 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 3010;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll x, y, k, b; std::cin >> x >> y >> k >> b;
-	vector<ll>p(35, 0); p[0] = 1;
-	for (ll i = 1; i <= 10; i++) {
+	i64 x, y, k, b; std::cin >> x >> y >> k >> b;
+	vector<i64>p(35, 0); p[0] = 1;
+	for (i64 i = 1; i <= 10; i++) {
 		p[i] = p[i - 1] * i;
 	}
-	vector c(35, vector<ll>(35, 0));
-	for (ll i = 0; i <= 32; i++) {
-		for (ll j = 0; j <= i; j++) {
+	vector c(35, vector<i64>(35, 0));
+	for (i64 i = 0; i <= 32; i++) {
+		for (i64 j = 0; j <= i; j++) {
 			if (not j)c[i][j] = 1;
 			else c[i][j] = c[i - 1][j] + c[i - 1][j - 1];
 		}
 	}
 	/*递推组合数(防止 爆 long long int)*/
-	auto dp = [&](ll n) {
-		if (not n)return 0ll;
-		ll ret = 0 ;
-		vector<ll>s;
+	auto dp = [&](i64 n) {
+		if (not n)return 0i64;
+		i64 ret = 0 ;
+		vector<i64>s;
 		while (n) {
 			s.push_back(n % b); n /= b;
 		}
-		ll w = s.size();
-		for (ll i = w - 1, las = 0; i >= 0; i--) {
-			ll cur = s[i];
+		i64 w = s.size();
+		for (i64 i = w - 1, las = 0; i >= 0; i--) {
+			i64 cur = s[i];
 			if (cur) {
 				ret += c[i][k - las];
 				if (cur > 1) {

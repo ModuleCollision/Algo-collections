@@ -1,24 +1,34 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 1e7 + 10;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll n; std::cin >> n; vector<ll>A(n + 1, 0);
-	for (ll i = 1; i <= n; i++)cin >> A[i];
-	vector<vector<ll>>tr(n + 1);
-	for (ll i = 1; i <= n - 1; i++) {
-		ll u, v; std::cin >> u >> v; tr[u].push_back(v);
+	i64 n; std::cin >> n; vector<i64>A(n + 1, 0);
+	for (i64 i = 1; i <= n; i++)cin >> A[i];
+	vector<vector<i64>>tr(n + 1);
+	for (i64 i = 1; i <= n - 1; i++) {
+		i64 u, v; std::cin >> u >> v; tr[u].push_back(v);
 		tr[v].push_back(u);
 	}
-	vector<ll>dp(n + 1, 0); auto sz = dp;
-	function<void(ll, ll)>dfs = [&](ll u, ll f) {
+	vector<i64>dp(n + 1, 0); auto sz = dp;
+	function<void(i64, i64)>dfs = [&](i64 u, i64 f) {
 		sz[u] = 1;
 		for (auto v : tr[u]) {
 			if (v == f)continue;
@@ -27,12 +37,12 @@ void solve() {
 			dp[u] += sz[v] * (A[u] ^ A[v]) + dp[v];
 		}
 	};
-	vector<ll>ans(n + 1, 0);
-	function<void(ll, ll)>dfs2 = [&](ll u, ll f) {
+	vector<i64>ans(n + 1, 0);
+	function<void(i64, i64)>dfs2 = [&](i64 u, i64 f) {
 		ans[u] = dp[u];
 		for (auto v : tr[u]) {
 			if (v == f)continue;
-			ll szv = sz[v], szu = sz[u], dpu = dp[u], dpv = dp[v];
+			i64 szv = sz[v], szu = sz[u], dpu = dp[u], dpv = dp[v];
 			dp[u] -= dp[v] + sz[v] * (A[u] ^ A[v]); sz[u] -= sz[v];
 			dp[v] += sz[u] * (A[u] ^ A[v]) + dp[u];
 			sz[v] += sz[u];
@@ -41,10 +51,10 @@ void solve() {
 		}
 	};
 	dfs(1, 0); dfs2(1, 0);
-	for (ll i = 1; i <= n; i++)cout << ans[i] << " ";
+	for (i64 i = 1; i <= n; i++)cout << ans[i] << " ";
 	cout << endl;
 }
 signed main() {
-	ll T; std::cin >> T;
+	i64 T; std::cin >> T;
 	while (T --) solve();
 }

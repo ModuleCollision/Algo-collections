@@ -1,19 +1,30 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 5e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct sq {
-  ll zmx, omx, lzmx, rzmx, lomx, romx, l, r;
-  ll add;
+  i64 zmx, omx, lzmx, rzmx, lomx, romx, l, r;
+  i64 add;
 } tr[maxn * 4 + 5];
-ll n, q; string s;
-void pushup(ll u) {
+i64 n, q; string s;
+void pushup(i64 u) {
   tr[u].lzmx = tr[u << 1].lzmx;
   tr[u].rzmx = tr[u << 1 | 1].rzmx;
   tr[u].zmx = max(tr[u << 1].zmx, tr[u << 1 | 1].zmx);
@@ -37,7 +48,7 @@ void pushup(ll u) {
   }
   tr[u].omx = max(tr[u].omx, tr[u << 1].romx + tr[u << 1 | 1].lomx);
 }
-void build(ll u, ll l, ll r) {
+void build(i64 u, i64 l, i64 r) {
   tr[u].l = l; tr[u].r = r; tr[u].add = 0;
   if (l == r) {
     if (s[l] == '1') {
@@ -47,12 +58,12 @@ void build(ll u, ll l, ll r) {
     }
     return;
   }
-  ll mid = (l + r) >> 1;
+  i64 mid = (l + r) >> 1;
   build(u << 1, l, mid);
   build(u << 1 | 1, mid + 1, r);
   pushup(u);
 }
-void pushdown(ll p) {
+void pushdown(i64 p) {
   if (tr[p].add) {
     tr[p].add = 0;
     tr[p << 1].add ^= 1;
@@ -65,7 +76,7 @@ void pushdown(ll p) {
     swap(tr[p << 1 | 1].rzmx, tr[p << 1 | 1].romx);
   }
 }
-void modify(ll p, ll l, ll r) {
+void modify(i64 p, i64 l, i64 r) {
   if (tr[p].l >= l and tr[p].r <= r) {
     tr[p].add ^= 1;
     swap(tr[p].zmx, tr[p].omx);
@@ -74,17 +85,17 @@ void modify(ll p, ll l, ll r) {
     return;
   }
   pushdown(p);
-  ll mid = (tr[p].l + tr[p].r) >> 1;
+  i64 mid = (tr[p].l + tr[p].r) >> 1;
   if (l <= mid)modify(p << 1, l, r);
   if (r > mid)modify(p << 1 | 1, l, r);
   pushup(p);
 }
-sq query(ll p, ll l, ll r) {
+sq query(i64 p, i64 l, i64 r) {
   if (tr[p].l >= l and tr[p].r <= r)return tr[p];
   pushdown(p);
   sq ans, lans, rans;
   lans.omx = lans.lomx = lans.romx = rans.omx = rans.lomx = rans.romx = 0;
-  ll mid = (tr[p].l + tr[p].r) >> 1;
+  i64 mid = (tr[p].l + tr[p].r) >> 1;
   if (l <= mid)lans = query(p << 1, l, r);
   if (r > mid)rans = query(p << 1 | 1, l, r);
   ans.lomx = lans.lomx;
@@ -103,7 +114,7 @@ void solve() {
   cin >> n >> q >> s; s = " " + s;
   build(1, 1, n);
   while (q--) {
-    ll c, l, r;
+    i64 c, l, r;
     cin >> c >> l >> r;
     if (c == 1) {
       modify(1, l, r);

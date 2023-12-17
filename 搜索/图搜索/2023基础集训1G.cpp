@@ -1,5 +1,3 @@
-/*300兆字节 1- 2 秒*/
-
 #include<bits/extc++.h>
 
 using i8 = signed char;
@@ -20,7 +18,6 @@ using namespace std;
 constexpr i64 mod = 998244353;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
-
 
 vector<pair<int, int>>dir1{{0, 1}, {0, -1}, { -1, 0}, {1, 0}};
 map<char, pair<int, int>>dir2;

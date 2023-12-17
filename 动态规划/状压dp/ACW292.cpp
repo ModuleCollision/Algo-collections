@@ -1,20 +1,33 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 105;
-const ll inf = 0x3f3f3f3f;
-const ll mod = 998244353;
-vector<pair<ll, ll>>st[maxn];
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+vector<pair<i64, i64>>st[maxn];
 char G[maxn][maxn];
-ll dp[maxn][100005], N, M;
+i64 dp[maxn][100005], N, M;
 void solve() {
 	cin >> N >> M;
-	for (ll i = 1; i <= N; i++) {
+	for (i64 i = 1; i <= N; i++) {
 		cin >> G[i];
 	}
-	function<void(ll, ll, ll, ll)>dfs = [&](ll val, ll idx, ll r, ll cnt) {
+	function<void(i64, i64, i64, i64)>dfs = [&](i64 val, i64 idx, i64 r, i64 cnt) {
 		if (idx >= M) {
 			st[r].push_back({val, cnt});
 			return;
@@ -33,7 +46,7 @@ void solve() {
 		}
 		dfs(val, idx + 1, r, cnt);
 	};
-	for (ll i = 1; i <= N; i++) {
+	for (i64 i = 1; i <= N; i++) {
 		dfs(0, 0, i, 0);
 	}
 	for (auto [x, y] : st[1]) {
@@ -46,7 +59,7 @@ void solve() {
 			}
 		}
 	}
-	for (ll i = 3; i <= N; i++) {
+	for (i64 i = 3; i <= N; i++) {
 		for (auto [xc, yc] : st[i]) {
 			for (auto [xd, yd] : st[i - 2]) {
 				for (auto [xf, yf] : st[i - 1]) {
@@ -57,7 +70,7 @@ void solve() {
 			}
 		}
 	}
-	ll ans = 0;
+	i64 ans = 0;
 	for (auto [x, y] : st[N]) {
 		ans = max(ans, dp[N][x]);
 	}

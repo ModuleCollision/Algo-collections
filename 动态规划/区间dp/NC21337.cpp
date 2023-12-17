@@ -1,69 +1,82 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e2 + 5;
-const ll inf = 1e16;
-const ll mod = 1e9 + 7;
-ll dp[maxn][maxn]; char s[maxn];
-ll add[30], del[30], trans[30][30], c[30];
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 dp[maxn][maxn]; char s[maxn];
+i64 add[30], del[30], trans[30][30], c[30];
 void solve() {
-    for (ll i = 0; i < 26; i++) {
+    for (i64 i = 0; i < 26; i++) {
         add[i] = del[i] = inf;
-        for (ll j = 0; j < 26; j++) {
+        for (i64 j = 0; j < 26; j++) {
             if (i == j) {
                 continue;
             }
             trans[i][j] = inf;
         }
     }//Floyd的初始化
-    std::cin >> (s + 1); ll T; std::cin >> T;
+    std::cin >> (s + 1); i64 T; std::cin >> T;
     while (T--) {
         string opt;
         std::cin >> opt;
         if (opt == "add") {
-            string c; ll x; std::cin >> c >> x;
+            string c; i64 x; std::cin >> c >> x;
             add[c[0] - 'a'] = min(add[c[0] - 'a'], x);
         } else if (opt == "erase") {
-            string c; ll x;
+            string c; i64 x;
             std::cin >> c >> x;
             del[c[0] - 'a'] = min(del[c[0] - 'a'], x);
         } else {
-            string c1, c2; ll x;
+            string c1, c2; i64 x;
             std::cin >> c1 >> c2 >> x;
             trans[c1[0] - 'a'][c2[0] - 'a'] = min(trans[c1[0] - 'a'][c2[0] - 'a'], x);
         }
     }
-    for (ll k = 0; k < 26; k++) {
-        for (ll i = 0; i < 26; i++) {
-            for (ll j = 0; j < 26; j++) {
+    for (i64 k = 0; k < 26; k++) {
+        for (i64 i = 0; i < 26; i++) {
+            for (i64 j = 0; j < 26; j++) {
                 trans[i][j] = min(trans[i][j], trans[i][k] + trans[k][j]);
             }
         }
     }
-    for (ll i = 0; i < 26; i++) {
+    for (i64 i = 0; i < 26; i++) {
         c[i] = min(add[i], del[i]);
-        for (ll j = 0; j < 26; j++) {
+        for (i64 j = 0; j < 26; j++) {
             c[i] = min(c[i], trans[i][j] + min(add[j], del[j]));
             c[i] = min(c[i], trans[j][i] + add[j]);
-            for (ll k = 0; k < 26; k++) {
+            for (i64 k = 0; k < 26; k++) {
                 c[i] = min(c[i], trans[i][k] + add[j] + trans[j][k]);
             }
         }//使得子段[i, j]转移到[i + 1, j]的最小代价
     }
-    ll len = strlen(s + 1);
-    for (ll i = 0; i <= len; i++) {
+    i64 len = strlen(s + 1);
+    for (i64 i = 0; i <= len; i++) {
         dp[i][i] = 0; dp[i + 1][i] = 0;
     }//区间dp的初始化
-    for (ll l = 2; l <= len; l++) {
-        for (ll i = 1; i + l - 1 <= len; i++) {
-            ll j = i + l - 1; dp[i][j] = inf;
+    for (i64 l = 2; l <= len; l++) {
+        for (i64 i = 1; i + l - 1 <= len; i++) {
+            i64 j = i + l - 1; dp[i][j] = inf;
             if (s[i] == s[j])dp[i][j] = min(dp[i][j], dp[i + 1][j - 1]);
             dp[i][j] = min(dp[i][j], dp[i + 1][j] + c[s[i] - 'a']);
             dp[i][j] = min(dp[i][j], dp[i][j - 1] + c[s[j] - 'a']);
             dp[i][j] = min(dp[i][j], dp[i + 1][j - 1] + min(trans[s[i] - 'a'][s[j] - 'a'], trans[s[j] - 'a'][s[i] - 'a']));
-            for (ll k = 0; k < 26; k++) {
+            for (i64 k = 0; k < 26; k++) {
                 dp[i][j] = min(dp[i][j], dp[i + 1][j - 1] + trans[s[i] - 'a'][k] + trans[s[j] - 'a'][k]);
             }
         }

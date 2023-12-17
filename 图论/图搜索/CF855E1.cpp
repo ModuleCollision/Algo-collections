@@ -66,9 +66,10 @@ void solve() {
 	puts(f ? "Yes" : "No");
 }
 
-signed main() {
+int main() {
 	int T; std::cin >> T;
 	while (T--) {
 		solve();
 	}
+	return 0;
 }

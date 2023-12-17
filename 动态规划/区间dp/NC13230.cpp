@@ -1,23 +1,36 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e3 + 5;
-const int inf = 0x3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 char s1[maxn], s2[maxn];
-ll dp[55][55][55][55];
+i64 dp[55][55][55][55];
 void solve() {
 	std::cin >> (s1 + 1) >> (s2 + 1);
-	ll len1 = strlen(s1 + 1), len2 = strlen(s2 + 1);
-	ll res = -inf;
-	for (ll l1 = 0; l1 <= len1; l1++) {
-		for (ll l2 = 0; l2 <= len2; l2++) {
-			for (ll i = 1; i + l1 - 1 <= len1; i++) {
-				ll j = i + l1 - 1;
-				for (ll k = 1; k + l2 - 1 <= len2; k++) {
-					ll l = k + l2 - 1;
+	i64 len1 = strlen(s1 + 1), len2 = strlen(s2 + 1);
+	i64 res = -inf;
+	for (i64 l1 = 0; l1 <= len1; l1++) {
+		for (i64 l2 = 0; l2 <= len2; l2++) {
+			for (i64 i = 1; i + l1 - 1 <= len1; i++) {
+				i64 j = i + l1 - 1;
+				for (i64 k = 1; k + l2 - 1 <= len2; k++) {
+					i64 l = k + l2 - 1;
 					if (l1 + l2 <= 1)dp[i][j][k][l] = 1;
 					else {
 						dp[i][j][k][l] = 0;
@@ -42,6 +55,6 @@ void solve() {
 	cout << res << endl;
 }
 signed main() {
-	ll T; std::cin >> T;
+	i64 T; std::cin >> T;
 	while (T--)solve();
 }

@@ -1,9 +1,28 @@
-typedef long long ll;
-const ll mod = 1e9 + 7;
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 class Solution {
 public:
-  ll ksm(ll x, ll y) {
-    ll ret = 1;
+  i64 ksm(i64 x, i64 y) {
+    i64 ret = 1;
     while (y) {
       if (y & 1)ret = ret * x % mod;
       x = x * x % mod;
@@ -11,18 +30,18 @@ public:
     }
     return ret % mod;
   }
-  ll inv(ll x) {
+  i64 inv(i64 x) {
     return ksm(x, mod - 2) % mod;
   }
-  ll fac[100005];
+  i64 fac[100005];
   void init() {
     fac[0] = 1;
     for (int i = 1; i <= 1e5; i++)fac[i] = (fac[i - 1] % mod * i) % mod;
   }
-  ll comb(ll n, ll m) {
+  i64 comb(i64 n, i64 m) {
     return fac[n] % mod * inv(fac[n - m] % mod * fac[m] % mod) % mod;
   }
-  ll arrn(ll n, ll m) {
+  i64 arrn(i64 n, i64 m) {
     return comb(n, m) % mod * fac[m] % mod;
   }
   int waysToBuildRooms(vector<int>& prevRoom) {
@@ -34,10 +53,10 @@ public:
       tr[prevRoom[i] + 1].push_back(i + 1);
     }
     init();
-    vector<ll>sz(n + 1); vector<ll>dp(n + 1, 0);
+    vector<i64>sz(n + 1); vector<i64>dp(n + 1, 0);
     function<void(int, int)>dfs = [&](int u, int f) {
-      sz[u] = 1;  ll tot = 0;
-      ll sx = 1; ll sy = 1;
+      sz[u] = 1;  i64 tot = 0;
+      i64 sx = 1; i64 sy = 1;
       for (auto v : tr[u]) {
         if (v == f)continue;
         dfs(v, u);

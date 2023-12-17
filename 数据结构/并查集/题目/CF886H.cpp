@@ -1,18 +1,28 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi first
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-typedef unsigned long long ull;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-ll fa[maxn], v[maxn];//带权并查集模板
-ll find(ll x) {
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 fa[maxn], v[maxn];//带权并查集模板
+i64 find(i64 x) {
   if (x != fa[x]) {
-    ll tmp = find(fa[x]);
+    i64 tmp = find(fa[x]);
     v[x] += v[fa[x]];
     fa[x] = tmp;
     return fa[x];
@@ -20,15 +30,15 @@ ll find(ll x) {
   return x;
 }
 void solve() {
-  ll n, m; std::cin >> n >> m;
-  for (ll i = 1; i <= n; i++) {
+  i64 n, m; std::cin >> n >> m;
+  for (i64 i = 1; i <= n; i++) {
     fa[i] = i; v[i] = 0;
   }
   bool f = true;
-  for (ll i = 1; i <= m; i++) {
-    ll a, b, s;
+  for (i64 i = 1; i <= m; i++) {
+    i64 a, b, s;
     cin >> a >> b >> s;
-    ll ta = find(a), tb = find(b);
+    i64 ta = find(a), tb = find(b);
     if (ta != tb) {
       fa[ta] = tb;
       v[ta] = v[b] - v[a] + s;
@@ -39,7 +49,7 @@ void solve() {
   if (f)puts("YES");
 }
 signed main() {
-  ll T; std::cin >> T;
+  i64 T; std::cin >> T;
   while (T--)
     solve();
 }

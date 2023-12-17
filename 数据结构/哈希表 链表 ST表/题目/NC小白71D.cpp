@@ -1,33 +1,46 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 2e5 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct sq {
-	ll u; ll v; ll idx;
-} t1[maxn], t2[maxn]; ll tot = 0;
-std::set<ll>p;
+	i64 u; i64 v; i64 idx;
+} t1[maxn], t2[maxn]; i64 tot = 0;
+std::set<i64>p;
 void solve() {
-	ll n, m;
+	i64 n, m;
 	std::cin >> n >> m;
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		std::cin >> t1[i].u;
 		t1[i].idx = i;
 	}
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		std::cin >> t1[i].v;
 	}
-	for (ll i = 1; i <= m; i++) {
+	for (i64 i = 1; i <= m; i++) {
 		std::cin >> t2[i].u;
 		t2[i].idx = i;
 	}
-	for (ll i = 1; i <= m; i++) {
+	for (i64 i = 1; i <= m; i++) {
 		std::cin >> t2[i].v;
 	}
-	ll prev = 0;
+	i64 prev = 0;
 	std::sort(t1 + 1, t1 + 1 + n, [&](sq a, sq b)->bool{
 		return a.u < b.u;
 	});
@@ -35,14 +48,14 @@ void solve() {
 		return a.v < b.v;
 	});
 	p.clear();
-	vector<ll>ans(n + 5, 0);
-	for (ll i = 1, j = 1; i <= n; i++) {
-		ll val = t1[i].u;
+	vector<i64>ans(n + 5, 0);
+	for (i64 i = 1, j = 1; i <= n; i++) {
+		i64 val = t1[i].u;
 		while (t2[j].v <= val and j <= m) {
 			p.insert(t2[j].u);
 			j++;
 		}
-		ll idx = t1[i].idx;
+		i64 idx = t1[i].idx;
 		if (p.size() == 0) {
 			ans[idx] = -1; continue;
 		}
@@ -53,7 +66,7 @@ void solve() {
 			ans[idx] = -1;
 		}
 	}
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		cout << ans[i] << " ";
 	}
 }

@@ -1,9 +1,25 @@
 /*并查集+哈希表*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef long long ll;
-const int maxn = 1e6 + 5;
-const int mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct dsu {
 	vector<int>fa;
 	void init(int n) {
@@ -44,7 +60,7 @@ int n, w[maxn];
 int gcd(int x, int y) {
 	return y == 0 ? x : gcd(y, x % y);
 }
-signed main() {
+int main() {
 	seieve();
 	std::cin >> n;
 	for (int i = 1; i <= n; i++) {

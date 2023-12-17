@@ -4,21 +4,34 @@
 /*顺推的定义为到哪一步的概率 / 期望, 逆推的定义为某状态达到最终状态的概率 / 期望*/
 
 /*本题显然顺推比较方便*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 2e2 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
-ll N, A, B, P, Q;
-ll dp[maxn][maxn];
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 N, A, B, P, Q;
+i64 dp[maxn][maxn];
 /*我们令dp[i][j]为T先手,经过一轮之后到达i,j状态的概率*/
 void solve() {
 	std::cin >> N >> A >> B >> P >> Q;
-	auto inv = [&](ll x) {
-		ll a = x, b = mod - 2, ret = 1;
+	auto inv = [&](i64 x) {
+		i64 a = x, b = mod - 2, ret = 1;
 		while (b) {
 			if (b & 1) {
 				ret = ret * a % mod;
@@ -29,17 +42,17 @@ void solve() {
 		return ret;
 	};
 	dp[A][B] = 1;
-	for (ll i = 1; i <= N - 1; i++) {
-		for (ll j = 1; j <= N - 1; j++) {
-			for (ll x = 1; x <= P; x++) {
-				for (ll y = 1; y <= Q; y++) {
+	for (i64 i = 1; i <= N - 1; i++) {
+		for (i64 j = 1; j <= N - 1; j++) {
+			for (i64 x = 1; x <= P; x++) {
+				for (i64 y = 1; y <= Q; y++) {
 					dp[min(i + x, N)][min(j + y, N)] = (dp[min(i + x, N)][min(j + y, N)] % mod + dp[i][j] % mod * inv(P) % mod * inv(Q) % mod) % mod;
 				}
 			}
 		}
 	}
-	ll ans = 0;
-	for (ll i = 1; i <= N; i++) {
+	i64 ans = 0;
+	for (i64 i = 1; i <= N; i++) {
 		ans = (ans % mod + dp[N][i] % mod) % mod;
 	}
 	cout << ans << endl;
@@ -49,19 +62,32 @@ signed main() {
 }
 
 /*逆推*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 2e2 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll N, A, B, P, Q;
+	i64 N, A, B, P, Q;
 	std::cin >> N >> A >> B >> P >> Q;
-	auto inv = [&](ll x) {
-		ll b = mod - 2; ll ret = 1;
+	auto inv = [&](i64 x) {
+		i64 b = mod - 2; i64 ret = 1;
 		while (b) {
 			if (b & 1) {
 				ret = ret * x % mod;
@@ -71,20 +97,20 @@ void solve() {
 		}
 		return ret;
 	};
-	vector dp(N + 5, vector<ll>(N + 5, 0));
-	for (ll i = 1; i <= N; i++) {
+	vector dp(N + 5, vector<i64>(N + 5, 0));
+	for (i64 i = 1; i <= N; i++) {
 		dp[N][i] = 1;
 	}
-	for (ll i = N - 1; i >= A; i--) {
-		for (ll j = N - 1; j >= B; j--) {
-			for (ll x = 1; x <= P; x++) {
-				for (ll y = 1; y <= Q; y++) {
+	for (i64 i = N - 1; i >= A; i--) {
+		for (i64 j = N - 1; j >= B; j--) {
+			for (i64 x = 1; x <= P; x++) {
+				for (i64 y = 1; y <= Q; y++) {
 					dp[i][j] = (dp[i][j] % mod + dp[min(i + x, N)][min(j + y, N)] % mod * inv(P) % mod * inv(Q) % mod) % mod;
 				}
 			}
 		}
 	}
-	ll ans = 0;
+	i64 ans = 0;
 	cout << dp[A][B] % mod << endl;
 }
 signed main() {
@@ -102,11 +128,11 @@ signed main() {
 #include<bits/stdc++.h>
 using namespace std;
 typedef double db;
-typedef long long ll;
+typedef long long i64;
 typedef long double lb;
-const ll maxn = 1000005;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+const i64 maxn = 1000005;
+const i64 inf = 0x3f3f3f3f3f3f3f3f;
+const i64 mod = 1e9 + 7;
 void solve() {
 	int w, b; std::cin >> w >> b;
 	vector dp(w + 5, vector<db>(b + 5, 0.0));
@@ -122,8 +148,8 @@ void solve() {
 		}
 	}
 	db ans = 0.0;
-	for (ll i = 0; i <= w; i++) {
-		for (ll j = 0; j <= b; j++) {
+	for (i64 i = 0; i <= w; i++) {
+		for (i64 j = 0; j <= b; j++) {
 			if (i + j)
 				ans = (ans + dp[i][j] * (db)(i) / (j + i));
 		}
@@ -138,11 +164,11 @@ signed main() {
 #include<bits/stdc++.h>
 using namespace std;
 typedef double db;
-typedef long long ll;
+typedef long long i64;
 typedef long double lb;
-const ll maxn = 2e2 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+const i64 maxn = 2e2 + 5;
+const i64 inf = 0x3f3f3f3f3f3f3f3f;
+const i64 mod = 998244353;
 void solve() {
 	int w, b; std::cin >> w >> b;
 	db dp[w + 5][b + 5];

@@ -1,33 +1,46 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef long long ll;
-typedef double db;
-typedef long double lb;
-const ll maxn = 2e5 + 5;
-const ll inf = 0x3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 struct sq {
-	ll mx; ll laz; ll l, r;
+	i64 mx; i64 laz; i64 l, r;
 } tr[maxn * 4];
-ll m, p;
-void pushup(ll u) {
+i64 m, p;
+void pushup(i64 u) {
 	tr[u].mx = max(tr[u << 1].mx, tr[u << 1 | 1].mx);
 	return;
 }
-void build(ll u, ll l, ll r) {
+void build(i64 u, i64 l, i64 r) {
 	tr[u].l = l; tr[u].r = r;
 	if (l == r) {
 		tr[u].mx = 0;
 		return;
 	}
-	ll mid = (l + r) >> 1;
+	i64 mid = (l + r) >> 1;
 	build(u << 1, l, mid);
 	build(u << 1 | 1, mid + 1, r);
 	pushup(u);
 }
-void pushdown(ll u) {
+void pushdown(i64 u) {
 	if (tr[u].laz) {
-		ll la = tr[u].laz;
+		i64 la = tr[u].laz;
 		tr[u].laz = 0;
 		tr[u << 1].laz = la;
 		tr[u << 1 | 1].laz = la;
@@ -36,34 +49,34 @@ void pushdown(ll u) {
 	}
 	return;
 }
-void modify1(ll u, ll l, ll r, ll v) {
+void modify1(i64 u, i64 l, i64 r, i64 v) {
 	if (tr[u].l >= l and tr[u].r <= r) {
 		tr[u].mx = v; tr[u].laz = v;
 		return;
 	}
 	pushdown(u);
-	ll mid = (tr[u].l + tr[u].r) >> 1;
+	i64 mid = (tr[u].l + tr[u].r) >> 1;
 	if (l <= mid)modify1(u << 1, l, r, v);
 	if (r > mid)modify1(u << 1 | 1, l, r, v);
 	pushup(u);
 }
-ll query(ll u, ll l, ll r) {
+i64 query(i64 u, i64 l, i64 r) {
 	if (tr[u].l >= l and tr[u].r <= r) {
 		return tr[u].mx;
 	}
 	pushdown(u);
-	ll ret = 0;
-	ll mid = (tr[u].l + tr[u].r) >> 1;
+	i64 ret = 0;
+	i64 mid = (tr[u].l + tr[u].r) >> 1;
 	if (l <= mid)ret = max(ret, query(u << 1, l, r));
 	if (r > mid)ret = max(ret, query(u << 1 | 1, l, r));
 	return ret;
 }
 void solve() {
-	ll m, p; std::cin >> m >> p;
-	ll cur = 0;
+	i64 m, p; std::cin >> m >> p;
+	i64 cur = 0;
 	build(1, 1, m);
-	ll pre = 0;
-	char opt; ll k;
+	i64 pre = 0;
+	char opt; i64 k;
 	while (m--) {
 		cin >> opt >> k;
 		if (opt == 'Q') {

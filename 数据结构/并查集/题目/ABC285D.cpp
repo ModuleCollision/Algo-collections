@@ -1,28 +1,41 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
-std::map<string, ll>k;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+std::map<string, i64>k;
 string a, b;
-ll tot;
-ll d[maxn]; bool vis[maxn];
-vector<ll>tr[maxn]; ll N;
+i64 tot;
+i64 d[maxn]; bool vis[maxn];
+vector<i64>tr[maxn]; i64 N;
 void solve() {
   std::cin >> N;
-  for (ll i = 1; i <= N; i++) {
+  for (i64 i = 1; i <= N; i++) {
     std::cin >> a >> b;
-    ll u, v;
+    i64 u, v;
     if (not k.count(a))k[a] = ++tot;
     if (not k.count(b))k[b] = ++tot;
     u = k[a], v = k[b];
     tr[u].push_back(v); d[v]++;
   }
-  ll s = k.size(); queue<ll>q;
-  for (ll i = 1; i <= s; i++) {
+  i64 s = k.size(); queue<i64>q;
+  for (i64 i = 1; i <= s; i++) {
     if (not d[i]) {
       q.push(i); vis[i] = 1;
     }
@@ -35,8 +48,8 @@ void solve() {
         q.push(v), vis[v] = 1;
       }
     }
-  } ll cnt = 0;
-  for (ll i = 1; i <= s; i++) {
+  } i64 cnt = 0;
+  for (i64 i = 1; i <= s; i++) {
     if (vis[i])cnt++;
   }
   if (cnt == s) {

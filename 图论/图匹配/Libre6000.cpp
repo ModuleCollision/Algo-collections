@@ -26,7 +26,7 @@ struct edge {
 /*此题为求解二分图最大匹配,转换为网络流问题求解*/
 void solve() {
 	i64 n, m; std::cin >> n >> m;
-	std::fii64(head, head + n + 5, -1);
+	std::fill(head, head + n + 5, -1);
 	auto add_edge = [&](i64 u, i64 v, i64 w) {
 		e[cnt] = {v, w, 0, head[u]};
 		head[u] = cnt++;

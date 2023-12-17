@@ -1,26 +1,39 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 5e3 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll N, T, M; std::cin >> N >> T >> M;
-	vector<set<ll>>k(T + 5);
-	vector<set<ll>>tr(N + 5);
-	for (ll i = 1; i <= M; i++) {
-		ll A, B; std::cin >> A >> B;
+	i64 N, T, M; std::cin >> N >> T >> M;
+	vector<set<i64>>k(T + 5);
+	vector<set<i64>>tr(N + 5);
+	for (i64 i = 1; i <= M; i++) {
+		i64 A, B; std::cin >> A >> B;
 		tr[A].insert(B); tr[B].insert(A);
 	}
-	ll cur = 0; ll ans = 0;
-	function<void(ll)>dfs = [&](ll idx) {
+	i64 cur = 0; i64 ans = 0;
+	function<void(i64)>dfs = [&](i64 idx) {
 		if (idx >= N + 1) {
 			if (cur == T)ans++;
 			return;
 		}
-		for (ll i = 1; i <= cur; i++) {
+		for (i64 i = 1; i <= cur; i++) {
 			bool f = 1;
 			if (k[i].count(idx))continue;
 			for (auto c : k[i]) {

@@ -47,7 +47,7 @@ int dfs(int u, int f) {
 	}
 	return s;
 }
-signed main() {
+int main() {
 	std::cin >> n >> m;
 	for (int i = 1; i <= m; i++) {
 		int u, v; std::cin >> u >> v;

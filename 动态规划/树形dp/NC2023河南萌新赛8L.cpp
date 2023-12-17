@@ -1,45 +1,56 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi fifst
-#define se second
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 1e9 + 7;
-ll fa[maxn]; ll sz[maxn];
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
+i64 fa[maxn]; i64 sz[maxn];
 void solve() {
-	ll n, m; std::cin >> n >> m;
-	vector<vector<ll>>tr(n + 1);
-	vector<vector<ll>>p(n + 1);
-	for (ll i = 1; i <= n - 1; i++) {
-		ll u, v; std::cin >> u >> v;
+	i64 n, m; std::cin >> n >> m;
+	vector<vector<i64>>tr(n + 1);
+	vector<vector<i64>>p(n + 1);
+	for (i64 i = 1; i <= n - 1; i++) {
+		i64 u, v; std::cin >> u >> v;
 		tr[u].push_back(v); tr[v].push_back(u);
 	}
-	for (ll i = 1; i <= m; i++) {
-		ll u, v; std::cin >> u >> v;
+	for (i64 i = 1; i <= m; i++) {
+		i64 u, v; std::cin >> u >> v;
 		p[u].push_back(v); p[v].push_back(u);
 	}
-	for (ll i = 1; i <= n; i++)fa[i] = i;
-	auto find = [&](ll x) {
+	for (i64 i = 1; i <= n; i++)fa[i] = i;
+	auto find = [&](i64 x) {
 		while (x != fa[x])x = fa[x] = fa[fa[x]];
 		return x;
 	};
-	auto merge = [&](ll a, ll b) {
-		ll x = find(a), y = find(b);
+	auto merge = [&](i64 a, i64 b) {
+		i64 x = find(a), y = find(b);
 		if (x == y)return;
 		fa[x] = y; sz[y] += sz[x];
 	};
-	vector<ll>f(n + 5, 0);
-	vector<ll>dep(n + 5); vector<vector<ll>>ws;
+	vector<i64>f(n + 5, 0);
+	vector<i64>dep(n + 5); vector<vector<i64>>ws;
 	dep[1] = 1;
 	auto bfs = [&]() {
-		deque<ll>q; q.push_back(1);
+		deque<i64>q; q.push_back(1);
 		while (q.size()) {
-			ll sz = q.size();
-			vector<ll>lay;
-			for (ll i = 0; i < sz; i++) {
+			i64 sz = q.size();
+			vector<i64>lay;
+			for (i64 i = 0; i < sz; i++) {
 				auto cur = q.front();
 				q.pop_front();
 				lay.push_back(cur);
@@ -54,8 +65,8 @@ void solve() {
 		}
 	};
 	bfs();
-	vector<ll>dp(n + 5, 0);
-	for (ll i = ws.size() - 1; i >= 0; i--) {
+	vector<i64>dp(n + 5, 0);
+	for (i64 i = ws.size() - 1; i >= 0; i--) {
 		if (not ws[i].size())continue;
 		auto &lay = ws[i];
 		for (auto u : ws[i]) {

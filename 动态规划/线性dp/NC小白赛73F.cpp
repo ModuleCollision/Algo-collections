@@ -1,25 +1,38 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long ll;
-typedef long double lb;
-const ll maxn = 1e6 + 5;
-const ll inf = 0x3f3f3f3f3f3f3f3f;
-const ll mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
-	ll n, b, p, k;
+	i64 n, b, p, k;
 	std::cin >> n >> b >> p >> k;
-	ll Hash = 0;
+	i64 Hash = 0;
 	string s; cin >> s; s = " " + s;
-	for (ll i = 1; i <= n; i++) {
+	for (i64 i = 1; i <= n; i++) {
 		Hash = (Hash * b + s[i] - 'a' + 1) % p;
 	}
-	vector dp(n + 5, vector (k + 5, vector<ll>(1005, 0)));
+	vector dp(n + 5, vector (k + 5, vector<i64>(1005, 0)));
 	auto now = dp, pre = dp;
 	dp[0][0][0] = 1;
-	for (ll i = 1; i <= n; i++) {
-		for (ll j = 0; j <= k; j++) {
-			for (ll l = 0; l < p; l++) {
+	for (i64 i = 1; i <= n; i++) {
+		for (i64 j = 0; j <= k; j++) {
+			for (i64 l = 0; l < p; l++) {
 				for (char q = 'a'; q <= 'z'; q++) {
 					if (s[i] == q) {
 						if (j and dp[i - 1][j - 1][l]) {
@@ -41,10 +54,10 @@ void solve() {
 	if (not dp[n][k][Hash]) {
 		puts("-1"); return;
 	}
-	ll ps = Hash; string ans = "";
-	for (ll i = n, ned = k; i >= 1; i--) {
+	i64 ps = Hash; string ans = "";
+	for (i64 i = n, ned = k; i >= 1; i--) {
 		ans += now[i][ned][ps];
-		ll tmp = ps;
+		i64 tmp = ps;
 		ps = pre[i][ned][ps];
 		if (now[i][ned][tmp] == s[i])ned--;
 	}
@@ -52,7 +65,7 @@ void solve() {
 	cout << ans << endl;
 }
 signed main() {
-	ll T; std::cin >> T;
+	i64 T; std::cin >> T;
 	while (T--)
 		solve();
 }

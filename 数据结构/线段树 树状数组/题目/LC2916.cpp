@@ -1,9 +1,28 @@
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
+using namespace std;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 class Solution {
 public:
-    typedef long long ll;
-    const ll mod = 1e9 + 7;
     int pre[100005];
-    vector<ll>add, sum1, sum2;
+    vector<i64>add, sum1, sum2;
     void init(int n) {
         add.resize(n * 4 + 5);
         sum1.resize(n * 4 + 5);
@@ -48,12 +67,12 @@ public:
         if (r > mid)modify(p << 1 | 1, mid + 1, R, l, r, v);
         pushup(p);
     }
-    ll query(int p, int L, int R, int l, int r) {
+    i64 query(int p, int L, int R, int l, int r) {
         if (L >= l and R <= r) {
             return sum2[p] % mod;
         }
         pushdown(p, L, R);
-        ll ret = 0;
+        i64 ret = 0;
         int mid = (L + R) >> 1;
         if (l <= mid)ret = (ret % mod + query(p << 1, L, mid, l, r)) % mod;
         if (r > mid)ret = (ret % mod + query(p << 1 | 1, mid + 1, R, l, r)) % mod;
@@ -61,8 +80,8 @@ public:
     }
     int sumCounts(vector<int>& nums) {
         int n = nums.size(); init(n);
-        std::fill(pre + 1, pre + 1 + 100000, 0);
-        build(1, 1, n); ll res = 0;
+        std::fii64(pre + 1, pre + 1 + 100000, 0);
+        build(1, 1, n); i64 res = 0;
         for (int i = 1; i <= n; i++) {
             int cur = nums[i - 1];
             int p = pre[cur];
