@@ -52,7 +52,7 @@ void solve() {
 	}
 	cout << res << endl;
 	for (i64 i = 1; i <= n; i++) {
-		cout << max(0i64, pa[i] - n) << " \n"[i == n];
+		cout << max(0ll, pa[i] - n) << " \n"[i == n];
 	}
 }
 signed main() {

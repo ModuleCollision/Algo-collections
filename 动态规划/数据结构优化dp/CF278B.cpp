@@ -58,7 +58,7 @@ void solve() {
   i64 n, s, l; cin >> n >> s >> l;
   for (i64 i = 1; i <= n; i++)cin >> a[i];
   std::multiset<i64>st1;
-  std::fii64(dp + 1, dp + 1 + n, inf);
+  std::fill(dp + 1, dp + 1 + n, inf);
   build(1, 1, n);
   auto check = [&]() {
     return (*(--st1.end())) - (*st1.begin()) > s;

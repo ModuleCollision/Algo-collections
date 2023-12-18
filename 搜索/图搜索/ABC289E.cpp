@@ -41,7 +41,7 @@ void solve() {
 		i64 u = cur.first, v = cur.second;
 		for (auto uu : tr[u]) {
 			for (auto vv : tr[v]) {
-				if (C[uu]^C[vv] and not vis[uu][vv]) {
+				if ((C[uu] ^ C[vv]) and not vis[uu][vv]) {
 					dis[uu][vv] = min(dis[uu][vv], dis[u][v] + 1);
 					q.push({uu, vv});
 					vis[uu][vv] = 1;

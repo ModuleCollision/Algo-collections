@@ -26,7 +26,7 @@ struct edge {
 i64 head[maxn], cur[maxn], dis[maxn]; bool vis[maxn];
 void solve() {
 	i64 n, m, s, t; std::cin >> n >> m >> s >> t;
-	std::fii64(head + 1, head + 1 + n, -1);
+	std::fill(head + 1, head + 1 + n, -1);
 	i64 cnt = 0;
 	auto add_edge = [&](i64 u, i64 v, i64 w, i64 c) {
 		e[cnt].flow = 0;
@@ -39,7 +39,7 @@ void solve() {
 		add_edge(v, u, 0, -c);
 	}
 	auto spfa = [&](i64 s, i64 t) {
-		std::fii64(dis + 1, dis + 1 + n, inf);
+		std::fill(dis + 1, dis + 1 + n, inf);
 		std::queue<i64>q;
 		q.push(s); dis[s] = 0; vis[s] = 1;
 		while (q.size()) {

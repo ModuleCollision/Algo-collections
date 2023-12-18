@@ -38,13 +38,13 @@ public:
           r = mid - 1;
         }
       }
-      dp[i] = dp[res] + i - res - 1;
+      dp[i] = dp[res] + 1;
       val[i] = p[i] - p[res];
       while (w.size() and w.back().first >= val[i] + p[i]) {
         w.pop_back();
       }
       w.push_back({val[i] + p[i], i});
     }
-    return n - dp[n];
+    return dp[n];
   }
 };

@@ -26,7 +26,7 @@ struct edge {
 /*这里是模板题, 最大流*/
 void solve() {
 	i64 n, m, s, t; std::cin >> n >> m >> s >> t;
-	std::fii64(head + 1, head + 1 + n, -1);
+	std::fill(head + 1, head + 1 + n, -1);
 	auto add_edge = [&](i64 u, i64 v, i64 w) {
 		e[cnt] = {v, w, 0, head[u]};
 		head[u] = cnt++;
@@ -38,7 +38,7 @@ void solve() {
 		add_edge(b , a, 0);
 	}
 	auto bfs = [&]() {
-		queue<i64>q; std::fii64(dep + 1, dep + 1 + n, 0);
+		queue<i64>q; std::fill(dep + 1, dep + 1 + n, 0);
 		dep[s] = 1;
 		q.push(s);
 		while (q.size()) {

@@ -69,16 +69,6 @@ void solve() {
 			}
 		}
 	}
-	/*for (i64 i = 1; i <= n; i++) {
-		if (co[i])continue;
-		if (s[i] == ')') {
-			stk2[++top2] = i;
-		} else {
-			if (top2) {
-				co[i] = co[stk2[top2]] = 2; top2--;
-			}
-		}
-	}*/
 	for (i64 i = 1; i <= n; i++) {
 		if (not co[i]) {
 			puts("-1"); return;
@@ -86,11 +76,10 @@ void solve() {
 	}
 	cout << 2 << endl;
 	for (i64 i = 1; i <= n; i++) {
-		cout << co[i] << " ";
+		cout << co[i] << " \n"[i == n];
 	}
-	cout << endl;
 }
-signed main() {
+int main() {
 	i64 T; std::cin >> T;
 	while (T--)solve();
 }

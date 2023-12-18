@@ -29,48 +29,48 @@ public:
 			st1.push_back({{positions[i], healths[i], i}, directions[i]});
 		}
 		std::sort(st1.begin(), st1.end(), [&](auto s, auto t)->bool{
-			return s.fi[0] < t.fi[0];
+			return s.first[0] < t.first[0];
 		});
 		for (auto c : st1) {
-			st.push_back({{c.fi[1], c.fi[2]}, c.second});
+			st.push_back({{c.first[1], c.first[2]}, c.second});
 		}
 		vector<pair<array<int, 2>, char>>w;
 		for (int i = 0; i < n; i++) {
 			if (w.size()) {
-				if (w.back().se == 'R' and st[i].se == 'L') {
+				if (w.back().second == 'R' and st[i].second == 'L') {
 					while (w.size()) {
-						if (not (w.back().se == 'R' and st[i].se == 'L')) {
+						if (not (w.back().second == 'R' and st[i].second == 'L')) {
 							break;
 						} else {
-							if (w.back().fi[0] < st[i].fi[0]) {
-								st[i].fi[0] -= 1;
+							if (w.back().first[0] < st[i].first[0]) {
+								st[i].first[0] -= 1;
 								w.pop_back();
-							} else if (w.back().fi[0] == st[i].fi[0]) {
-								w.back().fi[0] -= 1; st[i].fi[0] = 0; w.pop_back();
+							} else if (w.back().first[0] == st[i].first[0]) {
+								w.back().first[0] -= 1; st[i].first[0] = 0; w.pop_back();
 								break;
 							} else {
-								w.back().fi[0] -= 1; st[i].fi[0] = 0; break;
+								w.back().first[0] -= 1; st[i].first[0] = 0; break;
 							}
 						}
 					}
-					if (st[i].fi[0])w.push_back({{st[i].fi[0], st[i].fi[1]}, st[i].se});
+					if (st[i].first[0])w.push_back({{st[i].first[0], st[i].first[1]}, st[i].second});
 				} else {
-					w.push_back({{st[i].fi[0], st[i].fi[1]}, st[i].se});
+					w.push_back({{st[i].first[0], st[i].first[1]}, st[i].second});
 				}
 			} else {
-				w.push_back({{st[i].fi[0], st[i].fi[1]}, st[i].se});
+				w.push_back({{st[i].first[0], st[i].first[1]}, st[i].second});
 			}
 		}
 		vector<pair<int, int>>ans;
 		for (auto c : w) {
-			if (c.fi[0])ans.push_back({c.fi[0], c.fi[1]});
+			if (c.first[0])ans.push_back({c.first[0], c.first[1]});
 		}
 		sort(ans.begin(), ans.end(), [&](auto s, auto t) {
-			return s.se < t.se;
+			return s.second < t.second;
 		});
 		vector<int>f;
 		for (auto c : ans) {
-			f.push_back(c.fi);
+			f.push_back(c.first);
 		}
 		return f;
 	}
