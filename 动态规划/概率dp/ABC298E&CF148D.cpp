@@ -15,10 +15,10 @@ using u32 = unsigned int;
 using f32 = float;
 using i64 = signed long long;
 using u64 = unsigned long long;
-using f64 = double;
+using f64 = f64;
 using i128 = __int128_t;
 using u128 = __uint128_t;
-using f128 = long double;
+using f128 = long f64;
 using namespace std;
 
 constexpr i64 mod = 998244353;
@@ -73,10 +73,10 @@ using u32 = unsigned int;
 using f32 = float;
 using i64 = signed long long;
 using u64 = unsigned long long;
-using f64 = double;
+using f64 = f64;
 using i128 = __int128_t;
 using u128 = __uint128_t;
-using f128 = long double;
+using f128 = long f64;
 using namespace std;
 
 constexpr i64 mod = 998244353;
@@ -125,33 +125,44 @@ signed main() {
 
 
 /*顺推*/
-#include<bits/stdc++.h>
-using namespace std;
-typedef double db;
-typedef long long i64;
-typedef long double lb;
-const i64 maxn = 1000005;
-const i64 inf = 0x3f3f3f3f3f3f3f3f;
-const i64 mod = 1e9 + 7;
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long f64;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 void solve() {
 	int w, b; std::cin >> w >> b;
-	vector dp(w + 5, vector<db>(b + 5, 0.0));
+	vector dp(w + 5, vector<f64>(b + 5, 0.0));
 	dp[w][b] = 1.0;
 	for (int i = w; i >= 0; i--) {
 		for (int j = b; j >= 0; j--) {
 			if (j >= 3) {
-				dp[i][j - 3] += (db)j / (i + j) * (j - 1) / (i + j - 1) * (j - 2) / (i + j - 2) * dp[i][j];
+				dp[i][j - 3] += (f64)j / (i + j) * (j - 1) / (i + j - 1) * (j - 2) / (i + j - 2) * dp[i][j];
 			}
 			if (i >= 1 and j >= 2) {
-				dp[i - 1][j - 2] += (db)j / (i + j) * (j - 1) / (i + j - 1) * i / (i + j - 2) * dp[i][j];
+				dp[i - 1][j - 2] += (f64)j / (i + j) * (j - 1) / (i + j - 1) * i / (i + j - 2) * dp[i][j];
 			}
 		}
 	}
-	db ans = 0.0;
+	f64 ans = 0.0;
 	for (i64 i = 0; i <= w; i++) {
 		for (i64 j = 0; j <= b; j++) {
 			if (i + j)
-				ans = (ans + dp[i][j] * (db)(i) / (j + i));
+				ans = (ans + dp[i][j] * (f64)(i) / (j + i));
 		}
 	}
 	printf("%.9lf", ans);
@@ -161,29 +172,40 @@ signed main() {
 }
 
 /*逆推*/
-#include<bits/stdc++.h>
-using namespace std;
-typedef double db;
-typedef long long i64;
-typedef long double lb;
-const i64 maxn = 2e2 + 5;
-const i64 inf = 0x3f3f3f3f3f3f3f3f;
-const i64 mod = 998244353;
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long f64;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 void solve() {
 	int w, b; std::cin >> w >> b;
-	db dp[w + 5][b + 5];
+	f64 dp[w + 5][b + 5];
 	memset(dp, 0, sizeof(dp));
 	for (int i = 1; i <= w; i++) dp[i][0] = 1;  // 初始化
 	for (int i = 1; i <= b; i++) dp[0][i] = 0;
 	for (int i = 1; i <= w; i++) {
 		for (int j = 1; j <= b; j++) {  // 以下为题面概率转移
-			dp[i][j] += (double)i / (i + j);
+			dp[i][j] += (f64)i / (i + j);
 			if (j >= 3) {
-				dp[i][j] += (double)j / (i + j) * (j - 1) / (i + j - 1) * (j - 2) /
+				dp[i][j] += (f64)j / (i + j) * (j - 1) / (i + j - 1) * (j - 2) /
 				            (i + j - 2) * dp[i][j - 3];
 			}
 			if (i >= 1 && j >= 2) {
-				dp[i][j] += (double)j / (i + j) * (j - 1) / (i + j - 1) * i /
+				dp[i][j] += (f64)j / (i + j) * (j - 1) / (i + j - 1) * i /
 				            (i + j - 2) * dp[i - 1][j - 2];
 			}
 		}
