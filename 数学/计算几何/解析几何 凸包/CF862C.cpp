@@ -26,7 +26,7 @@ void solve() {
 	for (i64 i = 1; i <= n; i++) {
 		std::cin >> k[i];
 	}
-	std::sort(k + 1, k + 1 + n, [&](db x, db y)->bool{
+	std::sort(k + 1, k + 1 + n, [&](f64 x, f64 y)->bool{
 		return x < y;
 	});
 	for (i64 i = 1; i <= m; i++) {
