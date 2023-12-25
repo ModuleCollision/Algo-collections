@@ -73,7 +73,7 @@ public:
 		for (auto e : edges) {
 			if (e[2] == -1)k++;
 		}
-		cons(0i64, target);
+		cons(0ll, target);
 		if (dij(source, destination) > target) {
 			return {};
 		}

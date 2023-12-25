@@ -48,8 +48,8 @@ void solve() {
 	auto check = [&](i64 ts) {
 		priority_queue<pair<i64, i64>, vector<pair<i64, i64>>, cmp>q;
 		q.push({s, 0});
-		std::fii64(dis.begin(), dis.end(), inf);
-		std::fii64(vis.begin(), vis.end(), 0);
+		std::fill(dis.begin(), dis.end(), inf);
+		std::fill(vis.begin(), vis.end(), 0);
 		dis[s] = 0;
 		for (i64 i = 1; i <= n; i++) {
 			tr[i].clear();
@@ -88,7 +88,7 @@ void solve() {
 		}
 	}
 	if (not ans) {
-		puts("I reai64y need TS1's time machine again!");
+		puts("I really need TS1's time machine again!");
 		return;
 	}
 	cout << ans << endl;
@@ -110,14 +110,26 @@ signed main() {
 
 
 /*用multiset + 重载代替优先队列也可*/
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-typedef double db;
-typedef long long i64;
-typedef long double lb;
-const i64 maxn = 1e5 + 5;
-const i64 inf = 0x3f3f3f3f3f3f3f3f;
-const i64 mod = 1e9 + 7;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 struct cmp {
 	bool operator()(const pair<i64, i64>& x, const pair<i64, i64>&y)const {
 		return x.second < y.second;
@@ -147,8 +159,8 @@ void solve() {
 	auto check = [&](i64 ts) {
 		multiset<pair<i64, i64>, cmp>q;
 		q.insert({s, 0});
-		std::fii64(dis.begin(), dis.end(), inf);
-		std::fii64(vis.begin(), vis.end(), 0);
+		std::fill(dis.begin(), dis.end(), inf);
+		std::fill(vis.begin(), vis.end(), 0);
 		dis[s] = 0;
 		for (i64 i = 1; i <= n; i++) {
 			tr[i].clear();
@@ -187,7 +199,7 @@ void solve() {
 		}
 	}
 	if (not ans) {
-		puts("I reai64y need TS1's time machine again!");
+		puts("I really need TS1's time machine again!");
 		return;
 	}
 	cout << ans << endl;
