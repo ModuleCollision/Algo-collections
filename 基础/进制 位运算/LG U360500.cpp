@@ -1,5 +1,5 @@
 /*子数组和的异或和*/
-#include<bits/extc++.h>
+#include<bits/stdc++.h>
 
 using i8 = signed char;
 using u8 = unsigned char;

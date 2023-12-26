@@ -32,3 +32,47 @@ public:
 		return v[find(x)];
 	}
 };
+
+
+/*有向图带权并查集*/
+struct DisjoinSet {
+
+public:
+	std::vector<i64>f, v;
+
+	DisjoinSet() {}
+
+	DisjoinSet(int n) {init(n);}
+
+	void init(int n) {
+		f.assign(n + 1, 0);
+		v.assign(n + 1, 0);
+		std::iota(f.begin() + 1, f.begin() + 1 + n, 1);
+	}
+	int find(int x) {
+		if (x != f[x]) {
+			i64 tmp = find(fa[x]);
+			v[x] += f[fa[x]];
+			fa[x] = tmp;
+			return fa[x];
+		}
+		return x;
+	}
+	bool same(int x, int y) {
+		return find(x) == find(y);
+	}
+	bool merge(int a, int b, int s) {
+		i64 ta = find(a), tb = find(b);
+		if (ta != tb) {
+			fa[ta] = tb;
+			v[ta] = v[b] - v[a] + s; return true;
+		} else if (v[a] - s == v[b]) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	int size(int x) {
+		return v[find(x)];
+	}
+};
