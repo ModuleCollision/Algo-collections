@@ -26,6 +26,17 @@ public:
 			}
 		}
 	}
+	void erao() {
+		for (i64 i = 2; i <= n; i++) {
+			if (not vis[i]) {
+				prim[++cnt] = i;
+				if (i * i > n)continue;
+				for (i64 j = i * i; j <= n; j += i) {
+					vis[j] = true;
+				}
+			}
+		}
+	}
 };
 
 

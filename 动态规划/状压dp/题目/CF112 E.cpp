@@ -36,12 +36,14 @@ int main() {
     }
   }
   一维前缀和
+
   for (i64 i = 0; i < n; i++) {
     for (i64 j = 0; j < (1 << n); j++) {
       if ((j >> i) & 1)pre[j] += pre[j ^ (1 << i)];
     }
   }
-  高维前缀和*/
+   SOS前缀和(Dirchet前缀和) 表征某集合所有子集的和
+  */
 
   i64 n; std::cin >> n;
   std::vector<i64>a(n + 1);
