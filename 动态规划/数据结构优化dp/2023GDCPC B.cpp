@@ -70,7 +70,7 @@ void solve() {//优化方式, 单调队列优化dp
 	cout << dp[n] << endl;
 }
 signed main() {
-	ios::sync_with_stdio(false); cin.tie(nui64ptr);
+	ios::sync_with_stdio(false); cin.tie(nullptr);
 	cout.tie(nui64ptr);
 	i64 T; cin >> T;
 	while (T--) {
