@@ -78,26 +78,26 @@ i64 querymin(i64 p, i64 l, i64 r) {
 }
 struct cmp {
   bool operator()(const pair<i64, i64>&x, const pair<i64, i64>&y)const {
-    return x.se > y.se;
+    return x.second > y.second;
   }
 };
 void solve() {
   i64 n, m; cin >> n >> m;
   vector<pair<i64, i64>>w(n + 1);
   for (i64 i = 1; i <= n; i++) {
-    cin >> w[i].fi >> w[i].se;
+    cin >> w[i].first >> w[i].second;
   }
   sort(w.begin() + 1, w.begin() + 1 + n, [&](auto s, auto t)->bool{
-    return s.fi < t.fi;
+    return s.first < t.first;
   });
   vector<i64>q;
   q.push_back(1); q.push_back(m);
-  for (i64 i = 1; i <= n; i++)q.push_back(w[i].fi), q.push_back(w[i].se);
+  for (i64 i = 1; i <= n; i++)q.push_back(w[i].first), q.push_back(w[i].second);
   sort(q.begin(), q.end());
   i64 sz = unique(q.begin(), q.end()) - q.begin() - 1;
   for (i64 i = 1; i <= n; i++) {
-    w[i].fi = lower_bound(q.begin(), q.begin() + 1 + sz, w[i].fi) - q.begin() + 1;
-    w[i].se = lower_bound(q.begin(), q.begin() + 1 + sz, w[i].se) - q.begin() + 1;
+    w[i].first = lower_bound(q.begin(), q.begin() + 1 + sz, w[i].first) - q.begin() + 1;
+    w[i].second = lower_bound(q.begin(), q.begin() + 1 + sz, w[i].second) - q.begin() + 1;
   }
   m = lower_bound(q.begin(), q.begin() + 1 + sz, m) - q.begin() + 1;
   build(1, 1, m);
@@ -106,8 +106,8 @@ void solve() {
   i64 ans = 0;
   for (i64 i = 1; i <= n; i++) {
     auto [l, r] = w[i];
-    while (pq.size() and pq.top().se < l) {
-      update(1, pq.top().fi, pq.top().se, -1);
+    while (pq.size() and pq.top().second < l) {
+      update(1, pq.top().first, pq.top().second, -1);
       pq.pop();
     }
     update(1, l, r, 1);

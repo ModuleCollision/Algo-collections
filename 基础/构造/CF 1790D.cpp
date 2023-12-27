@@ -21,16 +21,24 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 void solve() {
 	i64 n; std::cin >> n;
-	vector<i64>a(n + 5, 0);
+	vector<i64>A(n + 5, 0);
+	std::map<i64, i64>cnt;
 	for (i64 i = 1; i <= n; i++) {
-		std::cin >> a[i];
+		std::cin >> A[i];
+		cnt[A[i]]++;
 	}
-
-	i64 l = 1, r = n;
-	while (a[l] == l or a[l] == (n - l + 1))l++;
-	while (a[r] == r or a[r] == (n - r + 1))r--;
-	if (l <= r)cout << l << " " << r << endl;
-	else puts("-1");
+	std::sort(A.begin() + 1, A.begin() + 1 + n);
+	i64 len = unique(A.begin() + 1, A.begin() + 1 + n) - A.begin() - 1;
+	i64 ans = 0;
+	for (i64 i = 1; i <= len; i++) {
+		i64 pre = 0;
+		while (A[i + 1] == A[i] + 1 and i + 1 <= len) {
+			ans += max(0ll, cnt[A[i]] - pre);
+			pre = cnt[A[i]]; i++;
+		}
+		ans += max(0ll, cnt[A[i]] - pre);
+	}
+	cout << ans << endl;
 }
 signed main() {
 	i64 T; std::cin >> T;

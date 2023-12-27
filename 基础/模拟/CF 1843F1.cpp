@@ -34,8 +34,8 @@ void solve() {
     if (opt == "+") {
       i64 v, x; cin >> v >> x;
       auto cur = sq(); v--;
-      cur.mxsuf = max(0 i64, tr[v].mxsuf + x);
-      cur.mnsuf = min(0 i64, tr[v].mnsuf + x);
+      cur.mxsuf = max(0ll, tr[v].mxsuf + x);
+      cur.mnsuf = min(0ll, tr[v].mnsuf + x);
       cur.mxans = max(tr[v].mxans, cur.mxsuf);
       cur.mnans = min(tr[v].mnans, cur.mnsuf);
       tr.push_back(cur);
