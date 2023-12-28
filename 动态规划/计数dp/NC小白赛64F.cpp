@@ -33,9 +33,9 @@ void solve() {
 	for (i64 j = 1; j <= n - 1; j++) {
 		for (i64 i = 1; i <= 3; i++) {
 			if (vis[i][j]) {
-				dp[max(i - 1, 1i64)][j + 1] = (dp[max(i - 1, 1i64)][j + 1] % mod + dp[i][j]) % mod;
-				dp[min(3i64, i + 1i64)][j + 1] = (dp[min(3i64, i + 1)][j + 1] % mod + dp[i][j]) % mod;
-				dp[i][min(j + 2i64, n)] = (dp[i][min(j + 2i64, n)] % mod + dp[i][j]) % mod;
+				dp[max(i - 1, 1ll)][j + 1] = (dp[max(i - 1, 1ll)][j + 1] % mod + dp[i][j]) % mod;
+				dp[min(3ll, i + 1ll)][j + 1] = (dp[min(3ll, i + 1)][j + 1] % mod + dp[i][j]) % mod;
+				dp[i][min(j + 2ll, n)] = (dp[i][min(j + 2ll, n)] % mod + dp[i][j]) % mod;
 			} else {
 				dp[i][j + 1] = (dp[i][j + 1] % mod + dp[i][j]) % mod;
 			}

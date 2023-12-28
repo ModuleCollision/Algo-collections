@@ -37,10 +37,10 @@ void solve() {
 		return ret;
 	}; i64 ans = 0;
 	for (i64 i = 1; i <= N; i++) {
-		for (i64 j = i - 1; j >= max(0i64, i - A); j--) {
+		for (i64 j = i - 1; j >= max(0ll, i - A); j--) {
 			dp[i][0] = (dp[i][0] % mod + dp[j][1] % mod * ksm(5, i - j)) % mod;
 		}
-		for (i64 j = i - 1; j >= max(0i64, i - B); j--) {
+		for (i64 j = i - 1; j >= max(0ll, i - B); j--) {
 			dp[i][1] = (dp[i][1] % mod + dp[j][0] % mod * ksm(21, i - j)) % mod;
 		}
 		ans = (ans % mod + dp[i][0]) % mod;
