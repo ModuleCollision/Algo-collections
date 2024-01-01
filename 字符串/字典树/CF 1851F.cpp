@@ -46,8 +46,8 @@ void solve() {
       i64 b = (x >> i) & 1;
       if (tr[u].v[b]) {
         u = tr[u].v[b];
-        q |= (1i64 << i);
-        if (not b)f |= (1i64 << i);
+        q |= (1ll << i);
+        if (not b)f |= (1ll << i);
       }
       else if (tr[u].v[b ^ 1])u = tr[u].v[b ^ 1];
       else return;

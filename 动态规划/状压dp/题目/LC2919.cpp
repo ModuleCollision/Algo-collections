@@ -26,7 +26,7 @@ public:
         vector dp(n + 5, vector<i64>(15, inf));
         for (int j = 1; j < 8; j++) {
             dp[2][j] = 0;
-            for (i64 s = 0; s < 3; s++)if ((j >> s) & 1)dp[2][j] += max(0i64, (i64)k - nums[s]);
+            for (i64 s = 0; s < 3; s++)if ((j >> s) & 1)dp[2][j] += max(0ll, (i64)k - nums[s]);
         }
         for (int i = 3; i < n; i++) {
             for (int j = 1; j < 8; j++) {
@@ -34,7 +34,7 @@ public:
                     i64 tmp = dp[i - 1][q];
                     for (int s = 0; s < 3; s++) {
                         if ((((j >> s) & 1) == 1) and (((q >> (s + 1)) & 1) == 0)) {
-                            tmp += max(0i64, k - (i64)nums[i - 2 + s]);
+                            tmp += max(0ll, k - (i64)nums[i - 2 + s]);
                         }
                     }
                     dp[i][j] = min(dp[i][j], tmp);
