@@ -35,7 +35,6 @@ public:
 };
 
 
-/*有向图带权并查集*/
 struct DisjoinSet {
 
 public:
@@ -52,10 +51,10 @@ public:
 	}
 	int find(int x) {
 		if (x != f[x]) {
-			i64 tmp = find(fa[x]);
-			v[x] += f[fa[x]];
-			fa[x] = tmp;
-			return fa[x];
+			i64 tmp = find(f[x]);
+			v[x] += v[f[x]];
+			f[x] = tmp;
+			return f[x];
 		}
 		return x;
 	}
@@ -65,7 +64,7 @@ public:
 	bool merge(int a, int b, int s) {
 		i64 ta = find(a), tb = find(b);
 		if (ta != tb) {
-			fa[ta] = tb;
+			f[ta] = tb;
 			v[ta] = v[b] - v[a] + s; return true;
 		} else if (v[a] - s == v[b]) {
 			return true;
