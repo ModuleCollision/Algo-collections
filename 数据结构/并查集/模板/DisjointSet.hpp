@@ -1,3 +1,4 @@
+/*无向图带权并查集*/
 struct DisjoinSet {
 
 public:

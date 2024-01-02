@@ -2,7 +2,7 @@ template<typename T>
 struct FenwickTree {
 
 public:
-    std::vector<i64>tr; int n;
+    std::vector<T>tr; int n;
 
     FenwickTree(int n): tr(n + 5), n(n) {}
 
