@@ -45,7 +45,7 @@ void solve() {
 	auto C = [&](i64 n, i64 m) {
 		return p[n] % mod * inv(p[n - m] % mod) % mod * inv(p[m] % mod) % mod % mod;
 	};
-	vector<vector<vector<i64>>>dp(n + 3, vector<vector<i64>>(n + 3, vector<i64>(2, 0)));
+	std::vector dp(n + 3, std::vector(n + 3, std::vector<i64>(2, 0)));
 	dp[0][0][0] = 1;
 	//dp[1][1][1] = dp[1][0][0] = 1;
 	for (i64 i = 1; i <= n; i++) {

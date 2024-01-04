@@ -17,17 +17,14 @@ using f128 = long double;
 using namespace std;
 
 constexpr i64 mod = 998244353;
-constexpr i64 maxn = 4e6 + 5;
+constexpr i64 maxn = 2e2 + 10;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-
 f64 dp[maxn][maxn][maxn << 1], p[maxn];
-void solve() {
+int main() {
 	i64 N, L, K;
 	std::cin >> N >> L >> K;
-	if (K > N) {
-		K = N;
-	}
+	K = std::min(K, N);
 	f64 ans = 0;
 	dp[0][0][N + K] = 1;
 	for (i64 i = 1; i <= N; i++) {
@@ -40,7 +37,7 @@ void solve() {
 			for (i64 k = 0; k <= N + N; k++) {
 				if (k + x >= 0) {
 					dp[i][j][min(2 * N, k + x)] += p[i] * dp[i - 1][j - 1][k];
-					dp[i][j][k] += (1 - p[i]) * dp[i - 1][j][k];
+					dp[i][j - 1][k] += (1 - p[i]) * dp[i - 1][j - 1][k];
 					//转移:由前i次挑战且第j次挑战赢或者不赢的概率转移而来
 				}
 			}
@@ -52,8 +49,6 @@ void solve() {
 		}
 	}
 	printf("%.6lf", ans);
-}
-signed main() {
-	solve();
+	return 0;
 }
 
