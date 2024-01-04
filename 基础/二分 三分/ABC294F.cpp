@@ -27,17 +27,17 @@ void solve() {
     cin >> p[i].first >> p[i].second;
   }
   for (i64 i = 1; i <= m; i++) {
-    cin >> q[i].fi >> q[i].se;
+    cin >> q[i].first >> q[i].second;
   }
   f64 l = 0.0000, r = 100.00000;
   auto check = [&](f64 mid) {
     mid /= 100.0;
     vector<f64>s1(n + 1), s2(m + 1);
     for (i64 i = 1; i <= n; i++) {
-      s1[i] = (1.0 - mid) * p[i].fi - mid * p[i].se;
+      s1[i] = (1.0 - mid) * p[i].first - mid * p[i].second;
     }
     for (i64 i = 1; i <= m; i++) {
-      s2[i] = (mid - 1.0) * q[i].fi + mid * q[i].se;
+      s2[i] = (mid - 1.0) * q[i].first + mid * q[i].second;
       s2[i] = -s2[i];
     }
     i64 ret = 0;
