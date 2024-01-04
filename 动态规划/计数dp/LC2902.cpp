@@ -23,7 +23,7 @@ class Solution {
 public:
 
   int countSubMultisets(vector<int>& nums, int l, int r) {
-    int n = nums.size(); i64 tot = accumulate(nums.begin(), nums.end(), 0i64);
+    int n = nums.size(); i64 tot = accumulate(nums.begin(), nums.end(), 0ll);
     vector<i64>dp(tot + 5, 0);
     std::unordered_map<i64, i64>cnt;
     for (auto x : nums)cnt[x]++;
@@ -49,7 +49,7 @@ public:
 class Solution {
 public:
   int countSubMultisets(vector<int>& nums, int l, int r) {
-    int n = nums.size(); i64 tot = accumulate(nums.begin(), nums.end(), 0i64);
+    int n = nums.size(); i64 tot = accumulate(nums.begin(), nums.end(), 0ll);
     vector<i64>dp(tot + 5, 0);
     std::unordered_map<i64, i64>cnt;
     for (auto x : nums)cnt[x]++;
