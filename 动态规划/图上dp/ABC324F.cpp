@@ -19,7 +19,7 @@ constexpr i64 mod = 998244353;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-/*dp + 二分 + 0 1 分数规划*/
+/*dp + 二分*/
 void solve() {
   i64 n, m; cin >> n >> m;
   vector<vector<array<f64, 3>>>g(n + 1);

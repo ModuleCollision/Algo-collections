@@ -22,8 +22,7 @@ using namespace std;
 constexpr i64 mod = 998244353;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
-最大最小值
-i64 dp[105][105][105];
+i64 dp[105][105][105]; i64 N, K, D, A[maxn];
 void solve() {
 	std::cin >> N >> K >> D;
 	for (i64 i = 1; i <= N; i++) {
