@@ -23,21 +23,21 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 f64 dp[maxn][maxn][maxn << 1], p[maxn];
 void solve() {
-	ll N, L, K;
+	i64 N, L, K;
 	std::cin >> N >> L >> K;
 	if (K > N) {
 		K = N;
 	}
 	f64 ans = 0;
 	dp[0][0][N + K] = 1;
-	for (ll i = 1; i <= N; i++) {
+	for (i64 i = 1; i <= N; i++) {
 		std::cin >> p[i];
 		p[i] /= 100;
 	}
-	for (ll i = 1; i <= N; i++) {
-		ll x; std::cin >> x;
-		for (ll j = 1; j <= i; j++) {
-			for (ll k = 0; k <= N + N; k++) {
+	for (i64 i = 1; i <= N; i++) {
+		i64 x; std::cin >> x;
+		for (i64 j = 1; j <= i; j++) {
+			for (i64 k = 0; k <= N + N; k++) {
 				if (k + x >= 0) {
 					dp[i][j][min(2 * N, k + x)] += p[i] * dp[i - 1][j - 1][k];
 					dp[i][j][k] += (1 - p[i]) * dp[i - 1][j][k];
@@ -46,8 +46,8 @@ void solve() {
 			}
 		}
 	}
-	for (ll j = L; j <= N; j++) {
-		for (ll k = N; k <= (maxn << 1); k++) {
+	for (i64 j = L; j <= N; j++) {
+		for (i64 k = N; k <= (maxn << 1); k++) {
 			ans += dp[N][j][k];
 		}
 	}

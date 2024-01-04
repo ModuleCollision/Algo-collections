@@ -21,19 +21,19 @@ constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 void solve() {
 	i64 n, m; std::cin >> n >> m;
-	std::map<i64, db>dp;
+	std::map<i64, f64>dp;
 	vector<vector<pair<i64, i64>>>tr(n + 5);
 	for (i64 i = 1; i <= m; i++) {
 		i64 u, v, w; std::cin >> u >> v >> w;
 		tr[u].push_back({v, w});
 	}
-	function<db(i64)>dfs = [&](i64 u) {
+	function<f64(i64)>dfs = [&](i64 u) {
 		if (dp.count(u))return dp[u];
 		dp[u] = 0.0;
-		db ret = 0.0;
-		db k = 1.0 / (tr[u].size());
+		f64 ret = 0.0;
+		f64 k = 1.0 / (tr[u].size());
 		for (auto [v, w] : tr[u]) {
-			ret += ((db)dfs(v) + w) * k;
+			ret += ((f64)dfs(v) + w) * k;
 		}
 		dp[u] = ret;
 		return ret;
