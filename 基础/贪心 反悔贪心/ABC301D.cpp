@@ -38,11 +38,11 @@ void solve() {
 	for (i64 i = 0; i < ks; i++)if (s[i] == '?')idx.push_back(i);
 	i64 len = idx.size();
 	for (i64 i = len - 1; i >= 0; i--) {
-		i64 t = cur + (1i64 << idx[i]);
+		i64 t = cur + (1ll << idx[i]);
 		if (t > N)continue;
 		for (i64 j = i - 1; j >= 0; j--) {
-			if ((t + (1i64 << idx[j])) > N)continue;
-			else t += (1i64 << idx[j]);
+			if ((t + (1ll << idx[j])) > N)continue;
+			else t += (1ll << idx[j]);
 		}
 		ans = max(ans, t);
 	}

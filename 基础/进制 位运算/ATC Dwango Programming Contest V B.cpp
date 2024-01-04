@@ -40,7 +40,7 @@ void solve() {
 			if (vis[j] == 40 - i and ((w[j] >> i) & 1))cnt++;
 		}
 		if (cnt >= k) {
-			ans |= (1i64 << i);
+			ans |= (1ll << i);
 			for (i64 j = 0; j < sz; j++) {
 				if (vis[j] == 40 - i and ((w[j] >> i) & 1))vis[j]++;//选中了
 			}
