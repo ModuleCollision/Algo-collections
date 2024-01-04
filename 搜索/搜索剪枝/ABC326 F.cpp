@@ -21,7 +21,8 @@ constexpr i64 maxn = 2e2 + 10;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
 
-/*折半搜索题*/
+/*折半搜索 一般在 数据量1 - 40 时使用*/
+/*折半搜索 + 双指针*/
 int main() {
     i64 n, x, y; std::cin >> n >> x >> y;
     std::array<std::vector<i64>, 2>a;

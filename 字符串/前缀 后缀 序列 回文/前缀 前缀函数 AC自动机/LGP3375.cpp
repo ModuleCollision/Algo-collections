@@ -31,8 +31,6 @@ std::vector<i64> Prefix(string s) {
     return p;
 }
 
-
-// 按照 x, y, z顺序拼接能够达到的长度最小值
 int main() {
 
     string s1, s2;

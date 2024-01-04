@@ -20,7 +20,6 @@ constexpr i64 mod = 1e9 + 7;
 constexpr i64 maxn = 1e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 u64 b =  1e9 + 7; u64 pw[maxn];
-/*哈希值判断回文串*/
 struct sq {
   u64 h1, h2; int l, r; int len;
 } tr[maxn * 4]; std::string s;
