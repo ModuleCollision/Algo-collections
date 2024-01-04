@@ -51,6 +51,7 @@ void solve() {
   cout << cnt << endl;
   for (i64 i = 1; i <= n; i++)if (vis[i])cout << i << " ";
 }
-signed main() {
+int main() {
   solve();
+  return 0;
 }

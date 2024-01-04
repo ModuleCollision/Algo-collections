@@ -19,19 +19,29 @@ constexpr i64 mod = 998244353;
 constexpr i64 maxn = 4e6 + 5;
 constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
 
-void solve() {
-  string s; std::cin >> s;
+std::vector<i64> Prefix(string s) {
   i64 len = s.size();
-  vector<i64>p(len + 5, 0);
+  std::vector<i64>p(len + 5, 0);
   for (i64 i = 1; i < len; i++) {
     i64 j = p[i - 1];
     while (j > 0 and s[i] != s[j])j = p[j - 1];
     if (s[i] == s[j])j++;
     p[i] = j;
   }//KMP函数板题
-  cout << len - p[len - 1] << endl;
+  return p;
 }
-signed main() {
+
+
+void solve() {
+  string s; std::cin >> s;
+  i64 len = s.size();
+  auto p = Prefix(s);
+  std::cout << len - p[len - 1] << "\n" << "\n";
+}
+int main() {
   i64 T; std::cin >> T;
-  while (T--)solve();
+  while (T--) {
+    solve();
+  }
+  return 0;
 }

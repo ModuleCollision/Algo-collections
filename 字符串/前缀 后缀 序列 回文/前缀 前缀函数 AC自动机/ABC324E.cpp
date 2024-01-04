@@ -53,8 +53,9 @@ void solve() {
     ans += num;
   }
 
-  cout << ans << endl;
+  std::cout << ans << "\n";
 }
-signed main() {
+int main() {
   solve();
+  return 0;
 }
