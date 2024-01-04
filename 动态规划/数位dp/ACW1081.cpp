@@ -34,7 +34,7 @@ void solve() {
 	}
 	/*递推组合数(防止 爆 long long int)*/
 	auto dp = [&](i64 n) {
-		if (not n)return 0i64;
+		if (not n)return 0ll;
 		i64 ret = 0 ;
 		vector<i64>s;
 		while (n) {

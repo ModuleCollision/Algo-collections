@@ -48,7 +48,7 @@ void solve() {
 				}
 			}
 		}
-		return -1i64;
+		return -1ll;
 	};
 	auto check = [&](i64 x) {
 		string t = to_string(x);
