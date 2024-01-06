@@ -45,8 +45,8 @@ void solve() {
                 add(x, -1);
             }
         };
-        std::fii64(cnt.begin(), cnt.end(), 0);
-        std::fii64(tr.begin() + 1, tr.begin() + 1 + n, 0);
+        std::fill(cnt.begin(), cnt.end(), 0);
+        std::fill(tr.begin() + 1, tr.begin() + 1 + n, 0);
         for (i64 r = 1, l = 1; r <= n; r++) {
             ins(A[r]);
             while (r - l + 1 > m) {
@@ -73,16 +73,27 @@ signed main() {
 
 
 
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
+
+using i8 = signed char;
+using u8 = unsigned char;
+using i16 = signed short int;
+using u16 = unsigned short int;
+using i32 = signed int;
+using u32 = unsigned int;
+using f32 = float;
+using i64 = signed long long;
+using u64 = unsigned long long;
+using f64 = double;
+using i128 = __int128_t;
+using u128 = __uint128_t;
+using f128 = long double;
 using namespace std;
-#define fi fifst
-#define se second
-typedef double db;
-typedef long long i64;
-typedef long double lb;
-const i64 maxn = 1e6 + 5;
-const i64 inf = 0x3f3f3f3f3f3f3f3f;
-const i64 mod = 998244353;
+
+constexpr i64 mod = 998244353;
+constexpr i64 maxn = 4e6 + 5;
+constexpr i64 inf = 0x3f3f3f3f3f3f3f3f;
+
 void solve() {
     i64 n, m; std::cin >> n >> m;
     vector<i64>A(n + 5, 0); vector<i64>cnt(n + 5, 0);

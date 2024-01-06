@@ -26,7 +26,7 @@ void solve() {
 	auto check = [&](i64 x) {
 		i64 cnt = 0;
 		for (i64 i = 1; i <= n; i++) {
-			cnt += max(A[i] - x, 0i64);
+			cnt += max(A[i] - x, 0ll);
 		}
 		return cnt <= k;
 	};
@@ -41,7 +41,7 @@ void solve() {
 	for (i64 i = 1; i <= n; i++) {
 		if (A[i] < r)continue;
 		ans += ((r + 1 + A[i]) * (A[i] - r)) / 2;
-		cnt += max(0i64, A[i] - r);
+		cnt += max(0ll, A[i] - r);
 	}
 	ans += (k - cnt) * (r);
 	cout << ans << endl;
